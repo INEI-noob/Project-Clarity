@@ -18,7 +18,7 @@ const Footer = ({ setPage }) => {
   const currentYear = new Date().getFullYear();
 
   // Reference path for the logo
-  const footerLogoPath = "/src/assets/footer-logo.png";
+  const footerLogoPath = "/src/assets/header-logo.png";
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
@@ -207,7 +207,7 @@ const Footer = ({ setPage }) => {
 
             <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
-                <span>© {currentYear} Project Sapphire</span>
+                <span>© {currentYear} Project Clarity</span>
                 <span className="w-1 h-1 rounded-full bg-slate-200" />
                 <span>By the community, for the community</span>
               </div>

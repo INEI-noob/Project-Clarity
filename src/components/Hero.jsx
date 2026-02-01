@@ -20,7 +20,7 @@ export const Hero = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Project Sapphire is a sanctuary for questioning, understanding, and celebrating 
+            Project Clarity is a sanctuary for questioning, understanding, and celebrating 
             your identity. Find guides, community, and support—no labels required.
           </p>
 

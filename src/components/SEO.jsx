@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 export const SEO = ({ title, description }) => {
   useEffect(() => {
-    document.title = title ? `${title} | Project Sapphire` : 'Project Sapphire - Queer Sanctuary';
+    document.title = title ? `${title} | Project Clarity` : 'Project Clarity - Queer Sanctuary';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', description || 'A digital sanctuary for the LGBTQ+ community');
   }, [title, description]);

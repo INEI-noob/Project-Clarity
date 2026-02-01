@@ -33,7 +33,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500);
+    const timer = setTimeout(() => setIsLoading(false), 1800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -83,12 +83,105 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-slate-50 flex items-center justify-center z-[9999]">
-        <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex flex-col items-center">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity }} className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-4">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3L14.5 8.5L20 9.5L16 14L17 20L12 17L7 20L8 14L4 9.5L9.5 8.5L12 3Z" /></svg>
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center"
+        >
+          {/* Logo Container with gentle floating animation */}
+          <div className="relative w-32 h-32 mb-8">
+            {/* Soft glow effect behind logo */}
+            <motion.div
+              animate={{ 
+                opacity: [0.3, 0.6, 0.3],
+                scale: [0.9, 1.1, 0.9]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="absolute inset-0 bg-gradient-to-r from-pink-200 via-purple-200 to-cyan-200 rounded-full blur-2xl"
+            />
+            
+            {/* Your Actual Logo */}
+            <motion.img 
+              src="/src/assets/header-logo.png"
+              alt="Sanctuary"
+              animate={{ 
+                y: [0, -8, 0],
+                rotate: [0, 2, 0, -2, 0]
+              }}
+              transition={{ 
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="w-full h-full object-contain relative z-10 drop-shadow-xl"
+            />
+            
+            {/* Sparkle effects */}
+            <motion.div
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.5, 1, 0.5],
+                rotate: [0, 180]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                repeatDelay: 1,
+                ease: "easeInOut" 
+              }}
+              className="absolute -top-2 -right-2 w-4 h-4 text-yellow-400"
+            >
+              ✦
+            </motion.div>
+            <motion.div
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.5, 1.2, 0.5]
+              }}
+              transition={{ 
+                duration: 2.5, 
+                repeat: Infinity, 
+                repeatDelay: 0.5,
+                delay: 0.5,
+                ease: "easeInOut" 
+              }}
+              className="absolute -bottom-1 -left-4 w-3 h-3 text-pink-400"
+            >
+              ✦
+            </motion.div>
+          </div>
+          
+          {/* Loading Text with gradient matching logo colors */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center"
+          >
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 font-bold text-sm tracking-[0.3em] uppercase mb-2">
+              Entering Sanctuary
+            </span>
+            
+            {/* Progress bar with rainbow gradient */}
+            <div className="w-32 h-1 bg-gray-200 rounded-full overflow-hidden mx-auto">
+              <motion.div 
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+                className="w-full h-full bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400"
+              />
+            </div>
           </motion.div>
-          <span className="text-slate-400 font-bold text-sm tracking-widest uppercase">Entering Sanctuary</span>
         </motion.div>
       </div>
     );

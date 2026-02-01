@@ -62,7 +62,7 @@ const AboutPage = () => {
             Our <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">Sanctuary</span>
           </h1>
           <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Project Sapphire was born from a simple belief: everyone deserves a place to 
+            Project Clarity was born from a simple belief: everyone deserves a place to 
             discover themselves without fear. We're building that place, together.
           </p>
         </motion.div>

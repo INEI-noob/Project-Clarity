@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, MoreHorizontal } from 'lucide-react';
 
 /**
- * PROJECT SAPPHIRE - UNIVERSAL CARD SYSTEM
+ * PROJECT Clarity - UNIVERSAL CARD SYSTEM
  * A polymorphic card component that adapts to different page contexts.
  */
 

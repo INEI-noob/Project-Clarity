@@ -58,7 +58,7 @@ LGBTQ+ people with strong community connections:
 ### Rural/Remote
 - **Facebook Groups**: Search "[Your Town] LGBTQ+" or "Queer [Province]"
 - **Online support groups** via Zoom
-- **Sapphire Community Map** (this site!)
+- **Clarity Community Map** (this site!)
 
 ---
 

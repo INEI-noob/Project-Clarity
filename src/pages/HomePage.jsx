@@ -72,12 +72,12 @@ const HomePage = ({ setPage }) => {
               className="flex items-center gap-2 mb-6"
             >
               <span className="h-px w-12 bg-indigo-500" />
-              <span className="text-indigo-600 font-bold tracking-widest uppercase text-xs">Project Sapphire</span>
+              <span className="text-indigo-600 font-bold tracking-widest uppercase text-xs">Project Clarity</span>
             </motion.div>
             
             <h1 className="text-6xl md:text-8xl font-bold text-slate-900 leading-[1.1] mb-8 tracking-tight">
               Softly <span className="italic font-serif text-indigo-600">Queer,</span> <br />
-              Loudly <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">Sapphire.</span>
+              Loudly <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">Clarity.</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-10 leading-relaxed">
