@@ -330,7 +330,7 @@ const HomePage = ({ setPage }) => {
           </div>
           
           <div className="md:col-span-6">
-            <IridescentCard delay={0.4} className="h-full bg-gradient-to-br from-amber-50 to-orange-50">
+            <IridescentCard delay={0.4} className="h-full bg-gradient-to-br from-amber-50 to-orange-50 rounded-[2.5rem]">
               <h4 className="text-2xl font-bold text-slate-900 mb-2">Resource Library</h4>
               <p className="text-slate-600">Healthcare, legal aid, and crisis support directories</p>
             </IridescentCard>
@@ -339,7 +339,7 @@ const HomePage = ({ setPage }) => {
       </section>
 
       {/* Trust Statement Section */}
-      <section className="py-32 px-6 bg-slate-900/5">
+      <section className="py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}

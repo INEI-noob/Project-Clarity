@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Flame, Heart, MessageSquare, Send, CornerDownRight,
+  Flame, Heart, MessageSquare, Send, 
   Ghost, User, EyeOff, Eye, Sparkles, Wind, Shield, 
   Flag, HandHeart, RefreshCw, X, HelpCircle, Loader2,
-  ChevronDown, ChevronUp
+  ChevronDown, ChevronUp, Trash2, Edit2, Download
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useToast } from '../context/ToastContext';
@@ -28,10 +28,17 @@ const COMMENT_REACTIONS = [
   { type: 'agree', icon: '👍', label: 'Agree' }
 ];
 
+// Edit window duration (15 minutes)
+const EDIT_WINDOW_MS = 15 * 60 * 1000;
+
 const PulsePage = () => {
   const { addToast } = useToast();
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState({}); // { pulseId: [comments] }
+  const [myPosts, setMyPosts] = useState(() => {
+    const saved = localStorage.getItem('sapphire_my_posts');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [comments, setComments] = useState({});
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState("");
   const [userName, setUserName] = useState("");
@@ -40,21 +47,21 @@ const PulsePage = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [showSafetyModal, setShowSafetyModal] = useState(false);
   const [pendingPost, setPendingPost] = useState(null);
-  const [expandedPost, setExpandedPost] = useState(null); // Which post shows comments
-  const [commentInputs, setCommentInputs] = useState({}); // { pulseId: text }
-  const [replyingTo, setReplyingTo] = useState(null); // { pulseId, commentId, userName }
+  const [expandedPost, setExpandedPost] = useState(null);
+  const [commentInputs, setCommentInputs] = useState({});
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [editingPost, setEditingPost] = useState(null);
+  const [editContent, setEditContent] = useState("");
   const textareaRef = useRef(null);
 
   useEffect(() => {
     fetchPosts();
     
-    // Subscribe to pulses
     const pulsesSubscription = supabase
       .channel('pulses')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'pulses' }, handlePulseChange)
       .subscribe();
 
-    // Subscribe to comments
     const commentsSubscription = supabase
       .channel('comments')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'comments' }, handleCommentChange)
@@ -103,7 +110,6 @@ const PulsePage = () => {
       
       if (pulsesError) throw pulsesError;
       
-      // Fetch comments for these pulses
       const pulseIds = pulses.map(p => p.id);
       const { data: allComments, error: commentsError } = await supabase
         .from('comments')
@@ -113,7 +119,6 @@ const PulsePage = () => {
       
       if (commentsError) throw commentsError;
 
-      // Group comments by pulse_id
       const groupedComments = allComments.reduce((acc, comment) => {
         if (!acc[comment.pulse_id]) acc[comment.pulse_id] = [];
         acc[comment.pulse_id].push(comment);
@@ -127,7 +132,6 @@ const PulsePage = () => {
       setComments(groupedComments);
     } catch (error) {
       addToast('Failed to load pulses', 'error');
-      console.error('Error:', error);
     } finally {
       setLoading(false);
     }
@@ -138,7 +142,6 @@ const PulsePage = () => {
       setExpandedPost(null);
     } else {
       setExpandedPost(postId);
-      // Fetch comments if not already loaded
       if (!comments[postId]) {
         const { data } = await supabase
           .from('comments')
@@ -178,7 +181,6 @@ const PulsePage = () => {
 
   const handleCommentReaction = async (pulseId, commentId, reactionType) => {
     try {
-      // Optimistic update
       setComments(current => {
         const pulseComments = current[pulseId] || [];
         return {
@@ -198,7 +200,6 @@ const PulsePage = () => {
         };
       });
 
-      // Get current reactions
       const { data } = await supabase.from('comments').select('reactions').eq('id', commentId).single();
       const newReactions = { ...data.reactions, [reactionType]: (data.reactions?.[reactionType] || 0) + 1 };
       
@@ -208,8 +209,6 @@ const PulsePage = () => {
     }
   };
 
-  // ... rest of post creation functions (checkHeavyContent, createPost, etc) same as before
-  
   const checkHeavyContent = (text) => {
     const indicators = ['suicide', 'kill myself', 'end it', 'want to die', 'hurt myself'];
     return indicators.some(i => text.toLowerCase().includes(i));
@@ -233,29 +232,171 @@ const PulsePage = () => {
 
   const createPost = async (content, name, anonymous, mood) => {
     try {
+      const deleteToken = crypto.randomUUID();
+      
       const newPost = {
         content: content.trim(),
         mood,
         is_anonymous: anonymous,
         user_name: anonymous ? null : (name.trim() || "Sapphire Soul"),
         reactions: { hug: 0, same: 0, love: 0, here: 0 },
-        reply_count: 0
+        reply_count: 0,
+        delete_token: deleteToken,
+        is_deleted: false
       };
 
-      const { error } = await supabase.from('pulses').insert([newPost]);
+      const { data, error } = await supabase.from('pulses').insert([newPost]).select().single();
       
       if (error) throw error;
+      
+      const myPostRecord = { 
+        id: data.id, 
+        token: deleteToken, 
+        created_at: new Date().toISOString(),
+        preview: content.slice(0, 50) + (content.length > 50 ? '...' : '')
+      };
+      
+      const updatedMyPosts = [myPostRecord, ...myPosts];
+      setMyPosts(updatedMyPosts);
+      localStorage.setItem('sapphire_my_posts', JSON.stringify(updatedMyPosts));
       
       setInput("");
       setUserName("");
       setShowSafetyModal(false);
       setPendingPost(null);
-      addToast('Your pulse has been shared', 'success');
+      addToast('Your pulse has been shared. Tap the menu to delete anytime.', 'success');
       
       if (textareaRef.current) textareaRef.current.style.height = 'auto';
     } catch (error) {
       addToast('Failed to post', 'error');
+      console.error(error);
     }
+  };
+
+  const handleDelete = async (post) => {
+    const myPost = myPosts.find(p => p.id === post.id);
+    if (!myPost) {
+      addToast('You can only delete your own posts', 'error');
+      return;
+    }
+
+    if (!window.confirm('Delete this post permanently? This cannot be undone.')) return;
+    
+    try {
+      const { error } = await supabase
+        .from('pulses')
+        .update({ 
+          is_deleted: true, 
+          content: '[deleted by author]',
+          user_name: null
+        })
+        .eq('id', post.id)
+        .eq('delete_token', myPost.token);
+
+      if (error) throw error;
+      
+      const updated = myPosts.filter(p => p.id !== post.id);
+      setMyPosts(updated);
+      localStorage.setItem('sapphire_my_posts', JSON.stringify(updated));
+      
+      addToast('Post deleted', 'info');
+    } catch (error) {
+      addToast('Could not delete post', 'error');
+    }
+  };
+
+  const canEdit = (post) => {
+    if (post.is_deleted) return false;
+    const myPost = myPosts.find(p => p.id === post.id);
+    if (!myPost) return false;
+    
+    const createdAt = new Date(post.created_at).getTime();
+    const now = Date.now();
+    return (now - createdAt) < EDIT_WINDOW_MS;
+  };
+
+  const startEdit = (post) => {
+    if (!canEdit(post)) {
+      addToast('Edit window expired (15 minutes)', 'error');
+      return;
+    }
+    setEditingPost(post.id);
+    setEditContent(post.content);
+  };
+
+  const saveEdit = async (post) => {
+    const myPost = myPosts.find(p => p.id === post.id);
+    if (!myPost) return;
+
+    try {
+      const { error } = await supabase
+        .from('pulses')
+        .update({ content: editContent.trim() })
+        .eq('id', post.id)
+        .eq('delete_token', myPost.token);
+
+      if (error) throw error;
+      
+      setEditingPost(null);
+      setEditContent("");
+      addToast('Post updated', 'success');
+    } catch (error) {
+      addToast('Failed to update', 'error');
+    }
+  };
+
+  const exportMyPosts = () => {
+    if (myPosts.length === 0) {
+      addToast('No posts to export', 'info');
+      return;
+    }
+    
+    const data = {
+      exportDate: new Date().toISOString(),
+      posts: myPosts,
+      warning: "Keep this file safe. Anyone with these tokens can delete your posts."
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sapphire-my-posts-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    addToast('Posts exported. Keep this file safe!', 'info', 4000);
+  };
+
+  const importMyPosts = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!data.posts || !Array.isArray(data.posts)) {
+          throw new Error('Invalid file format');
+        }
+        
+        // Merge with existing, avoiding duplicates
+        const existingIds = new Set(myPosts.map(p => p.id));
+        const newPosts = data.posts.filter(p => !existingIds.has(p.id));
+        
+        const merged = [...newPosts, ...myPosts];
+        setMyPosts(merged);
+        localStorage.setItem('sapphire_my_posts', JSON.stringify(merged));
+        
+        addToast(`Restored ${newPosts.length} posts`, 'success');
+      } catch (err) {
+        addToast('Invalid backup file', 'error');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // Reset input
   };
 
   const handleConfirmPost = () => {
@@ -296,7 +437,8 @@ const PulsePage = () => {
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m ago`;
     const hours = Math.floor(minutes / 60);
-    return `${hours}h ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${Math.floor(hours / 24)}d ago`;
   };
 
   useEffect(() => {
@@ -317,9 +459,6 @@ const PulsePage = () => {
     }
   }, [input]);
 
-  const currentMood = MOODS[selectedMood];
-
-  // Render comment thread recursively
   const renderComment = (comment, pulseId, depth = 0) => {
     if (comment.is_deleted) return null;
     
@@ -412,6 +551,25 @@ const PulsePage = () => {
       </div>
 
       <div className="max-w-3xl mx-auto relative z-10">
+        {/* Your Posts Manager */}
+        {myPosts.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 flex justify-end">
+            <div className="glass-sanctuary rounded-2xl p-3 flex items-center gap-3">
+              <span className="text-xs font-medium text-slate-500">{myPosts.length} post{myPosts.length !== 1 ? 's' : ''} by you</span>
+              <button 
+                onClick={exportMyPosts}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-bold hover:bg-indigo-100 transition-colors"
+              >
+                <Download size={12} /> Export Keys
+              </button>
+              <label className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-bold hover:bg-slate-200 transition-colors cursor-pointer">
+                <Edit2 size={12} /> Import
+                <input type="file" accept=".json" onChange={importMyPosts} className="hidden" />
+              </label>
+            </div>
+          </motion.div>
+        )}
+
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 border border-rose-100 text-rose-600 font-bold text-xs uppercase tracking-wider mb-6">
@@ -468,7 +626,7 @@ const PulsePage = () => {
                 </AnimatePresence>
 
                 <div className="relative">
-                  <textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={currentMood.placeholder} className="w-full bg-white rounded-2xl p-5 border border-slate-200 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all resize-none text-slate-700 placeholder:text-slate-400 min-h-[140px] text-lg leading-relaxed" style={{ height: 'auto', minHeight: '140px' }} onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} maxLength={1000} />
+                  <textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={MOODS[selectedMood].placeholder} className="w-full bg-white rounded-2xl p-5 border border-slate-200 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all resize-none text-slate-700 placeholder:text-slate-400 min-h-[140px] text-lg leading-relaxed" style={{ height: 'auto', minHeight: '140px' }} onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} maxLength={1000} />
                   <div className="absolute bottom-4 right-4 text-xs font-medium text-slate-400">{input.length}/1000</div>
                 </div>
 
@@ -512,114 +670,181 @@ const PulsePage = () => {
 
           <AnimatePresence mode="popLayout">
             {posts.map((post, index) => {
-              const moodConfig = MOODS[post.mood];
+              const moodConfig = MOODS[post.mood] || MOODS.support;
               const isExpanded = expandedPost === post.id;
               const postComments = comments[post.id] || [];
               const topLevelComments = postComments.filter(c => !c.parent_id).slice(0, isExpanded ? undefined : 2);
-              const hasMoreComments = postComments.filter(c => !c.parent_id).length > 2;
+              const isMyPost = myPosts.some(p => p.id === post.id);
+              const canEditPost = canEdit(post) && isMyPost;
+              const isEditing = editingPost === post.id;
               
               return (
                 <motion.article key={post.id} layout initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4, delay: index * 0.05 }} className="group">
-                  <div className="glass-sanctuary p-6 md:p-8 rounded-[2.5rem] hover:shadow-2xl transition-all duration-500 border-l-[6px]" style={{ borderLeftColor: `var(--${moodConfig.color}-400)` }}>
-                    {/* Post Header & Content */}
+                  <div className={`glass-sanctuary p-6 md:p-8 rounded-[2.5rem] transition-all duration-500 border-l-[6px] ${post.is_deleted ? 'opacity-60' : 'hover:shadow-2xl'}`} style={{ borderLeftColor: post.is_deleted ? '#cbd5e1' : `var(--${moodConfig.color}-400)` }}>
+                    
+                    {/* Post Header */}
                     <div className="flex justify-between items-start mb-6">
                       <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${post.is_anonymous ? 'bg-slate-100 text-slate-400' : 'bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-600'}`}>
-                          {post.is_anonymous ? <Ghost size={20} /> : <User size={20} />}
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${post.is_deleted ? 'bg-slate-100 text-slate-300' : (post.is_anonymous ? 'bg-slate-100 text-slate-400' : 'bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-600')}`}>
+                          {post.is_deleted ? <Wind size={20} /> : (post.is_anonymous ? <Ghost size={20} /> : <User size={20} />)}
                         </div>
                         <div>
-                          <span className="block font-bold text-sm text-slate-900">{post.is_anonymous ? 'Anonymous Soul' : post.user_name}</span>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-xs text-slate-400 font-medium">{post.time}</span>
-                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${moodConfig.bg} ${moodConfig.text}`}>{moodConfig.label}</span>
-                          </div>
+                          <span className="block font-bold text-sm text-slate-900">
+                            {post.is_deleted ? 'Deleted Post' : (post.is_anonymous ? 'Anonymous Soul' : post.user_name)}
+                          </span>
+                          {!post.is_deleted && (
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="text-xs text-slate-400 font-medium">{post.time}</span>
+                              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${moodConfig.bg} ${moodConfig.text}`}>
+                                {moodConfig.label}
+                              </span>
+                              {canEditPost && (
+                                <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">
+                                  Editable
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
-                      <button onClick={() => handleReport(post.id)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-300 hover:text-slate-600"><Flag size={16} /></button>
-                    </div>
-
-                    <div className="mb-6">
-                      <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-medium">"{post.content}"</p>
-                    </div>
-
-                    {/* Reactions Bar */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="flex flex-wrap gap-2">
-                        {PULSE_REACTIONS.map((reaction) => (
-                          <motion.button key={reaction.type} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={(e) => handleReaction(post.id, reaction.type, e)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all hover:shadow-md ${reaction.color}`}>
-                            <span>{reaction.icon}</span>
-                            <span>{reaction.label}</span>
-                            {(post.reactions?.[reaction.type] || 0) > 0 && <span className="ml-1 opacity-60">{post.reactions[reaction.type]}</span>}
-                          </motion.button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Comments Section */}
-                    <div className="pt-6 border-t border-slate-100">
-                      <button 
-                        onClick={() => toggleComments(post.id)}
-                        className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-4"
-                      >
-                        <MessageSquare size={16} />
-                        {(post.reply_count || 0) + postComments.length} replies
-                        {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                      </button>
-
-                      <AnimatePresence>
-                        {isExpanded && (
-                          <motion.div 
-                            initial={{ height: 0, opacity: 0 }} 
-                            animate={{ height: 'auto', opacity: 1 }} 
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden"
-                          >
-                            {/* Existing Comments */}
-                            <div className="space-y-2 mb-4">
-                              {topLevelComments.map(comment => renderComment(comment, post.id))}
-                            </div>
-
-                            {hasMoreComments && (
-                              <button 
-                                onClick={() => {/* Load more */}}
-                                className="text-xs text-indigo-600 font-medium mb-4 hover:text-indigo-700"
-                              >
-                                Load more replies...
-                              </button>
-                            )}
-
-                            {/* Comment Input */}
-                            <div className="flex gap-3 mt-4 pt-4 border-t border-slate-100">
-                              <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isAnonymous ? 'bg-slate-100 text-slate-400' : 'bg-indigo-100 text-indigo-600'}`}>
-                                {isAnonymous ? <Ghost size={14} /> : <User size={14} />}
-                              </div>
-                              <div className="flex-1 flex gap-2">
-                                <input
-                                  type="text"
-                                  value={commentInputs[post.id] || ''}
-                                  onChange={(e) => setCommentInputs(current => ({ ...current, [post.id]: e.target.value }))}
-                                  placeholder="Add to the conversation..."
-                                  className="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none"
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                      e.preventDefault();
-                                      submitComment(post.id);
-                                    }
-                                  }}
-                                />
+                      
+                      {/* Actions */}
+                      {!post.is_deleted && (
+                        <div className="flex items-center gap-1">
+                          {isMyPost && (
+                            <>
+                              {canEditPost && (
                                 <button 
-                                  onClick={() => submitComment(post.id)}
-                                  disabled={!commentInputs[post.id]?.trim()}
-                                  className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                                  onClick={() => startEdit(post)}
+                                  className="p-2 hover:bg-amber-50 rounded-full transition-colors text-slate-400 hover:text-amber-600"
+                                  title="Edit (15min window)"
                                 >
-                                  <Send size={16} />
+                                  <Edit2 size={16} />
                                 </button>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                              )}
+                              <button 
+                                onClick={() => handleDelete(post)}
+                                className="p-2 hover:bg-rose-50 rounded-full transition-colors text-slate-400 hover:text-rose-500"
+                                title="Delete your post"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </>
+                          )}
+                          <button 
+                            onClick={() => handleReport(post.id)}
+                            className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-300 hover:text-slate-600"
+                          >
+                            <Flag size={16} />
+                          </button>
+                        </div>
+                      )}
                     </div>
+
+                    {/* Content */}
+                    <>
+                      {isEditing ? (
+                        <div className="mb-6 space-y-3">
+                          <textarea 
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            className="w-full bg-white rounded-2xl p-4 border border-indigo-200 focus:border-indigo-400 outline-none resize-none text-slate-700"
+                            rows={3}
+                          />
+                          <div className="flex gap-2 justify-end">
+                            <button 
+                              onClick={() => { setEditingPost(null); setEditContent(""); }}
+                              className="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700"
+                            >
+                              Cancel
+                            </button>
+                            <button 
+                              onClick={() => saveEdit(post)}
+                              className="px-6 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700"
+                            >
+                              Save Changes
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="mb-6">
+                          <p className={`text-xl md:text-2xl leading-relaxed font-medium ${post.is_deleted ? 'text-slate-400 italic' : 'text-slate-700'}`}>
+                            "{post.content}"
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Reactions */}
+                      {!post.is_deleted && (
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="flex flex-wrap gap-2">
+                            {PULSE_REACTIONS.map((reaction) => (
+                              <motion.button key={reaction.type} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={(e) => handleReaction(post.id, reaction.type, e)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all hover:shadow-md ${reaction.color}`}>
+                                <span>{reaction.icon}</span>
+                                <span>{reaction.label}</span>
+                                {(post.reactions?.[reaction.type] || 0) > 0 && <span className="ml-1 opacity-60">{post.reactions[reaction.type]}</span>}
+                              </motion.button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Comments Section */}
+                      {!post.is_deleted && (
+                        <div className="pt-6 border-t border-slate-100">
+                          <button 
+                            onClick={() => toggleComments(post.id)}
+                            className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-4"
+                          >
+                            <MessageSquare size={16} />
+                            {(post.reply_count || 0) + postComments.length} replies
+                            {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                          </button>
+
+                          <AnimatePresence>
+                            {isExpanded && (
+                              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                                <div className="space-y-2 mb-4">
+                                  {topLevelComments.map(comment => renderComment(comment, post.id))}
+                                </div>
+
+                                {postComments.filter(c => !c.parent_id).length > 2 && !isExpanded && (
+                                  <button className="text-xs text-indigo-600 font-medium mb-4 hover:text-indigo-700">Load more replies...</button>
+                                )}
+
+                                <div className="flex gap-3 mt-4 pt-4 border-t border-slate-100">
+                                  <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isAnonymous ? 'bg-slate-100 text-slate-400' : 'bg-indigo-100 text-indigo-600'}`}>
+                                    {isAnonymous ? <Ghost size={14} /> : <User size={14} />}
+                                  </div>
+                                  <div className="flex-1 flex gap-2">
+                                    <input
+                                      type="text"
+                                      value={commentInputs[post.id] || ''}
+                                      onChange={(e) => setCommentInputs(current => ({ ...current, [post.id]: e.target.value }))}
+                                      placeholder="Add to the conversation..."
+                                      className="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none"
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                          e.preventDefault();
+                                          submitComment(post.id);
+                                        }
+                                      }}
+                                    />
+                                    <button 
+                                      onClick={() => submitComment(post.id)}
+                                      disabled={!commentInputs[post.id]?.trim()}
+                                      className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                                    >
+                                      <Send size={16} />
+                                    </button>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      )}
+                    </>
                   </div>
                 </motion.article>
               );
