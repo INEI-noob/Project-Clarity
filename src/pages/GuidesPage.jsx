@@ -293,14 +293,7 @@ export default function App() {
                   <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter">The <span className="text-indigo-600">Library</span></h1>
                   <p className="text-xl text-slate-500 font-medium">Curated wisdom for your journey in South Africa.</p>
                 </div>
-                <div className="relative w-full md:w-80">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                  <input 
-                    type="text" placeholder="Search guides..." value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-50 outline-none"
-                  />
-                </div>
+                <div className="relative w-full md:w-80">                </div>
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredGuides.map((guide, i) => (

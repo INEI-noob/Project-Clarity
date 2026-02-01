@@ -96,12 +96,12 @@ const Footer = ({ setPage }) => {
                   whileHover={{ y: -2 }}
                   className="flex-shrink-0 group focus:outline-none"
                 >
-                  <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+                  <div className="w-28 h-28 flex items-center justify-center overflow-hidden">
                     {!logoError ? (
                       <img 
                         src={footerLogoPath} 
                         alt="Sanctuary Logo"
-                        className="w-full h-full object-contain transition-transform group-hover:scale-110"
+                        className="w-24 h-24 object-contain transition-transform group-hover:scale-110"
                         onError={() => setLogoError(true)}
                       />
                     ) : (

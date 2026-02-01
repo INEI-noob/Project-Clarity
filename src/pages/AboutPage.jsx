@@ -31,7 +31,7 @@ const AboutPage = () => {
   ];
 
   const team = [
-    { name: "Alex Chen", role: "Founder", pronouns: "they/them", color: "bg-indigo-100 text-indigo-600" },
+    { name: "Jade Oelofse", role: "Founder", pronouns: "she/her", color: "bg-indigo-100 text-indigo-600" },
     { name: "Samira Nkosi", role: "Community Lead", pronouns: "she/her", color: "bg-rose-100 text-rose-600" },
     { name: "Jordan Peters", role: "Safety Officer", pronouns: "he/him", color: "bg-cyan-100 text-cyan-600" }
   ];
