@@ -15,7 +15,8 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },
     { label: 'Pulse', path: 'forum', color: 'rose' },
-    { label: 'Connect', path: 'community', color: 'amber' }
+    { label: 'Connect', path: 'community', color: 'amber' },
+    { label: 'About', path: 'about', color: 'slate' }
   ];
 
   const getColorClasses = (color, isActive) => {
@@ -23,6 +24,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
       indigo: isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600',
       rose: isActive ? 'text-rose-600' : 'text-slate-500 hover:text-rose-600',
       amber: isActive ? 'text-amber-600' : 'text-slate-500 hover:text-amber-600',
+      slate: isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900',
     };
     return colors[color] || colors.indigo;
   };
@@ -53,8 +55,6 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                 )}
               </div>
             </button>
-            <div className="hidden lg:block">
-            </div>
           </div>
 
           {/* CENTER: Navigation */}
@@ -66,7 +66,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                   key={link.path}
                   onClick={() => setPage(link.path)}
                   className={`
-                    relative px-6 py-2 rounded-full text-[13px] font-bold tracking-tight transition-all duration-300
+                    relative px-5 py-2 rounded-full text-[13px] font-bold tracking-tight transition-all duration-300
                     ${getColorClasses(link.color, isActive)}
                   `}
                 >
