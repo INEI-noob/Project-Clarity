@@ -22,7 +22,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },
     { label: 'Pulse', path: 'forum', color: 'rose' },
-    { label: 'Connect', path: 'community', color: 'amber' },
+    { label: 'Connect', path: 'connect', color: 'amber' },
     { label: 'About', path: 'about', color: 'slate' }
   ];
 
