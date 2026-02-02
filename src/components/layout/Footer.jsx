@@ -18,7 +18,7 @@ const Footer = ({ setPage }) => {
   const currentYear = new Date().getFullYear();
 
   // Reference path for the logo
-  const footerLogoPath = "/src/assets/header-logo.png";
+  const footerLogoPath = "/public/header-logo.png";
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);

@@ -10,7 +10,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
   
-  const logoPath = "/src/assets/header-logo.png";
+  const logoPath = "/public/header-logo.png";
 
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },

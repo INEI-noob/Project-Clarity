@@ -122,7 +122,7 @@ function App() {
         <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
           <div className="flex flex-col items-center">
             <img
-              src="/src/assets/header-logo.png"
+              src="/public/header-logo.png"
               alt="Sanctuary"
               className="w-24 h-24 mb-4 object-contain"
             />
@@ -138,7 +138,7 @@ function App() {
       <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
         <div className="flex flex-col items-center">
           <img
-            src="/src/assets/header-logo.png"
+            src="/public/header-logo.png"
             alt="Sanctuary"
             className="w-32 h-32 mb-8 object-contain"
           />
