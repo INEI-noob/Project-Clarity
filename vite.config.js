@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import { visualizer } from 'rollup-plugin-visualizer'
+import imageOptimizePlugin from 'vite-plugin-image-optimize'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -12,6 +13,20 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    imageOptimizePlugin({
+      png: {
+        quality: 80,
+      },
+      jpeg: {
+        quality: 80,
+      },
+      jpg: {
+        quality: 80,
+      },
+      webp: {
+        quality: 80,
+      },
+    }),
     visualizer({
       filename: 'dist/stats.html',
       open: true,
@@ -31,6 +46,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
+          // Critical chunks that should be preloaded
+          if (id.includes('src/main.jsx') || id.includes('src/App.jsx')) {
+            return 'critical';
+          }
           // Separate Supabase for pages that need it
           if (id.includes('@supabase')) {
             return 'supabase-vendor';
@@ -47,6 +66,13 @@ export default defineConfig({
           }
           if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
             return 'utils-vendor';
+          }
+          // Additional chunking for large libraries
+          if (id.includes('motion-dom') || id.includes('motion-utils')) {
+            return 'motion-vendor';
+          }
+          if (id.includes('react-markdown') || id.includes('remark-gfm')) {
+            return 'markdown-vendor';
           }
         },
         // Optimize chunk file names
@@ -72,7 +98,13 @@ export default defineConfig({
     // Preload modules
     modulePreload: {
       polyfill: false
-    }
+    },
+    // Enable compression
+    reportCompressedSize: true,
+    // Optimize dependencies
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
   // Optimize dependencies
   optimizeDeps: {

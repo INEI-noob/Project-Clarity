@@ -8,11 +8,6 @@ const isMobile = () => {
   return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
 
-// Simple mobile-aware wrapper - no animations on mobile
-const MobileAwareDiv = ({ children, ...props }) => {
-  return <div {...props}>{children}</div>;
-};
-
 // Lazy load all pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
@@ -153,7 +148,7 @@ function App() {
   return (
     <ToastProvider>
       <Layout currentPage={currentPage} setPage={handlePageChange}>
-        <MobileAwareDiv>
+        <div>
           <Suspense fallback={
             <div className="flex items-center justify-center min-h-[400px]">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
@@ -161,7 +156,7 @@ function App() {
           }>
             {renderPage()}
           </Suspense>
-        </MobileAwareDiv>
+        </div>
       </Layout>
     </ToastProvider>
   );

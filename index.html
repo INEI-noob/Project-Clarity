@@ -8,9 +8,17 @@
     
     <title>Project Clarity</title>
     
-    <!-- Preconnect to common domains (optional optimization) -->
+    <!-- DNS prefetch and preconnect for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.jsx" />
+    <link rel="modulepreload" href="/src/App.jsx" />
+    <link rel="modulepreload" href="/src/components/layout/Layout.jsx" />
+    <link rel="modulepreload" href="/src/pages/HomePage.jsx" />
     
     <!-- Favicon (update path if you have one) -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />

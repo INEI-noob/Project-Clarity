@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
 import Footer from '../layout/Footer';  // Updated path to ensure resolution
 

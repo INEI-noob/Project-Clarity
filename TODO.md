@@ -1,17 +1,9 @@
-# Performance Optimization Tasks
+# Network Payload Optimization Tasks
 
-- [x] Reduce initial loading delay in App.jsx from 1800ms to 500ms
-- [x] Add React.memo to Hero component
-- [x] Add React.memo to Layout component
-- [x] Add React.memo to Card component
-- [x] Run build and check bundle size
-- [x] Test performance improvements - Build successful, no errors
-
-# Main Thread Optimization Tasks
-
-- [x] Replace framer-motion background animations in Layout with CSS animations
-- [x] Add will-change CSS property to animated elements
-- [x] Debounce mouse tracking events in Layout
-- [x] Optimize Hero component animations
-- [x] Add mobile animation detection
-- [ ] Test main thread performance improvements
+- [ ] Analyze current bundle sizes and identify largest chunks
+- [ ] Implement lazy loading for heavy components
+- [ ] Optimize images and assets
+- [ ] Enable compression and caching headers
+- [ ] Code splitting improvements
+- [ ] Remove unused dependencies
+- [ ] Bundle analysis and monitoring

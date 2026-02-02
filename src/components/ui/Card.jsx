@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowUpRight, MoreHorizontal } from 'lucide-react';
 
 /**
@@ -22,18 +21,18 @@ const Card = ({
   };
 
   return (
-    <motion.div
-      whileHover={hover ? { y: -8, transition: { duration: 0.2 } } : {}}
+    <div
       onClick={onClick}
       className={`
         relative p-8 rounded-[3.5rem] flex flex-col overflow-hidden transition-all duration-300
         ${onClick ? 'cursor-pointer' : ''}
+        ${hover ? 'hover-lift' : ''}
         ${variants[variant]}
         ${className}
       `}
     >
       {children}
-    </motion.div>
+    </div>
   );
 });
 
