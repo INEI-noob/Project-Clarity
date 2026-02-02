@@ -1,8 +1,7 @@
-// src/components/layout/Layout.jsx
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Navbar from './Navbar';  // Your existing navbar
-import Footer from './Footer';  // Your existing footer
+import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
+import Footer from '../layout/Footer';  // Updated path to ensure resolution
 
 export const Layout = ({ children, currentPage, setPage }) => {
   const containerRef = useRef(null);
@@ -23,42 +22,47 @@ export const Layout = ({ children, currentPage, setPage }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen w-full overflow-hidden bg-slate-50">
-      {/* Ambient Background Layer */}
+    <div 
+      ref={containerRef} 
+      className="relative min-h-screen w-full flex flex-col bg-slate-50 transition-colors duration-500"
+    >
+      {/* Ambient Background Layer - Fixed so it stays behind everything during scroll */}
       <div className="fixed inset-0 bg-aurora pointer-events-none" />
       
-      {/* Organic Floating Blobs */}
+      {/* Organic Floating Blobs - Fixed background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="blob bg-gradient-to-br from-rose-300 to-purple-300 w-[500px] h-[500px] -top-20 -left-20 blob-1"
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+          className="blob bg-gradient-to-br from-rose-200/40 to-purple-300/40 w-[500px] h-[500px] -top-20 -left-20 blur-3xl"
+          animate={{ scale: [1, 1.1, 1], rotate: [0, 45, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
         <motion.div 
-          className="blob bg-gradient-to-br from-cyan-300 to-blue-300 w-[400px] h-[400px] top-1/2 -right-20 blob-2"
-          animate={{ scale: [1.2, 1, 1.2], rotate: [0, -90, 0] }}
+          className="blob bg-gradient-to-br from-cyan-200/40 to-blue-300/40 w-[400px] h-[400px] top-1/2 -right-20 blur-3xl"
+          animate={{ scale: [1.1, 1, 1.1], rotate: [0, -45, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
         <motion.div 
-          className="blob bg-gradient-to-br from-amber-200 to-pink-300 w-[600px] h-[600px] -bottom-40 left-1/3 blob-3"
-          animate={{ y: [0, -50, 0], x: [0, 30, 0] }}
+          className="blob bg-gradient-to-br from-amber-100/40 to-pink-200/40 w-[600px] h-[600px] -bottom-40 left-1/3 blur-3xl"
+          animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <div className="fixed inset-0 texture-noise pointer-events-none opacity-40" />
+      <div className="fixed inset-0 texture-noise pointer-events-none opacity-20" />
       <div className="fixed inset-0 spotlight pointer-events-none" />
 
-      {/* Your existing Navbar */}
+      {/* Navbar - Pass necessary props */}
       <Navbar currentPage={currentPage} setPage={setPage} />
 
-      {/* Main Content */}
-      <main className="relative z-10">
+      {/* Main Content - Flex-grow ensures footer is pushed down on short pages */}
+      <main className="relative z-10 flex-grow pt-24 md:pt-28">
         {children}
       </main>
 
-      {/* Your existing Footer */}
+      {/* Footer - Stays at the bottom */}
       <Footer setPage={setPage} />
     </div>
   );
 };
+
+export default Layout;

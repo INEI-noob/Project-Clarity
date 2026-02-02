@@ -58,11 +58,11 @@ const Footer = ({ setPage }) => {
 
   const handleNav = (path) => {
     if (!path || path === '#') return;
-    // We scroll to top first to ensure a smooth transition
     scrollToTop();
-    // Use a small timeout if the page switch feels jarring
     setTimeout(() => {
-        setPage(path);
+        if (typeof setPage === 'function') {
+          setPage(path);
+        }
     }, 100);
   };
 
@@ -75,17 +75,17 @@ const Footer = ({ setPage }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-slate-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-indigo-600 transition-all hover:scale-110 group"
+            className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-slate-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-indigo-600 transition-all hover:scale-110 group"
           >
             <ArrowUp size={20} className="group-hover:-translate-y-1 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      <footer className="relative mt-20">
+      <footer className="relative mt-auto">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
         
-        <div className="pt-24 pb-12 px-6 bg-white">
+        <div className="pt-24 pb-12 px-6 bg-white/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16 items-start">
               
@@ -111,7 +111,7 @@ const Footer = ({ setPage }) => {
                 </motion.button>
 
                 <div className="space-y-4">
-                  <p className="text-slate-500 leading-relaxed max-w-sm text-sm italic space-y-4">
+                  <p className="text-slate-500 leading-relaxed max-w-sm text-sm italic">
                     "A radical digital sanctuary built for discovery, safety, and queer joy. 
                     Designed with care for those finding their way home to themselves."
                   </p>
@@ -206,9 +206,9 @@ const Footer = ({ setPage }) => {
             </div>
 
             <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
+              <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium text-center md:text-left">
                 <span>© {currentYear} Project Clarity</span>
-                <span className="w-1 h-1 rounded-full bg-slate-200" />
+                <span className="hidden md:inline w-1 h-1 rounded-full bg-slate-200" />
                 <span>By the community, for the community</span>
               </div>
 
