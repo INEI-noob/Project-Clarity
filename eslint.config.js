@@ -29,6 +29,14 @@ export default defineConfig([
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
       'react/prop-types': 'off',
+      // Performance rules
+      'react/jsx-no-bind': ['warn', { ignoreRefs: true }],
+      'react/jsx-key': ['error', { checkFragmentShorthand: true }],
+      'react/no-array-index-key': 'warn',
+      'react-hooks/exhaustive-deps': 'warn',
+      // Code quality
+      'react/display-name': 'off', // Allow anonymous components
+      'react-refresh/only-export-components': 'warn',
     },
   },
 ])

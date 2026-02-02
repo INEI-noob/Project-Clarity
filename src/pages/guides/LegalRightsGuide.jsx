@@ -47,16 +47,16 @@ const QuoteBlock = ({ children, author }) => (
   </div>
 );
 
-const LegalRightsGuide = ({ onBack }) => {
+const LegalRightsGuide = () => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-gradient-to-b from-white to-slate-50/30">
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
-        <button 
-          onClick={onBack}
+        <button
+          onClick={() => window.history.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-widest mb-12 transition-all group"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to Guides
         </button>
 

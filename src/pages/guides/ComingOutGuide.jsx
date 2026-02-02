@@ -84,13 +84,13 @@ const QuoteBlock = ({ children, author, context }) => (
   </div>
 );
 
-const ComingOutGuide = ({ onBack }) => {
+const ComingOutGuide = () => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumbs / Back */}
-        <button 
-          onClick={onBack}
+        <button
+          onClick={() => window.history.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-[0.2em] mb-12 transition-all group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Guides

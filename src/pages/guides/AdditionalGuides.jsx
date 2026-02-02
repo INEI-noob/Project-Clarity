@@ -89,7 +89,7 @@ export const QueerMoneyGuide = ({ onBack }) => (
           <Clock className="text-emerald-500 mb-3" size={24} />
           <h4 className="font-black text-slate-900 mb-2">The Slow Build</h4>
           <p className="text-sm text-slate-600">
-            R20 here, the change from groceries there. If you do the shopping, ask for cash back and pocket R50. It feels small, but six months of R50 is R1,300. That's a night in a safe guesthouse.
+            R20 here, the change from groceries there. If you do the shopping, ask for cash back and pocket R50. It feels small, but six months of R50 is R300. That's a night in a safe guesthouse.
           </p>
         </div>
         <div className="p-6 rounded-3xl bg-white border border-emerald-100 shadow-sm">
@@ -328,7 +328,7 @@ export const DigitalSafetyGuide = ({ onBack }) => (
         If someone posts your private info or outs you without consent, they're violating the <strong>Protection of Personal Information Act (PoPIA)</strong>. You can report it.
       </p>
       <div className="flex flex-wrap gap-3">
-        <a href="#" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold text-xs uppercase tracking-wider hover:bg-purple-700 transition-colors">
+        <a href="https://inforegulator.org.za/popia/" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold text-xs uppercase tracking-wider hover:bg-purple-700 transition-colors">
           File a Report <ExternalLink size={14} />
         </a>
         <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-purple-700 font-bold text-xs uppercase tracking-wider border border-purple-200">
@@ -441,7 +441,7 @@ export const ExitStrategyGuide = ({ onBack }) => (
           <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
           <div>
             <h4 className="font-bold text-slate-900">Get to safety first</h4>
-            <p className="text-sm text-slate-600">Even if it's just a 24-hour McDonald's with WiFi while you figure out the next step. Safe > Comfortable.</p>
+            <p className="text-sm text-slate-600">Even if it's just a 24-hour McDonald's with WiFi while you figure out the next step. Safe and Comfortable.</p>
           </div>
         </div>
         <div className="flex gap-4">
@@ -480,7 +480,7 @@ export const ExitStrategyGuide = ({ onBack }) => (
 
 // --- [ MAIN SWITCHER COMPONENT ] ---
 
-export default function AdditionalGuides({ setPage }) {
+export default function AdditionalGuides() {
   const [currentGuide, setCurrentGuide] = useState('menu');
 
   const handleBack = () => setCurrentGuide('menu');
@@ -494,11 +494,11 @@ export default function AdditionalGuides({ setPage }) {
       default: return (
         <div className="min-h-screen pt-32 pb-32 px-6 bg-white">
           <div className="max-w-4xl mx-auto">
-            <button 
-              onClick={() => setPage('guides')}
+            <button
+              onClick={() => window.history.back()}
               className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-widest mb-12 transition-all group"
             >
-              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
               Back to Guides
             </button>
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   User, 
@@ -13,7 +12,8 @@ import {
   MapPin,
   AlertCircle,
   CheckCircle2,
-  Info
+  Info,
+  ExternalLink  // <-- ADD THIS
 } from 'lucide-react';
 
 /**
@@ -56,16 +56,16 @@ const QuoteBlock = ({ children, author, context }) => (
   </div>
 );
 
-const GenderIdentityGuide = ({ onBack }) => {
+const GenderIdentityGuide = () => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
-        <button 
-          onClick={onBack}
+        <button
+          onClick={() => window.history.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-widest mb-12 transition-all group"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to Guides
         </button>
 
@@ -316,13 +316,13 @@ const GenderIdentityGuide = ({ onBack }) => {
 
           {/* Resources */}
           <div className="flex flex-wrap justify-center gap-4">
-            <a 
-              href="http://www.genderdynamix.org.za" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all flex items-center gap-2"
-            >
-              Gender DynamiX <ExternalLink size={16} />
+              <a 
+                href="http://www.genderdynamix.org.za" 
+                target="_blank" 
+                rel="noreferrer" 
+               className="px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all flex items-center gap-2"
+              >
+               Gender DynamiX <span className="text-lg">↗</span>  {/* Use text arrow instead */}
             </a>
             <a 
               href="#" 

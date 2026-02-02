@@ -44,16 +44,16 @@ const QuoteBlock = ({ children, author }) => (
   </div>
 );
 
-const RelationshipsGuide = ({ onBack }) => {
+const RelationshipsGuide = () => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-gradient-to-b from-white to-rose-50/20">
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
-        <button 
-          onClick={onBack}
+        <button
+          onClick={() => window.history.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-widest mb-12 transition-all group"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to Guides
         </button>
 
@@ -260,7 +260,7 @@ const RelationshipsGuide = ({ onBack }) => {
 
           <div className="mt-8 p-6 rounded-2xl bg-amber-50 border border-amber-100">
             <p className="text-amber-900 font-medium text-sm">
-              <strong>Note on "love bombing":</strong> In a community where many of us were starved of affection, intense early romance feels like healing. But太快 intensity often masks control. Healthy love builds; it doesn't explode.
+              <strong>Note on "love bombing":</strong> In a community where many of us were starved of affection, intense early romance feels like healing. But fast intensity often masks control. Healthy love builds; it doesn't explode.
             </p>
           </div>
         </Section>

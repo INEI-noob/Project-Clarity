@@ -1,35 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 
-// Main Pages
-import HomePage from './pages/HomePage';
-import GuidesPage from './pages/GuidesPage';
-import PulsePage from './pages/PulsePage';
-import CommunityPage from './pages/CommunityPage';
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
+// Detect if we're on mobile for conditional loading
+const isMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
 
-// Guide Pages
-import ComingOutGuide from './pages/guides/ComingOutGuide';
-import GenderIdentityGuide from './pages/guides/GenderIdentityGuide';
-import FindingCommunityGuide from './pages/guides/FindingCommunityGuide';
-import DigitalSafetyGuide from './pages/guides/DigitalSafetyGuide';
-import HealthcareGuide from './pages/guides/HealthcareGuide';
-import LegalRightsGuide from './pages/guides/LegalRightsGuide';
-import RelationshipsGuide from './pages/guides/RelationshipsGuide';
-import SpiritualityGuide from './pages/guides/SpiritualityGuide';
-import AdditionalGuides from './pages/guides/AdditionalGuides';
+// Simple mobile-aware wrapper - no animations on mobile
+const MobileAwareDiv = ({ children, ...props }) => {
+  return <div {...props}>{children}</div>;
+};
 
-// Legal & Policy Pages
-import GuidelinesPage from './pages/footer/GuidelinesPage';
-import PrivacyPage from './pages/footer/PrivacyPage';
-import SafetyPage from './pages/footer/SafetyPage';
-import CrisisPage from './pages/footer/CrisisPage';
+// Lazy load all pages for code splitting
+const HomePage = lazy(() => import('./pages/HomePage'));
+const GuidesPage = lazy(() => import('./pages/GuidesPage'));
+const PulsePage = lazy(() => import('./pages/PulsePage'));
+const CommunityPage = lazy(() => import('./pages/CommunityPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+// Lazy load guide pages
+const ComingOutGuide = lazy(() => import('./pages/guides/ComingOutGuide'));
+const GenderIdentityGuide = lazy(() => import('./pages/guides/GenderIdentityGuide'));
+const FindingCommunityGuide = lazy(() => import('./pages/guides/FindingCommunityGuide'));
+const DigitalSafetyGuide = lazy(() => import('./pages/guides/DigitalSafetyGuide'));
+const HealthcareGuide = lazy(() => import('./pages/guides/HealthcareGuide'));
+const LegalRightsGuide = lazy(() => import('./pages/guides/LegalRightsGuide'));
+const RelationshipsGuide = lazy(() => import('./pages/guides/RelationshipsGuide'));
+const SpiritualityGuide = lazy(() => import('./pages/guides/SpiritualityGuide'));
+const AdditionalGuides = lazy(() => import('./pages/guides/AdditionalGuides'));
+
+// Lazy load legal & policy pages
+const GuidelinesPage = lazy(() => import('./pages/footer/GuidelinesPage'));
+const PrivacyPage = lazy(() => import('./pages/footer/PrivacyPage'));
+const SafetyPage = lazy(() => import('./pages/footer/SafetyPage'));
+const CrisisPage = lazy(() => import('./pages/footer/CrisisPage'));
 
 function App() {
-  const [currentPage, setPage] = useState('home');
+  // Initialize page from URL hash (e.g., #/guide-gender-identity)
+  const [currentPage, setPage] = useState(() => {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#/')) {
+      return hash.replace('#/', '') || 'home';
+    }
+    return 'home';
+  });
+  
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -37,16 +55,30 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Listen for browser back/forward buttons
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const newPage = hash ? hash.replace('#/', '') : 'home';
+      setPage(newPage || 'home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const handlePageChange = (page) => {
-    setPage(page);
+    if (page === 'home') {
+      window.location.hash = '/';
+    } else {
+      window.location.hash = `/${page}`;
+    }
+    // setPage will be called by the hashchange listener above
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const pageTransition = {
-    initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: -20, filter: 'blur(10px)' }
-  };
+
 
   const renderPage = () => {
     const props = { setPage: handlePageChange };
@@ -81,108 +113,39 @@ function App() {
     }
   };
 
+  const mobile = isMobile();
+
   if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center"
-        >
-          {/* Logo Container with gentle floating animation */}
-          <div className="relative w-32 h-32 mb-8">
-            {/* Soft glow effect behind logo */}
-            <motion.div
-              animate={{ 
-                opacity: [0.3, 0.6, 0.3],
-                scale: [0.9, 1.1, 0.9]
-              }}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              className="absolute inset-0 bg-gradient-to-r from-pink-200 via-purple-200 to-cyan-200 rounded-full blur-2xl"
-            />
-            
-            {/* Your Actual Logo */}
-            <motion.img 
+    if (mobile) {
+      // Simplified loading for mobile
+      return (
+        <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
+          <div className="flex flex-col items-center">
+            <img
               src="/src/assets/header-logo.png"
               alt="Sanctuary"
-              animate={{ 
-                y: [0, -8, 0],
-                rotate: [0, 2, 0, -2, 0]
-              }}
-              transition={{ 
-                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-              }}
-              className="w-full h-full object-contain relative z-10 drop-shadow-xl"
+              className="w-24 h-24 mb-4 object-contain"
             />
-            
-            {/* Sparkle effects */}
-            <motion.div
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.5, 1, 0.5],
-                rotate: [0, 180]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity, 
-                repeatDelay: 1,
-                ease: "easeInOut" 
-              }}
-              className="absolute -top-2 -right-2 w-4 h-4 text-yellow-400"
-            >
-              ✦
-            </motion.div>
-            <motion.div
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.5, 1.2, 0.5]
-              }}
-              transition={{ 
-                duration: 2.5, 
-                repeat: Infinity, 
-                repeatDelay: 0.5,
-                delay: 0.5,
-                ease: "easeInOut" 
-              }}
-              className="absolute -bottom-1 -left-4 w-3 h-3 text-pink-400"
-            >
-              ✦
-            </motion.div>
-          </div>
-          
-          {/* Loading Text with gradient matching logo colors */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-center"
-          >
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 font-bold text-sm tracking-[0.3em] uppercase mb-2">
-              Entering Sanctuary
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 font-bold text-sm tracking-[0.3em] uppercase">
+              Loading...
             </span>
-            
-            {/* Progress bar with rainbow gradient */}
-            <div className="w-32 h-1 bg-gray-200 rounded-full overflow-hidden mx-auto">
-              <motion.div 
-                initial={{ x: "-100%" }}
-                animate={{ x: "100%" }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
-                  ease: "linear" 
-                }}
-                className="w-full h-full bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center z-[9999]">
+        <div className="flex flex-col items-center">
+          <img
+            src="/src/assets/header-logo.png"
+            alt="Sanctuary"
+            className="w-32 h-32 mb-8 object-contain"
+          />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 font-bold text-sm tracking-[0.3em] uppercase mb-2">
+            Entering Sanctuary
+          </span>
+        </div>
       </div>
     );
   }
@@ -190,18 +153,15 @@ function App() {
   return (
     <ToastProvider>
       <Layout currentPage={currentPage} setPage={handlePageChange}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentPage}
-            variants={pageTransition}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
+        <MobileAwareDiv>
+          <Suspense fallback={
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+            </div>
+          }>
             {renderPage()}
-          </motion.div>
-        </AnimatePresence>
+          </Suspense>
+        </MobileAwareDiv>
       </Layout>
     </ToastProvider>
   );

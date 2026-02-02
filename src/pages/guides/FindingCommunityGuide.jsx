@@ -48,16 +48,16 @@ const CommunityTier = ({ title, subtitle, items, icon: Icon, colorClass, descrip
   </div>
 );
 
-const FindingCommunityGuide = ({ onBack }) => {
+const FindingCommunityGuide = () => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-gradient-to-b from-white to-slate-50/30">
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
-        <button 
-          onClick={onBack}
+        <button
+          onClick={() => window.history.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold uppercase text-[11px] tracking-widest mb-12 transition-all group"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to Guides
         </button>
 
@@ -85,10 +85,10 @@ const FindingCommunityGuide = ({ onBack }) => {
         {/* The Fear Section - Important validation */}
         <div className="mb-20 p-8 md:p-12 rounded-[3rem] bg-slate-900 text-white relative overflow-hidden">
           <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-black mb-6 italic">"But what if they're weird? What if I'm not [gay/trans/bi] enough?"</h3>
+            <h3 className="text-2xl md:text-3xl font-black mb-6 italic text-blue-800/60">"But what if they're weird? What if I'm not [gay/trans/bi] enough?"</h3>
             <div className="space-y-4 text-slate-300 font-medium leading-relaxed max-w-3xl">
               <p>
-                Every queer person has this anxiety before entering a community space. The fear that you'll be judged for not knowing the lingo, for being "too straight-presenting," for being too old, too young, too注意事项, too something.
+                Every queer person has this anxiety before entering a community space. The fear that you'll be judged for not knowing the lingo, for being "too straight-presenting," for being too old, too young, too precautions, too something.
               </p>
               <p className="text-white">
                 <strong>Listen:</strong> Community isn't about perfection. It's about finding people who understand that specific ache of hiding. You don't need to have your identity figured out. You don't need to be "out" to everyone. You just need to be respectful and open.
