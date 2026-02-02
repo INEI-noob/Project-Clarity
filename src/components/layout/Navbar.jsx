@@ -14,10 +14,10 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
    * CLOUDFLARE PRODUCTION FIX:
    * Instead of importing (which causes resolve errors if the file structure isn't perfect),
    * we use the root-relative path. 
-   * * IMPORTANT: Ensure your logo is located at: public/logo.png
-   * In production, the "public" folder is stripped, so the URL is just "/logo.png".
+   * * IMPORTANT: Ensure your logo is located at: public/logo.webp
+   * In production, the "public" folder is stripped, so the URL is just "/logo.webp".
    */
-  const logoPath = "/logo.png"; 
+  const logoPath = "/logo.webp"; 
 
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },
@@ -54,9 +54,9 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                     alt="Sanctuary"
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      // If /logo.png fails, try /assets/logo.png as a fallback
+                      // If /logo.webp fails, try /assets/logo.webp as a fallback
                       if (e.target.src.indexOf('/assets/') === -1) {
-                        e.target.src = '/assets/logo.png';
+                        e.target.src = '/assets/logo.webp';
                       } else {
                         setLogoError(true);
                       }

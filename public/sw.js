@@ -7,7 +7,7 @@ const DYNAMIC_CACHE = 'sanctuary-dynamic-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  './public/header-logo.png',
+  './logo.webp',
 ];
 
 // Install event - cache static assets

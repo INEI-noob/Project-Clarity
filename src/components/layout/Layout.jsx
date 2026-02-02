@@ -1,25 +1,33 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
 import Footer from '../layout/Footer';  // Updated path to ensure resolution
 
-export const Layout = ({ children, currentPage, setPage }) => {
+export const Layout = React.memo(({ children, currentPage, setPage }) => {
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      containerRef.current.style.setProperty('--mouse-x', `${x}%`);
-      containerRef.current.style.setProperty('--mouse-y', `${y}%`);
+  // Debounce mouse tracking to reduce main thread work
+  const debouncedMouseMove = useCallback(() => {
+    let timeoutId;
+    return (e) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        containerRef.current.style.setProperty('--mouse-x', `${x}%`);
+        containerRef.current.style.setProperty('--mouse-y', `${y}%`);
+      }, 16); // ~60fps
     };
+  }, []);
 
+  useEffect(() => {
+    const handleMouseMove = debouncedMouseMove();
     const container = containerRef.current;
     container?.addEventListener('mousemove', handleMouseMove);
     return () => container?.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [debouncedMouseMove]);
 
   return (
     <div 
@@ -29,22 +37,19 @@ export const Layout = ({ children, currentPage, setPage }) => {
       {/* Ambient Background Layer - Fixed so it stays behind everything during scroll */}
       <div className="fixed inset-0 bg-aurora pointer-events-none" />
       
-      {/* Organic Floating Blobs - Fixed background decoration */}
+      {/* Organic Floating Blobs - Fixed background decoration with CSS animations */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          className="blob bg-gradient-to-br from-rose-200/40 to-purple-300/40 w-[500px] h-[500px] -top-20 -left-20 blur-3xl"
-          animate={{ scale: [1, 1.1, 1], rotate: [0, 45, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        <div
+          className="blob bg-gradient-to-br from-rose-200/40 to-purple-300/40 w-[500px] h-[500px] -top-20 -left-20 blur-3xl animate-float-1"
+          style={{ willChange: 'transform' }}
         />
-        <motion.div 
-          className="blob bg-gradient-to-br from-cyan-200/40 to-blue-300/40 w-[400px] h-[400px] top-1/2 -right-20 blur-3xl"
-          animate={{ scale: [1.1, 1, 1.1], rotate: [0, -45, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        <div
+          className="blob bg-gradient-to-br from-cyan-200/40 to-blue-300/40 w-[400px] h-[400px] top-1/2 -right-20 blur-3xl animate-float-2"
+          style={{ willChange: 'transform' }}
         />
-        <motion.div 
-          className="blob bg-gradient-to-br from-amber-100/40 to-pink-200/40 w-[600px] h-[600px] -bottom-40 left-1/3 blur-3xl"
-          animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        <div
+          className="blob bg-gradient-to-br from-amber-100/40 to-pink-200/40 w-[600px] h-[600px] -bottom-40 left-1/3 blur-3xl animate-float-3"
+          style={{ willChange: 'transform' }}
         />
       </div>
 
@@ -63,6 +68,6 @@ export const Layout = ({ children, currentPage, setPage }) => {
       <Footer setPage={setPage} />
     </div>
   );
-};
+});
 
 export default Layout;

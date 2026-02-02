@@ -35,7 +35,7 @@ const Card = ({
       {children}
     </motion.div>
   );
-};
+});
 
 // --- [ CARD SUB-COMPONENTS ] ---
 

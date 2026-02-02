@@ -26,7 +26,7 @@ const Footer = ({ setPage }) => {
   const currentYear = new Date().getFullYear();
 
   // Root-relative path is safer for production deployments
-  const logoPath = "/logo.png"; 
+  const logoPath = "/logo.webp"; 
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
