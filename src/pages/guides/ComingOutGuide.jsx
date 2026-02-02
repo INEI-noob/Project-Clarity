@@ -312,7 +312,7 @@ const ComingOutGuide = () => {
             </p>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <a href="tel:0217126699" className="group p-8 rounded-3xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all backdrop-blur-sm">
+              <a href="tel:021 712 6699" className="group p-8 rounded-3xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all backdrop-blur-sm">
                 <div className="flex items-start justify-between mb-4">
                   <Phone className="text-indigo-200" size={24} />
                   <ExternalLink size={20} className="text-white/50 group-hover:text-white transition-colors" />

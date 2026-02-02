@@ -291,7 +291,7 @@ const LegalRightsGuide = () => {
             <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
               <h4 className="font-black text-slate-900 mb-2">Triangle Project</h4>
               <p className="text-slate-600 text-sm mb-4">Specialized LGBTQ+ legal advocacy, police accompaniment, and litigation support. They know the system and the shortcuts.</p>
-              <a href="tel:0217126699" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+              <a href="tel:021 712 6699" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
                 021 712 6699 <Phone size={14} />
               </a>
             </div>

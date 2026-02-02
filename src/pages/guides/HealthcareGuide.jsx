@@ -270,7 +270,7 @@ const HealthcareGuide = () => {
                   <Phone size={16} className="inline mr-2" />
                   SADAG: 0800 12 13 14 (24/7)
                 </a>
-                <a href="tel:0217126699" className="block p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-900 font-bold hover:bg-indigo-100 transition-colors">
+                <a href="tel:021 712 6699" className="block p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-900 font-bold hover:bg-indigo-100 transition-colors">
                   <Phone size={16} className="inline mr-2" />
                   Triangle Project Crisis: 021 712 6699
                 </a>

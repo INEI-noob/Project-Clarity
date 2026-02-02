@@ -37,10 +37,10 @@ const CrisisPage = () => {
         type: "LGBTQ+ Specific"
       },
       services: [
-        { name: "Lifeline SA", number: "0861 322 322", type: "Suicide Prevention", hours: "24/7" },
+        { name: "Lifeline SA", number: "011 715 2000", type: "Suicide Prevention", hours: "24/7" },
         { name: "LoveLife Call Centre", number: "0800 121 900", type: "Youth Support", hours: "Mon-Sat 9AM-6PM" },
-        { name: "SADAG Mental Health", number: "011 234 4837", type: "Counseling", hours: "8AM-8PM" },
-        { name: "Gender Dynamix", number: "021 447 4795", type: "Transgender Support", hours: "Office Hours" }
+        { name: "SADAG Mental Health", number: "0800 567 567", type: "Counseling", hours: "8AM-8PM" },
+        { name: "Gender Dynamix", number: "021 447 4797", type: "Transgender Support", hours: "Office Hours" }
       ]
     },
     'international': {
@@ -48,7 +48,7 @@ const CrisisPage = () => {
       flag: "🌍",
       services: [
         { name: "The Trevor Project (US)", number: "1-866-488-7386", type: "LGBTQ+ Youth", hours: "24/7" },
-        { name: "Switchboard (UK)", number: "0300 330 0630", type: "LGBTQ+ Support", hours: "10AM-10PM" },
+        { name: "Switchboard (UK)", number: "0800 0119 100", type: "LGBTQ+ Support", hours: "10AM-10PM" },
         { name: "QLife (Australia)", number: "1800 184 527", type: "Counseling", hours: "3PM-Midnight" }
       ]
     }
@@ -124,7 +124,7 @@ const CrisisPage = () => {
                 
                 <div className="flex items-center gap-3 mb-2">
                   <a 
-                    href="tel:0217126699" 
+                    href="tel:021 712 6699" 
                     className="text-4xl md:text-5xl font-bold text-rose-600 hover:text-rose-700 transition-colors tracking-tight"
                   >
                     021 712 6699
@@ -147,7 +147,7 @@ const CrisisPage = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <a 
-                href="https://wa.me/27671234567"
+                href="https://wa.me/27871632050"
                 className="p-4 rounded-2xl bg-white/60 border border-rose-100 text-rose-700 font-bold hover:bg-rose-50 transition-all flex items-center justify-center gap-2 group"
               >
                 <MessageCircle size={18} className="group-hover:scale-110 transition-transform" /> 

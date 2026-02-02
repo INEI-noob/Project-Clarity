@@ -64,16 +64,6 @@ const SafetyPage = () => {
   return (
     <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 bg-slate-50">
       {/* Floating Quick Exit Button */}
-      <div className="fixed top-24 right-4 z-[100]">
-        <button 
-          onClick={quickExit}
-          className="group flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-rose-700 transition-all hover:scale-105 active:scale-95"
-        >
-          <X size={18} />
-          <span className="font-bold text-sm">Quick Exit</span>
-          <kbd className="hidden md:inline-block bg-rose-800/40 px-1.5 py-0.5 rounded text-[10px]">ESC</kbd>
-        </button>
-      </div>
 
       <div className="max-w-4xl mx-auto">
         {/* Header */}
@@ -174,14 +164,6 @@ const SafetyPage = () => {
               While these tips help, the most secure way to browse is on a personal device that you do not share. 
               If you believe someone is monitoring your device, seek help from a trusted professional or use a public computer (like a library).
             </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="flex items-center gap-2 px-6 py-3 bg-white text-indigo-900 rounded-full font-bold hover:bg-indigo-50 transition-colors">
-                Safety Exit Strategy <ChevronRight size={18} />
-              </button>
-              <button className="flex items-center gap-2 px-6 py-3 bg-indigo-800 text-white rounded-full font-bold hover:bg-indigo-700 transition-colors">
-                External Privacy Tool <ExternalLink size={18} />
-              </button>
-            </div>
           </div>
         </motion.div>
       </div>
