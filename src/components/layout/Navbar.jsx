@@ -3,14 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Menu, X, Heart } from 'lucide-react';
 
 /**
- * STATIC MINIMALIST NAV - Clean, fixed, and non-reactive to scroll.
+ * FIXED NAV - Resolved import error and fixed Cloudflare pathing.
  */
 
 const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
   
-  const logoPath = "/public/header-logo.png";
+  /**
+   * CLOUDFLARE PRODUCTION FIX:
+   * Instead of importing (which causes resolve errors if the file structure isn't perfect),
+   * we use the root-relative path. 
+   * * IMPORTANT: Ensure your logo is located at: public/logo.png
+   * In production, the "public" folder is stripped, so the URL is just "/logo.png".
+   */
+  const logoPath = "/logo.png"; 
 
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },
@@ -46,7 +53,14 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                     src={logoPath} 
                     alt="Sanctuary"
                     className="w-full h-full object-contain"
-                    onError={() => setLogoError(true)}
+                    onError={(e) => {
+                      // If /logo.png fails, try /assets/logo.png as a fallback
+                      if (e.target.src.indexOf('/assets/') === -1) {
+                        e.target.src = '/assets/logo.png';
+                      } else {
+                        setLogoError(true);
+                      }
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full bg-slate-100 rounded-full flex items-center justify-center">
@@ -99,7 +113,6 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div

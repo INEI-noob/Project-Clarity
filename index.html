@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanctuary | A Radical Digital Safe Space</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sanctuary - A safe space for LGBTQIA+ community, resources, and support" />
+    <meta name="theme-color" content="#ffffff" />
     
-    <!-- Modern Typography: Noto Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Sanctuary</title>
     
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preconnect to common domains (optional optimization) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
+    <!-- Favicon (update path if you have one) -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- Prevent flash of wrong background before React loads -->
     <style>
-        /* Base styles to ensure the footer sticks to the bottom if content is short */
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        #root {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f8fafc; /* slate-50 */
-        }
-
-        /* Custom scrollbar for a premium feel */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to bottom right, #f8fafc, #ffffff, #f8fafc);
+        min-height: 100vh;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      /* Hide content until React loads to prevent flash of unstyled content */
+      .loading {
+        opacity: 0;
+        animation: fadeIn 0.3s ease-in 0.1s forwards;
+      }
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
     </style>
-</head>
-<body>
-    <!-- The React application will mount here -->
+  </head>
+  <body>
     <div id="root"></div>
-
+    
     <!-- 
-      Note: In a standard React environment, your build tool (like Vite or Webpack) 
-      would inject the script tag for your main entry point (e.g., main.jsx) here.
+      Vite will automatically inject the correct script tag here during build.
+      For development, Vite serves this file and handles the module script injection.
+      If you're not using Vite, change the src below to your main entry point:
+      e.g., "/src/main.jsx" or "/src/index.js"
     -->
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- 
+      Fallback for users with JavaScript disabled 
+      (optional but good practice for accessibility)
+    -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: system-ui, sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>Sanctuary requires JavaScript to run. Please enable JavaScript in your browser settings.</p>
+      </div>
+    </noscript>
+  </body>
 </html>

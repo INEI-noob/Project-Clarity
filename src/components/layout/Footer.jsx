@@ -12,13 +12,21 @@ import {
   AlertCircle
 } from 'lucide-react';
 
+/**
+ * FIXED FOOTER - Resolved import resolution error.
+ * In environments like Cloudflare Pages or certain build setups, 
+ * referencing assets via direct relative imports can fail if the 
+ * directory structure isn't exactly as expected by the bundler.
+ * Switching to a root-relative path for broad compatibility.
+ */
+
 const Footer = ({ setPage }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const currentYear = new Date().getFullYear();
 
-  // Reference path for the logo
-  const footerLogoPath = "/public/header-logo.png";
+  // Root-relative path is safer for production deployments
+  const logoPath = "/logo.png"; 
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
@@ -99,7 +107,7 @@ const Footer = ({ setPage }) => {
                   <div className="w-28 h-28 flex items-center justify-center overflow-hidden">
                     {!logoError ? (
                       <img 
-                        src={footerLogoPath} 
+                        src={logoPath} 
                         alt="Sanctuary Logo"
                         className="w-24 h-24 object-contain transition-transform group-hover:scale-110"
                         onError={() => setLogoError(true)}
@@ -110,13 +118,13 @@ const Footer = ({ setPage }) => {
                   </div>
                 </motion.button>
 
-                <div className="space-y-4">
+                <div className="space-y-4 text-center sm:text-left">
                   <p className="text-slate-500 leading-relaxed max-w-sm text-sm italic">
                     "A radical digital sanctuary built for discovery, safety, and queer joy. 
                     Designed with care for those finding their way home to themselves."
                   </p>
 
-                  <div className="flex flex-wrap gap-8">
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-8">
                     <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
                       <Shield size={12} />
                       Secure
@@ -136,10 +144,10 @@ const Footer = ({ setPage }) => {
               {/* Right Section: Navigation Links */}
               <div className="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
-                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6">
+                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6 text-center sm:text-left">
                     Navigate
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 text-center sm:text-left">
                     {footerLinks.explore.map((link) => (
                       <li key={link.label}>
                         <button
@@ -154,10 +162,10 @@ const Footer = ({ setPage }) => {
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6">
+                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6 text-center sm:text-left">
                     Resources
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 text-center sm:text-left">
                     {footerLinks.support.map((link) => (
                       <li key={link.label}>
                         <button
@@ -178,11 +186,11 @@ const Footer = ({ setPage }) => {
                   </ul>
                 </div>
 
-                <div>
+                <div className="col-span-2 md:col-span-1 text-center sm:text-left">
                   <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6">
                     Connect
                   </h4>
-                  <div className="flex gap-5 mb-8">
+                  <div className="flex justify-center sm:justify-start gap-5 mb-8">
                     {footerLinks.connect.map((link) => (
                       <a
                         key={link.label}
