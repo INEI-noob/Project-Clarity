@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Info
 } from 'lucide-react';
+import PageShell from '../../components/layout/PageShell';
 
 const SafetyPage = () => {
   const [activeTab, setActiveTab] = useState('digital');
@@ -57,10 +58,7 @@ const SafetyPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 bg-slate-50">
-      {/* Floating Quick Exit Button */}
-
-      <div className="max-w-4xl mx-auto">
+    <PageShell maxWidth="max-w-4xl" tone="indigo">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -161,8 +159,7 @@ const SafetyPage = () => {
             </p>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

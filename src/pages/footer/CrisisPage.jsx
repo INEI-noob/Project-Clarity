@@ -16,6 +16,7 @@ import {
   MapPin
 } from 'lucide-react';
 import InfoDisclaimer from '../../components/InfoDisclaimer';
+import PageShell from '../../components/layout/PageShell';
 
 const CrisisPage = () => {
   const [copiedNumber, setCopiedNumber] = useState(null);
@@ -63,22 +64,7 @@ const CrisisPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 bg-gradient-to-b from-rose-50/30 via-white to-indigo-50/30">
-      {/* Ambient Background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <motion.div 
-          animate={{ opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/4 left-10 w-96 h-96 bg-rose-200/30 rounded-full blur-3xl"
-        />
-        <motion.div 
-          animate={{ opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-indigo-200/20 rounded-full blur-3xl"
-        />
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
+    <PageShell maxWidth="max-w-4xl" tone="rose">
         {/* Emergency Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -270,8 +256,7 @@ const CrisisPage = () => {
             Take a breath. Reach out when you're ready. We believe you, we see you, and we care.
           </p>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

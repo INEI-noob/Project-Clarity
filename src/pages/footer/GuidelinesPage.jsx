@@ -11,6 +11,7 @@ import {
   ZapOff,
   FlameKindling
 } from 'lucide-react';
+import PageShell from '../../components/layout/PageShell';
 
 const GuidelinesPage = () => {
   const pillars = [
@@ -50,8 +51,7 @@ const GuidelinesPage = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-32 pb-32 px-4 md:px-6 bg-slate-50">
-      <div className="max-w-4xl mx-auto">
+    <PageShell maxWidth="max-w-4xl" tone="indigo">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -130,8 +130,7 @@ const GuidelinesPage = () => {
             "Community is a practice. It is not something we 'have,' but something we do together every day."
           </p>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

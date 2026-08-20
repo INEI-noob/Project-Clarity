@@ -11,6 +11,7 @@ import {
   Ghost,
   DatabaseZap
 } from 'lucide-react';
+import PageShell from '../../components/layout/PageShell';
 
 const PrivacyPage = () => {
   const promises = [
@@ -32,8 +33,7 @@ const PrivacyPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 bg-gradient-to-b from-white to-slate-50">
-      <div className="max-w-4xl mx-auto">
+    <PageShell maxWidth="max-w-4xl" tone="teal">
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -122,15 +122,14 @@ const PrivacyPage = () => {
 
         {/* Legal Footer Mini */}
         <div className="mt-20 text-center text-slate-500 text-sm">
-          <p>© 2024 Your Sanctuary Project • Last updated June 2024</p>
+          <p>© 2026 Your Sanctuary Project • Last updated August 2026</p>
           <div className="flex justify-center gap-6 mt-4 font-medium underline underline-offset-4 decoration-slate-200">
             <a href="#" className="hover:text-slate-600">Full Legal Terms</a>
             <a href="#" className="hover:text-slate-600">Cookie Policy</a>
             <a href="#" className="hover:text-slate-600">GDPR Compliance</a>
           </div>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 
