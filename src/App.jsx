@@ -38,6 +38,9 @@ const PrivacyPage = lazy(() => import('./pages/footer/PrivacyPage'));
 const SafetyPage = lazy(() => import('./pages/footer/SafetyPage'));
 const CrisisPage = lazy(() => import('./pages/footer/CrisisPage'));
 
+// Lazy load the moderation queue (private route, not linked anywhere)
+const ModerationPage = lazy(() => import('./pages/ModerationPage'));
+
 const supabaseConfigured = Boolean(
   import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY
 );
@@ -115,6 +118,9 @@ function App() {
       case 'guidelines': return <GuidelinesPage {...props} />;
       case 'privacy': return <PrivacyPage {...props} />;
       case 'safety': return <SafetyPage {...props} />;
+      
+      // Moderation (private)
+      case 'moderator': return <ModerationPage {...props} />;
       
       default: return <NotFoundPage {...props} />;
     }

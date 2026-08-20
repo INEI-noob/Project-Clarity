@@ -18,3 +18,11 @@ if (import.meta.env.DEV) {
     axe.default(React, ReactDOM, 1000);
   });
 }
+
+// Register the service worker in production builds so the site (crisis page
+// included) works offline after the first visit.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}

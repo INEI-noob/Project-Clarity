@@ -31,6 +31,15 @@ const COMMENT_REACTIONS = [
 // Edit window duration (15 minutes)
 const EDIT_WINDOW_MS = 15 * 60 * 1000;
 
+const REPORT_REASONS = [
+  'Harassment or abuse',
+  'Self-harm concern',
+  'Spam',
+  'Sexual content',
+  'Outing or doxxing',
+  'Something else'
+];
+
 const PulsePage = ({ setPage }) => {
   const { addToast } = useToast();
   const [posts, setPosts] = useState([]);
@@ -52,6 +61,9 @@ const PulsePage = ({ setPage }) => {
   const [replyingTo, setReplyingTo] = useState(null);
   const [editingPost, setEditingPost] = useState(null);
   const [editContent, setEditContent] = useState("");
+  const [reportingPost, setReportingPost] = useState(null);
+  const [reportReason, setReportReason] = useState(REPORT_REASONS[0]);
+  const [reportDetails, setReportDetails] = useState("");
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -428,8 +440,26 @@ const PulsePage = ({ setPage }) => {
     }
   };
 
-  const handleReport = () => {
-    addToast('Report received. Thank you.', 'info');
+  const openReport = (postId) => {
+    setReportingPost(postId);
+    setReportReason(REPORT_REASONS[0]);
+    setReportDetails("");
+  };
+
+  const submitReport = async () => {
+    if (!reportingPost) return;
+    try {
+      await supabase.from('reports').insert({
+        pulse_id: reportingPost,
+        reason: reportReason,
+        details: reportDetails.trim() || null,
+        created_at: new Date().toISOString()
+      });
+      addToast('Report received. Thank you.', 'success', 3000);
+    } catch {
+      addToast('Could not save the report — please try again.', 'error');
+    }
+    setReportingPost(null);
   };
 
   const getTimeAgo = (timestamp) => {
@@ -663,6 +693,39 @@ const PulsePage = ({ setPage }) => {
           )}
         </AnimatePresence>
 
+        {/* Report Modal */}
+        <AnimatePresence>
+          {reportingPost && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setReportingPost(null)}>
+              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setReportingPost(null)} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"><X size={18} className="text-slate-500" /></button>
+                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 mb-6"><Flag size={32} /></div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-3">Report this pulse</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">Reports are anonymous and go straight to the moderation queue. Please tell us why this post concerns you.</p>
+                <div className="space-y-2 mb-4" role="radiogroup" aria-label="Report reason">
+                  {REPORT_REASONS.map(reason => (
+                    <label key={reason} className={`flex items-center gap-3 px-4 py-3 rounded-2xl border cursor-pointer transition-colors ${reportReason === reason ? 'border-indigo-400 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                      <input type="radio" name="report-reason" value={reason} checked={reportReason === reason} onChange={() => setReportReason(reason)} className="accent-indigo-600" />
+                      <span className="text-sm font-semibold text-slate-700">{reason}</span>
+                    </label>
+                  ))}
+                </div>
+                <textarea
+                  value={reportDetails}
+                  onChange={(e) => setReportDetails(e.target.value)}
+                  placeholder="Optional details (e.g. what happened)…"
+                  rows={3}
+                  className="w-full mb-6 px-4 py-3 rounded-2xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none resize-none"
+                />
+                <div className="space-y-3">
+                  <button onClick={submitReport} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-colors">Submit Report</button>
+                  <button onClick={() => setReportingPost(null)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">Cancel</button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Feed */}
         <div className="space-y-6">
           <div className="flex items-center justify-between mb-6">
@@ -734,7 +797,7 @@ const PulsePage = ({ setPage }) => {
                             </>
                           )}
                           <button 
-                            onClick={() => handleReport(post.id)}
+                            onClick={() => openReport(post.id)}
                             className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-300 hover:text-slate-600"
                           >
                             <Flag size={16} />
