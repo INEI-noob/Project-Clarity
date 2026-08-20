@@ -14,12 +14,12 @@ const ICON_MAP = {
 };
 
 const LOCATION_BUCKETS = [
-  { key: 'all', label: 'All regions' },
-  { key: 'National', label: 'National' },
-  { key: 'International', label: 'International' },
-  { key: 'Western Cape', label: 'Western Cape' },
-  { key: 'Gauteng', label: 'Gauteng' },
-  { key: 'Eastern Cape', label: 'Eastern Cape' },
+  { key: 'all', tKey: 'all', label: 'All regions' },
+  { key: 'National', tKey: 'national', label: 'National' },
+  { key: 'International', tKey: 'international', label: 'International' },
+  { key: 'Western Cape', tKey: 'westernCape', label: 'Western Cape' },
+  { key: 'Gauteng', tKey: 'gauteng', label: 'Gauteng' },
+  { key: 'Eastern Cape', tKey: 'easternCape', label: 'Eastern Cape' },
 ];
 
 const regionOf = (location) => {
@@ -95,7 +95,7 @@ const ResourcesPage = ({ setPage }) => {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-100 text-teal-600 font-bold text-xs uppercase tracking-wider mb-6">
-            <Sparkles size={14} /> Resource Directory
+            <Sparkles size={14} /> {t('resources.badge')}
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
             Find Your <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-600">Support</span>
@@ -119,7 +119,7 @@ const ResourcesPage = ({ setPage }) => {
                 onClick={() => setPage('connect')}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-indigo-100 text-indigo-600 text-sm font-bold hover:border-indigo-300 hover:bg-indigo-50 transition-all"
               >
-                <Users size={16} /> Looking for people, not services? Browse the Community Map
+                <Users size={16} /> {t('resources.browseCommunity')}
               </button>
             </div>
           )}
@@ -153,7 +153,7 @@ const ResourcesPage = ({ setPage }) => {
                   : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
               }`}
             >
-              All
+              {t('common.all')}
             </button>
             {Object.entries(RESOURCE_CATEGORIES).map(([key, cat]) => {
               const Icon = ICON_MAP[cat.icon] || Sparkles;
@@ -169,7 +169,7 @@ const ResourcesPage = ({ setPage }) => {
                   }`}
               >
                 <Icon size={13} />
-                {cat.label}
+                {t(`resources.cat.${key}`)}
               </button>
               );
             })}
@@ -177,7 +177,7 @@ const ResourcesPage = ({ setPage }) => {
 
           <div className="flex flex-wrap items-center gap-2 mt-5 pt-5 border-t border-slate-100">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mr-1">
-              Region
+              {t('resources.region')}
             </span>
             {LOCATION_BUCKETS.map((loc) => (
               <button
@@ -189,7 +189,7 @@ const ResourcesPage = ({ setPage }) => {
                     : 'bg-white border-slate-200 text-slate-600 hover:border-teal-300'
                 }`}
               >
-                {loc.label}
+                {t(`resources.region.${loc.tKey}`)}
               </button>
             ))}
           </div>
@@ -198,7 +198,7 @@ const ResourcesPage = ({ setPage }) => {
         {/* Results */}
         <div className="space-y-4">
           <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
-            {filtered.length} resource{filtered.length !== 1 ? 's' : ''} found
+            {filtered.length} {t('resources.found')}
           </p>
 
           {filtered.length === 0 && (
@@ -206,9 +206,9 @@ const ResourcesPage = ({ setPage }) => {
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search size={24} className="text-slate-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">No matches found</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t('common.noResults')}</h3>
               <p className="text-slate-500 text-sm">
-                Try a different keyword, or clear the filters to browse everything.
+                {t('common.noResultsSub')}
               </p>
             </div>
           )}
@@ -233,7 +233,7 @@ const ResourcesPage = ({ setPage }) => {
                       <h3 className="font-bold text-slate-900 text-lg leading-tight">{resource.name}</h3>
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${CATEGORY_STYLES[cat.color]}`}>
-                          {cat.label}
+                          {t(`resources.cat.${resource.category}`)}
                         </span>
                         <span className="text-xs font-medium text-slate-500 flex items-center gap-1">
                           <MapPin size={12} /> {resource.location}
@@ -269,7 +269,7 @@ const ResourcesPage = ({ setPage }) => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-200 text-slate-600 text-xs font-bold hover:border-teal-300 hover:text-teal-600 transition-colors"
                     >
-                      <Globe size={14} /> Visit Website
+                      <Globe size={14} /> {t('resources.visitWebsite')}
                     </a>
                   )}
                 </div>

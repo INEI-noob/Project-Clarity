@@ -49,6 +49,7 @@ const getColorClasses = (color) => {
 };
 
 const GuideCard = ({ guide, index, onClick }) => {
+  const { t } = useLocale();
   const colors = getColorClasses(guide.color);
   const colorArray = colors.split(' ');
   const IconComponent = guide.icon;
@@ -82,7 +83,7 @@ const GuideCard = ({ guide, index, onClick }) => {
             <Clock size={14} /> {guide.readTime}
           </div>
           <div className="text-sm font-bold text-indigo-600 flex items-center gap-2 group-hover:gap-3 transition-all">
-            Read <ArrowRight size={16} />
+            {t('common.read')} <ArrowRight size={16} />
           </div>
         </div>
       </div>
@@ -138,7 +139,7 @@ const GuidesPage = ({ setPage }) => {
             </div>
             <input
               type="text"
-              placeholder="Search guides..."
+              placeholder={t('guides.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-11 pr-4 py-4 bg-white border-2 border-slate-100 rounded-2xl text-slate-900 placeholder-slate-400 font-medium focus:outline-none focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100 transition-all"
@@ -150,7 +151,7 @@ const GuidesPage = ({ setPage }) => {
         {featuredGuides.length > 0 && (
           <div className="mb-16">
             <h2 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-              <Sparkles size={14} /> Start Here
+              <Sparkles size={14} /> {t('guides.startHere')}
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredGuides.map((guide, i) => (
@@ -163,7 +164,7 @@ const GuidesPage = ({ setPage }) => {
         {/* All Guides */}
         <div>
           <h2 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-6">
-            {searchQuery ? 'Search Results' : 'All Guides'}
+            {searchQuery ? t('guides.searchResults') : t('guides.allGuides')}
           </h2>
           {filteredGuides.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -176,8 +177,8 @@ const GuidesPage = ({ setPage }) => {
               <div className="inline-block p-4 bg-slate-50 rounded-2xl mb-4">
                 <Search className="text-slate-300" size={32} />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">No guides found</h3>
-              <p className="text-slate-500">Try a different search term</p>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">{t('guides.noResults')}</h3>
+              <p className="text-slate-500">{t('guides.noResultsSub')}</p>
             </div>
           )}
         </div>
@@ -188,22 +189,22 @@ const GuidesPage = ({ setPage }) => {
             <ShieldCheck size={32} />
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Can't find what you need?</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t('guides.helpTitle')}</h3>
             <p className="text-slate-600 mb-4">
-              Our guides are living documents. If you need specific help with something not covered here, reach out to Triangle Project or check The Pulse for community wisdom.
+              {t('guides.helpBody')}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
               <button
                 onClick={() => setPage('forum')}
                 className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors"
               >
-                Visit The Pulse
+                {t('guides.visitPulse')}
               </button>
               <button
                 onClick={() => setPage('contact')}
                 className="px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold text-sm hover:border-indigo-300 transition-colors"
               >
-                Contact Support
+                {t('guides.contactSupport')}
               </button>
             </div>
           </div>

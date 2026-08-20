@@ -4,39 +4,42 @@ import {
   Flame, Sparkles, HelpCircle, HandHeart, Ghost, Wind,
   Shield, Heart, Construction, ArrowLeft
 } from 'lucide-react';
-
-const MOOD_FEATURES = [
-  {
-    icon: Flame,
-    label: 'Venting',
-    desc: 'A safe outlet for the heavy stuff. Let it out without fear of judgment.',
-    color: 'bg-rose-50 text-rose-600',
-    border: 'border-rose-100'
-  },
-  {
-    icon: Sparkles,
-    label: 'Celebration',
-    desc: 'Share your wins, big and small. The community celebrates with you.',
-    color: 'bg-amber-50 text-amber-600',
-    border: 'border-amber-100'
-  },
-  {
-    icon: HelpCircle,
-    label: 'Questions',
-    desc: 'Ask anything and get answers from people who have lived it.',
-    color: 'bg-indigo-50 text-indigo-600',
-    border: 'border-indigo-100'
-  },
-  {
-    icon: HandHeart,
-    label: 'Seeking Support',
-    desc: 'Reach out when you need holding. The community shows up.',
-    color: 'bg-teal-50 text-teal-600',
-    border: 'border-teal-100'
-  }
-];
+import { useLocale } from '../i18n';
 
 const PulseComingSoon = ({ setPage }) => {
+  const { t } = useLocale();
+
+  const MOOD_FEATURES = [
+    {
+      icon: Flame,
+      label: t('pulse.mood.rant'),
+      desc: t('pulse.feature.rant'),
+      color: 'bg-rose-50 text-rose-600',
+      border: 'border-rose-100'
+    },
+    {
+      icon: Sparkles,
+      label: t('pulse.mood.celebrate'),
+      desc: t('pulse.feature.celebrate'),
+      color: 'bg-amber-50 text-amber-600',
+      border: 'border-amber-100'
+    },
+    {
+      icon: HelpCircle,
+      label: t('pulse.mood.question'),
+      desc: t('pulse.feature.question'),
+      color: 'bg-indigo-50 text-indigo-600',
+      border: 'border-indigo-100'
+    },
+    {
+      icon: HandHeart,
+      label: t('pulse.mood.support'),
+      desc: t('pulse.feature.support'),
+      color: 'bg-teal-50 text-teal-600',
+      border: 'border-teal-100'
+    }
+  ];
+
   return (
     <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 overflow-hidden">
       {/* Background */}
@@ -66,13 +69,13 @@ const PulseComingSoon = ({ setPage }) => {
             transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-100 text-amber-600 font-bold text-xs uppercase tracking-wider mb-6"
           >
-            <Construction size={14} /> Under Construction
+            <Construction size={14} /> {t('pulse.construction')}
           </motion.div>
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
             The <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-indigo-600">Pulse</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-lg mx-auto leading-relaxed">
-            A breathing space for your thoughts. Anonymous, raw, and wrapped in community care.
+            {t('pulse.tagline')}
           </p>
         </motion.div>
 
@@ -87,24 +90,21 @@ const PulseComingSoon = ({ setPage }) => {
             <Heart size={44} className="text-rose-400 fill-rose-100" />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-            We are building this space
+            {t('pulse.building')}
           </h2>
           <p className="text-slate-600 leading-relaxed max-w-xl mx-auto mb-8">
-            The Pulse is a live community feed where you can share what is on your
-            mind — completely anonymously. It is the heartbeat of Sanctuary: a place
-            to vent, celebrate, ask questions, and ask for support, knowing the
-            community is holding space for you. No account, no identity, no judgment.
+            {t('pulse.buildingBody')}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-slate-500">
             <span className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-50 border border-slate-100">
-              <Ghost size={14} className="text-slate-500" /> Anonymous by default
+              <Ghost size={14} className="text-slate-500" /> {t('pulse.anonByDefault')}
             </span>
             <span className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-50 border border-slate-100">
-              <Shield size={14} className="text-emerald-500" /> Community moderated
+              <Shield size={14} className="text-emerald-500" /> {t('pulse.communityModerated')}
             </span>
             <span className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-50 border border-slate-100">
-              <Wind size={14} className="text-indigo-500" /> Post &amp; delete anytime
+              <Wind size={14} className="text-indigo-500" /> {t('pulse.postDeleteAnytime')}
             </span>
           </div>
         </motion.div>
@@ -118,7 +118,7 @@ const PulseComingSoon = ({ setPage }) => {
         >
           <div className="text-center mb-8">
             <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-              Coming to the Pulse
+              {t('pulse.comingTo')}
             </h2>
             <div className="h-1 w-12 bg-gradient-to-r from-rose-400 to-indigo-500 mx-auto rounded-full" />
           </div>
@@ -150,14 +150,13 @@ const PulseComingSoon = ({ setPage }) => {
           className="text-center"
         >
           <p className="text-slate-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
-            While the Pulse settles in, the rest of Sanctuary is ready for you.
-            Explore the Library, Connect with others, or find crisis support anytime.
+            {t('pulse.footerNote')}
           </p>
           <button
             onClick={() => setPage && setPage('home')}
             className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-indigo-600 transition-colors shadow-lg shadow-slate-900/20"
           >
-            <ArrowLeft size={18} /> Back to Home
+            <ArrowLeft size={18} /> {t('pulse.backHome')}
           </button>
         </motion.div>
       </div>

@@ -302,6 +302,7 @@ const tagColors = {
 };
 
 const ProvinceCard = ({ province, onClick, isNational = false }) => {
+  const { t } = useLocale();
   const colorClasses = {
     rose: 'from-rose-500 to-pink-600',
     indigo: 'from-indigo-500 to-purple-600',
@@ -329,7 +330,7 @@ const ProvinceCard = ({ province, onClick, isNational = false }) => {
       {/* National Badge */}
       {isNational && (
         <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-          Nationwide
+          {t('connect.nationwide')}
         </div>
       )}
       
@@ -352,7 +353,7 @@ const ProvinceCard = ({ province, onClick, isNational = false }) => {
 
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            {province.groupCount} group{province.groupCount !== 1 ? 's' : ''}
+            {province.groupCount} {t('connect.groups')}
           </span>
           <div className={`w-10 h-10 rounded-full bg-${province.color}-50 text-${province.color}-600 flex items-center justify-center group-hover:bg-${province.color}-600 group-hover:text-white transition-all`}>
             <ChevronRight size={20} />
@@ -364,6 +365,7 @@ const ProvinceCard = ({ province, onClick, isNational = false }) => {
 };
 
 const ProvinceModal = ({ province, onClose }) => {
+  const { t } = useLocale();
   const [searchTerm, setSearchTerm] = useState('');
   const isNational = province.id === 'national';
 
@@ -411,7 +413,7 @@ const ProvinceModal = ({ province, onClose }) => {
                 <h2 className="text-3xl font-black">{province.name}</h2>
                 {isNational && (
                   <span className="px-2 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider">
-                    All of SA
+                    {t('connect.allOfSA')}
                   </span>
                 )}
               </div>
@@ -421,10 +423,10 @@ const ProvinceModal = ({ province, onClose }) => {
 
           <div className="flex gap-6 text-sm font-medium">
             <span className="flex items-center gap-2">
-              <Users size={16} /> {province.memberCount} members total
+              <Users size={16} /> {province.memberCount} {t('connect.membersTotal')}
             </span>
             <span className="flex items-center gap-2">
-              <MessageCircle size={16} /> {province.groupCount} WhatsApp groups
+              <MessageCircle size={16} /> {province.groupCount} {t('connect.groups')}
             </span>
           </div>
         </div>
@@ -435,7 +437,7 @@ const ProvinceModal = ({ province, onClose }) => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
             <input
               type="text"
-              placeholder={`Search groups in ${province.name}...`}
+              placeholder={`${t('connect.searchGroupsIn')} ${province.name}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-slate-400 focus:bg-white transition-all"
@@ -479,7 +481,7 @@ const ProvinceModal = ({ province, onClose }) => {
                   onClick={() => handleJoinGroup(group.link)}
                   className={`w-full py-3 rounded-xl bg-${province.color}-600 text-white font-bold hover:bg-${province.color}-700 transition-all flex items-center justify-center gap-2 group`}
                 >
-                  Join WhatsApp Group
+                  {t('connect.joinGroup')}
                   <ExternalLink size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </motion.div>
@@ -489,7 +491,7 @@ const ProvinceModal = ({ province, onClose }) => {
           {filteredGroups.length === 0 && (
             <div className="text-center py-12">
               <Search className="mx-auto mb-4 text-slate-300" size={48} />
-              <p className="text-slate-500">No groups match your search</p>
+              <p className="text-slate-500">{t('connect.noGroups')}</p>
             </div>
           )}
         </div>
@@ -528,8 +530,7 @@ const ConnectPage = ({ setPage }) => {
             </span>
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">
-            Click on your province to discover WhatsApp groups in your area, 
-            or browse national groups for SA-wide community.
+            {t('connect.subtitle')}
           </p>
         </motion.header>
 
@@ -547,7 +548,7 @@ const ConnectPage = ({ setPage }) => {
                 onClick={() => setPage('resources')}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-teal-100 text-teal-600 text-sm font-bold hover:border-teal-300 hover:bg-teal-50 transition-all"
               >
-                <Heart size={16} /> Need services, not socials? Browse the Resource Hub
+                <Heart size={16} /> {t('connect.browseHub')}
               </button>
             </div>
           )}
@@ -564,10 +565,9 @@ const ConnectPage = ({ setPage }) => {
             <Shield className="text-amber-600" size={20} />
           </div>
           <div>
-            <h3 className="font-bold text-amber-900 mb-1">Safety First</h3>
+            <h3 className="font-bold text-amber-900 mb-1">{t('connect.safetyTitle')}</h3>
             <p className="text-sm text-amber-800/80 leading-relaxed">
-              All groups are vetted by our team. Never share personal banking info, 
-              home address, or other sensitive details. Report suspicious behavior immediately.
+              {t('connect.safetyBody')}
             </p>
           </div>
         </motion.div>
@@ -582,7 +582,7 @@ const ConnectPage = ({ setPage }) => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
           <input
             type="text"
-            placeholder="Find your province or browse national..."
+            placeholder={t('connect.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-center"
@@ -616,8 +616,8 @@ const ConnectPage = ({ setPage }) => {
             <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
               <Search className="text-slate-500" size={32} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">No locations found</h3>
-            <p className="text-slate-500">Try adjusting your search</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t('connect.noLocations')}</h3>
+            <p className="text-slate-500">{t('connect.noLocationsSub')}</p>
           </motion.div>
         )}
 
@@ -628,16 +628,15 @@ const ConnectPage = ({ setPage }) => {
           viewport={{ once: true }}
           className="mt-20 p-8 md:p-12 rounded-[3rem] bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-center"
         >
-          <h3 className="text-2xl md:text-3xl font-black mb-4">Have a group to share?</h3>
+          <h3 className="text-2xl md:text-3xl font-black mb-4">{t('connect.submitTitle')}</h3>
           <p className="text-indigo-100 mb-8 max-w-md mx-auto">
-            If you moderate a WhatsApp group for your local queer community, 
-            submit it for review and we'll add it to the directory.
+            {t('connect.submitBody')}
           </p>
           <button 
             onClick={() => setPage('contact')}
             className="px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold hover:bg-indigo-50 transition-all"
           >
-            Submit a Group
+            {t('connect.submitBtn')}
           </button>
         </motion.div>
 

@@ -8,19 +8,20 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useToast } from '../context/ToastContext';
+import { useLocale } from '../i18n';
 
 const MOODS = {
-  rant: { color: 'rose', icon: Flame, label: 'Venting', bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', placeholder: "What's heavy on your heart? Let it out..." },
-  celebrate: { color: 'amber', icon: Sparkles, label: 'Celebration', bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', placeholder: "What joy are you carrying? Share your win..." },
-  question: { color: 'indigo', icon: HelpCircle, label: 'Question', bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', placeholder: "What are you trying to understand? Ask anything..." },
-  support: { color: 'teal', icon: HandHeart, label: 'Seeking Support', bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', placeholder: "How can the community hold you?" }
+  rant: { color: 'rose', icon: Flame, labelKey: 'pulse.mood.rant', bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', placeholderKey: 'pulse.placeholder.rant' },
+  celebrate: { color: 'amber', icon: Sparkles, labelKey: 'pulse.mood.celebrate', bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', placeholderKey: 'pulse.placeholder.celebrate' },
+  question: { color: 'indigo', icon: HelpCircle, labelKey: 'pulse.mood.question', bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', placeholderKey: 'pulse.placeholder.question' },
+  support: { color: 'teal', icon: HandHeart, labelKey: 'pulse.mood.support', bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', placeholderKey: 'pulse.placeholder.support' }
 };
 
 const PULSE_REACTIONS = [
-  { type: 'hug', icon: '🫂', label: 'Hug', color: 'bg-rose-100 text-rose-700 border-rose-200' },
-  { type: 'same', icon: '💙', label: 'Same', color: 'bg-blue-100 text-blue-700 border-blue-200' },
-  { type: 'love', icon: '🫶', label: 'Love', color: 'bg-purple-100 text-purple-700 border-purple-200' },
-  { type: 'here', icon: '🌈', label: 'Here', color: 'bg-amber-100 text-amber-700 border-amber-200' }
+  { type: 'hug', icon: '🫂', labelKey: 'pulse.reaction.hug', color: 'bg-rose-100 text-rose-700 border-rose-200' },
+  { type: 'same', icon: '💙', labelKey: 'pulse.reaction.same', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { type: 'love', icon: '🫶', labelKey: 'pulse.reaction.love', color: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { type: 'here', icon: '🌈', labelKey: 'pulse.reaction.here', color: 'bg-amber-100 text-amber-700 border-amber-200' }
 ];
 
 const COMMENT_REACTIONS = [
@@ -41,6 +42,7 @@ const REPORT_REASONS = [
 ];
 
 const PulsePage = ({ setPage }) => {
+  const { t } = useLocale();
   const { addToast } = useToast();
   const [posts, setPosts] = useState([]);
   const [myPosts, setMyPosts] = useState(() => {
@@ -142,7 +144,7 @@ const PulsePage = ({ setPage }) => {
       })));
       setComments(groupedComments);
     } catch {
-      addToast('Failed to load pulses', 'error');
+      addToast(t('pulse.loadFailed'), 'error');
     } finally {
       setLoading(false);
     }
@@ -184,9 +186,9 @@ const PulsePage = ({ setPage }) => {
 
       setCommentInputs(current => ({ ...current, [pulseId]: '' }));
       setReplyingTo(null);
-      addToast('Reply shared', 'success');
+      addToast(t('pulse.replyShared'), 'success');
     } catch {
-      addToast('Failed to post reply', 'error');
+      addToast(t('pulse.replyFailed'), 'error');
     }
   };
 
@@ -229,7 +231,7 @@ const PulsePage = ({ setPage }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) {
-      addToast('Please share something before posting', 'error');
+      addToast(t('pulse.shareEmpty'), 'error');
       return;
     }
 
@@ -276,11 +278,11 @@ const PulsePage = ({ setPage }) => {
       setUserName("");
       setShowSafetyModal(false);
       setPendingPost(null);
-      addToast('Your pulse has been shared. Tap the menu to delete anytime.', 'success');
+      addToast(t('pulse.published'), 'success');
       
       if (textareaRef.current) textareaRef.current.style.height = 'auto';
     } catch (error) {
-      addToast('Failed to post', 'error');
+      addToast(t('pulse.failedPost'), 'error');
       console.error(error);
     }
   };
@@ -288,11 +290,11 @@ const PulsePage = ({ setPage }) => {
   const handleDelete = async (post) => {
     const myPost = myPosts.find(p => p.id === post.id);
     if (!myPost) {
-      addToast('You can only delete your own posts', 'error');
+      addToast(t('pulse.ownOnly'), 'error');
       return;
     }
 
-    if (!window.confirm('Delete this post permanently? This cannot be undone.')) return;
+    if (!window.confirm(t('pulse.confirmDelete'))) return;
     
     try {
       const { error } = await supabase
@@ -311,9 +313,9 @@ const PulsePage = ({ setPage }) => {
       setMyPosts(updated);
       localStorage.setItem('clarity_my_posts', JSON.stringify(updated));
       
-      addToast('Post deleted', 'info');
+      addToast(t('pulse.deletedToast'), 'info');
     } catch {
-      addToast('Could not delete post', 'error');
+      addToast(t('pulse.deleteFailed'), 'error');
     }
   };
 
@@ -329,7 +331,7 @@ const PulsePage = ({ setPage }) => {
 
   const startEdit = (post) => {
     if (!canEdit(post)) {
-      addToast('Edit window expired (15 minutes)', 'error');
+      addToast(t('pulse.editExpired'), 'error');
       return;
     }
     setEditingPost(post.id);
@@ -351,15 +353,15 @@ const PulsePage = ({ setPage }) => {
       
       setEditingPost(null);
       setEditContent("");
-      addToast('Post updated', 'success');
+      addToast(t('pulse.updated'), 'success');
     } catch {
-      addToast('Failed to update', 'error');
+      addToast(t('pulse.updateFailed'), 'error');
     }
   };
 
   const exportMyPosts = () => {
     if (myPosts.length === 0) {
-      addToast('No posts to export', 'info');
+      addToast(t('pulse.noExport'), 'info');
       return;
     }
     
@@ -379,7 +381,7 @@ const PulsePage = ({ setPage }) => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    addToast('Posts exported. Keep this file safe!', 'info', 4000);
+    addToast(t('pulse.exported'), 'info', 4000);
   };
 
   const importMyPosts = (event) => {
@@ -402,9 +404,9 @@ const PulsePage = ({ setPage }) => {
         setMyPosts(merged);
         localStorage.setItem('clarity_my_posts', JSON.stringify(merged));
         
-        addToast(`Restored ${newPosts.length} posts`, 'success');
+        addToast(`${t('pulse.restored')} ${newPosts.length} ${t('pulse.posts')}`, 'success');
       } catch {
-        addToast('Invalid backup file', 'error');
+        addToast(t('pulse.invalidBackup'), 'error');
       }
     };
     reader.readAsText(file);
@@ -434,9 +436,9 @@ const PulsePage = ({ setPage }) => {
       await supabase.from('pulses').update({ reactions: newReactions }).eq('id', postId);
       
       const reaction = PULSE_REACTIONS.find(r => r.type === reactionType);
-      addToast(`Sent ${reaction.label.toLowerCase()}`, 'info', 2000);
+      addToast(`${t('pulse.sent')} ${t(reaction.labelKey)}`, 'info', 2000);
     } catch {
-      addToast('Failed to react', 'error');
+      addToast(t('pulse.failedReact'), 'error');
     }
   };
 
@@ -455,9 +457,9 @@ const PulsePage = ({ setPage }) => {
         details: reportDetails.trim() || null,
         created_at: new Date().toISOString()
       });
-      addToast('Report received. Thank you.', 'success', 3000);
+      addToast(t('pulse.reportReceived'), 'success', 3000);
     } catch {
-      addToast('Could not save the report — please try again.', 'error');
+      addToast(t('pulse.reportFailed'), 'error');
     }
     setReportingPost(null);
   };
@@ -506,7 +508,7 @@ const PulsePage = ({ setPage }) => {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-bold text-sm text-slate-900">
-                  {comment.is_anonymous ? 'Anonymous' : comment.user_name}
+                  {comment.is_anonymous ? t('pulse.anonymous') : comment.user_name}
                 </span>
                 <span className="text-xs text-slate-400">{getTimeAgo(new Date(comment.created_at).getTime())}</span>
               </div>
@@ -529,7 +531,7 @@ const PulsePage = ({ setPage }) => {
                   onClick={() => setReplyingTo(isReplying ? null : { pulseId, commentId: comment.id, userName: comment.user_name })}
                   className="text-xs text-indigo-600 font-medium hover:text-indigo-700"
                 >
-                  {isReplying ? 'Cancel' : 'Reply'}
+                  {isReplying ? t('pulse.reportCancel') : t('common.reply')}
                 </button>
               </div>
 
@@ -539,7 +541,7 @@ const PulsePage = ({ setPage }) => {
                     type="text"
                     value={commentInputs[pulseId] || ''}
                     onChange={(e) => setCommentInputs(current => ({ ...current, [pulseId]: e.target.value }))}
-                    placeholder={`Reply to ${comment.user_name || 'Anonymous'}...`}
+                    placeholder={`${t('common.reply')} ${comment.user_name || t('pulse.anonymous')}...`}
                     className="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
@@ -586,15 +588,15 @@ const PulsePage = ({ setPage }) => {
         {myPosts.length > 0 && (
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 flex justify-end">
             <div className="glass-sanctuary rounded-2xl p-3 flex items-center gap-3">
-              <span className="text-xs font-medium text-slate-500">{myPosts.length} post{myPosts.length !== 1 ? 's' : ''} by you</span>
+              <span className="text-xs font-medium text-slate-500">{myPosts.length} {t('pulse.postsByYou')}</span>
               <button 
                 onClick={exportMyPosts}
                 className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-bold hover:bg-indigo-100 transition-colors"
               >
-                <Download size={12} /> Export Keys
+                <Download size={12} /> {t('pulse.exportKeys')}
               </button>
               <label className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-bold hover:bg-slate-200 transition-colors cursor-pointer">
-                <Edit2 size={12} /> Import
+                <Edit2 size={12} /> {t('pulse.import')}
                 <input type="file" accept=".json" onChange={importMyPosts} className="hidden" />
               </label>
             </div>
@@ -604,13 +606,13 @@ const PulsePage = ({ setPage }) => {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 border border-rose-100 text-rose-600 font-bold text-xs uppercase tracking-wider mb-6">
-            <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" /> Live Pulse
+            <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" /> {t('pulse.live')}
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
             The <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-indigo-600">Pulse</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-lg mx-auto leading-relaxed">
-            A breathing space for your thoughts. Anonymous, raw, and wrapped in community care.
+            {t('pulse.tagline')}
           </p>
         </motion.div>
 
@@ -623,7 +625,7 @@ const PulsePage = ({ setPage }) => {
                 {Object.entries(MOODS).map(([key, mood]) => (
                   <button key={key} onClick={() => setSelectedMood(key)} className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all whitespace-nowrap ${selectedMood === key ? `${mood.bg} ${mood.border} ${mood.text} border-current shadow-sm` : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'}`}>
                     <mood.icon size={16} />
-                    <span className="text-sm font-semibold">{mood.label}</span>
+                    <span className="text-sm font-semibold">{t(mood.labelKey)}</span>
                   </button>
                 ))}
               </div>
@@ -635,8 +637,8 @@ const PulsePage = ({ setPage }) => {
                     {isAnonymous ? <EyeOff size={18} /> : <Eye size={18} />}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-900">{isAnonymous ? 'Anonymous Mode' : 'Named Post'}</span>
-                    <span className="text-[10px] text-slate-500">{isAnonymous ? 'Your identity is hidden' : 'Show my name to community'}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-900">{isAnonymous ? t('pulse.anonMode') : t('pulse.namedPost')}</span>
+                    <span className="text-[10px] text-slate-500">{isAnonymous ? t('pulse.anonHidden') : t('pulse.showName')}</span>
                   </div>
                 </div>
                 <button onClick={() => setIsAnonymous(!isAnonymous)} className={`w-12 h-6 rounded-full transition-colors relative ${isAnonymous ? 'bg-slate-300' : 'bg-indigo-600'}`}>
@@ -650,23 +652,23 @@ const PulsePage = ({ setPage }) => {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                       <div className="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 border border-slate-200 focus-within:border-indigo-300 transition-colors">
                         <User size={18} className="text-indigo-400" />
-                        <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} placeholder="Your name or handle..." className="bg-transparent border-none outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400 w-full" />
+                        <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} placeholder={t('pulse.placeholderName')} className="bg-transparent border-none outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400 w-full" />
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 <div className="relative">
-                  <textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={MOODS[selectedMood].placeholder} className="w-full bg-white rounded-2xl p-5 border border-slate-200 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all resize-none text-slate-700 placeholder:text-slate-400 min-h-[140px] text-lg leading-relaxed" style={{ height: 'auto', minHeight: '140px' }} onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} maxLength={1000} />
+                  <textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={t(MOODS[selectedMood].placeholderKey)} className="w-full bg-white rounded-2xl p-5 border border-slate-200 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all resize-none text-slate-700 placeholder:text-slate-400 min-h-[140px] text-lg leading-relaxed" style={{ height: 'auto', minHeight: '140px' }} onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} maxLength={1000} />
                   <div className="absolute bottom-4 right-4 text-xs font-medium text-slate-400">{input.length}/1000</div>
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center gap-2 text-xs text-slate-500">
-                    <Wind size={14} /> Take a breath before posting
+                    <Wind size={14} /> {t('pulse.breathBefore')}
                   </div>
                   <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit" disabled={!input.trim()} className="px-8 py-3 bg-slate-900 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-slate-900/20">
-                    Share to Pulse <Send size={16} className={isTyping ? "translate-x-1 transition-transform" : ""} />
+                    {t('pulse.shareToPulse')} <Send size={16} className={isTyping ? "translate-x-1 transition-transform" : ""} />
                   </motion.button>
                 </div>
               </form>
@@ -681,12 +683,12 @@ const PulsePage = ({ setPage }) => {
               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl relative" onClick={e => e.stopPropagation()}>
                 <button onClick={() => setShowSafetyModal(false)} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"><X size={18} className="text-slate-500" /></button>
                 <div className="w-16 h-16 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 mb-6"><Heart size={32} className="fill-rose-200" /></div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">We noticed this is heavy</h3>
-                <p className="text-slate-600 mb-6 leading-relaxed">Your post suggests you might be going through a difficult time. Would you like to see crisis resources first?</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-3">{t('pulse.safetyTitle')}</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">{t('pulse.safetyBody')}</p>
                 <div className="space-y-3">
-                  <button onClick={() => setPage && setPage('crisis')} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-bold hover:bg-rose-500 transition-colors">See Crisis Resources</button>
-                  <button onClick={handleConfirmPost} className="w-full py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">Post Anyway</button>
-                  <button onClick={() => setShowSafetyModal(false)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">Go Back to Editing</button>
+                  <button onClick={() => setPage && setPage('crisis')} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-bold hover:bg-rose-500 transition-colors">{t('pulse.seeCrisis')}</button>
+                  <button onClick={handleConfirmPost} className="w-full py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">{t('pulse.postAnyway')}</button>
+                  <button onClick={() => setShowSafetyModal(false)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">{t('pulse.backToEditing')}</button>
                 </div>
               </motion.div>
             </motion.div>
@@ -700,8 +702,8 @@ const PulsePage = ({ setPage }) => {
               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
                 <button onClick={() => setReportingPost(null)} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"><X size={18} className="text-slate-500" /></button>
                 <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 mb-6"><Flag size={32} /></div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">Report this pulse</h3>
-                <p className="text-slate-600 mb-6 leading-relaxed">Reports are anonymous and go straight to the moderation queue. Please tell us why this post concerns you.</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-3">{t('pulse.reportTitle')}</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">{t('pulse.reportBody')}</p>
                 <div className="space-y-2 mb-4" role="radiogroup" aria-label="Report reason">
                   {REPORT_REASONS.map(reason => (
                     <label key={reason} className={`flex items-center gap-3 px-4 py-3 rounded-2xl border cursor-pointer transition-colors ${reportReason === reason ? 'border-indigo-400 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
@@ -713,13 +715,13 @@ const PulsePage = ({ setPage }) => {
                 <textarea
                   value={reportDetails}
                   onChange={(e) => setReportDetails(e.target.value)}
-                  placeholder="Optional details (e.g. what happened)…"
+                  placeholder={t('pulse.reportDetails')}
                   rows={3}
                   className="w-full mb-6 px-4 py-3 rounded-2xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none resize-none"
                 />
                 <div className="space-y-3">
-                  <button onClick={submitReport} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-colors">Submit Report</button>
-                  <button onClick={() => setReportingPost(null)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">Cancel</button>
+                  <button onClick={submitReport} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-colors">{t('pulse.reportSubmit')}</button>
+                  <button onClick={() => setReportingPost(null)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">{t('pulse.reportCancel')}</button>
                 </div>
               </motion.div>
             </motion.div>
@@ -729,8 +731,8 @@ const PulsePage = ({ setPage }) => {
         {/* Feed */}
         <div className="space-y-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2"><Sparkles size={16} className="text-amber-400" /> Recent Pulses</h2>
-            <button onClick={fetchPosts} className="text-xs font-bold text-indigo-600 hover:text-indigo-700 transition-colors flex items-center gap-1"><RefreshCw size={12} /> Refresh</button>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2"><Sparkles size={16} className="text-amber-400" /> {t('pulse.recent')}</h2>
+            <button onClick={fetchPosts} className="text-xs font-bold text-indigo-600 hover:text-indigo-700 transition-colors flex items-center gap-1"><RefreshCw size={12} /> {t('pulse.refresh')}</button>
           </div>
 
           <AnimatePresence mode="popLayout">
@@ -755,17 +757,17 @@ const PulsePage = ({ setPage }) => {
                         </div>
                         <div>
                           <span className="block font-bold text-sm text-slate-900">
-                            {post.is_deleted ? 'Deleted Post' : (post.is_anonymous ? 'Anonymous Soul' : post.user_name)}
+                            {post.is_deleted ? t('pulse.deletedPost') : (post.is_anonymous ? t('pulse.anonymousSoul') : post.user_name)}
                           </span>
                           {!post.is_deleted && (
                             <div className="flex items-center gap-2 mt-0.5">
                               <span className="text-xs text-slate-400 font-medium">{post.time}</span>
                               <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${moodConfig.bg} ${moodConfig.text}`}>
-                                {moodConfig.label}
+                                {t(moodConfig.labelKey)}
                               </span>
                               {canEditPost && (
                                 <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">
-                                  Editable
+                                  {t('pulse.editable')}
                                 </span>
                               )}
                             </div>
@@ -846,7 +848,7 @@ const PulsePage = ({ setPage }) => {
                             {PULSE_REACTIONS.map((reaction) => (
                               <motion.button key={reaction.type} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={(e) => handleReaction(post.id, reaction.type, e)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all hover:shadow-md ${reaction.color}`}>
                                 <span>{reaction.icon}</span>
-                                <span>{reaction.label}</span>
+                                <span>{t(reaction.labelKey)}</span>
                                 {(post.reactions?.[reaction.type] || 0) > 0 && <span className="ml-1 opacity-60">{post.reactions[reaction.type]}</span>}
                               </motion.button>
                             ))}
@@ -862,7 +864,7 @@ const PulsePage = ({ setPage }) => {
                             className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-4"
                           >
                             <MessageSquare size={16} />
-                            {(post.reply_count || 0) + postComments.length} replies
+                            {(post.reply_count || 0) + postComments.length} {t('pulse.replies')}
                             {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                           </button>
 
@@ -874,7 +876,7 @@ const PulsePage = ({ setPage }) => {
                                 </div>
 
                                 {postComments.filter(c => !c.parent_id).length > 2 && !isExpanded && (
-                                  <button className="text-xs text-indigo-600 font-medium mb-4 hover:text-indigo-700">Load more replies...</button>
+                                  <button className="text-xs text-indigo-600 font-medium mb-4 hover:text-indigo-700">{t('pulse.loadMoreReplies')}</button>
                                 )}
 
                                 <div className="flex gap-3 mt-4 pt-4 border-t border-slate-100">
@@ -886,7 +888,7 @@ const PulsePage = ({ setPage }) => {
                                       type="text"
                                       value={commentInputs[post.id] || ''}
                                       onChange={(e) => setCommentInputs(current => ({ ...current, [post.id]: e.target.value }))}
-                                      placeholder="Add to the conversation..."
+                                      placeholder={t('pulse.addComment')}
                                       className="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-50 outline-none"
                                       onKeyDown={(e) => {
                                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -920,7 +922,7 @@ const PulsePage = ({ setPage }) => {
         {posts.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
             <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300"><Wind size={40} /></div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">The Pulse is quiet</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t('pulse.quiet')}</h3>
             <p className="text-slate-500">Be the first to share your thoughts today.</p>
           </motion.div>
         )}

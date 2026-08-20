@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Bookmark, BookmarkCheck, ArrowRight, Compass } from 'lucide-react';
 import PageShell from '../components/layout/PageShell';
 import { guideById } from '../content/guides';
+import { useLocale } from '../i18n';
 
 const STORAGE_KEY = 'clarity_saved_guides';
 
 const SavedGuidesPage = ({ setPage }) => {
+  const { t } = useLocale();
   const [savedIds, setSavedIds] = useState(() => {
     try {
       return JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]');
@@ -31,13 +33,13 @@ const SavedGuidesPage = ({ setPage }) => {
     <PageShell maxWidth="max-w-4xl" tone="indigo">
       <div className="text-center mb-12">
         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-xs uppercase tracking-wider mb-6">
-          <Bookmark size={14} /> Your Library
+          <Bookmark size={14} /> {t('saved.badge')}
         </span>
         <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
-          Saved <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">Guides</span>
+          Saved <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">{t('saved.guides')}</span>
         </h1>
         <p className="text-lg text-slate-600 max-w-xl mx-auto leading-relaxed">
-          Everything you bookmarked while exploring. Private to this device — nothing is stored about you.
+          {t('saved.subtitle')}
         </p>
       </div>
 
@@ -50,15 +52,15 @@ const SavedGuidesPage = ({ setPage }) => {
           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Compass size={24} className="text-slate-500" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900 mb-2">Nothing saved yet</h3>
+          <h3 className="text-xl font-bold text-slate-900 mb-2">{t('saved.emptyTitle')}</h3>
           <p className="text-slate-500 text-sm mb-6">
-            Tap "Save this guide" at the bottom of any guide and it'll wait for you here.
+            {t('saved.emptyBody')}
           </p>
           <button
             onClick={() => setPage && setPage('guides')}
             className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-colors"
           >
-            Browse the Library <ArrowRight size={14} />
+            {t('saved.browse')} <ArrowRight size={14} />
           </button>
         </motion.div>
       ) : (
@@ -86,13 +88,13 @@ const SavedGuidesPage = ({ setPage }) => {
                   className="px-4 py-2.5 rounded-full border border-slate-200 text-slate-500 text-xs font-bold hover:border-rose-300 hover:text-rose-500 transition-colors"
                   aria-label={`Remove ${g.title} from saved guides`}
                 >
-                  Remove
+{t('saved.remove')}
                 </button>
                 <button
                   onClick={() => setPage && setPage(g.route)}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-xs font-bold hover:bg-indigo-600 transition-colors"
                 >
-                  Open <ArrowRight size={14} />
+                  {t('saved.open')} <ArrowRight size={14} />
                 </button>
               </div>
             </motion.div>

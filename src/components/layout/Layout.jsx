@@ -3,6 +3,7 @@ import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
 import Footer from '../layout/Footer';  // Updated path to ensure resolution
 import QuickExit from '../QuickExit';
 import WelcomeOverlay from '../WelcomeOverlay';
+import LanguagePicker from '../LanguagePicker';
 
 export const Layout = React.memo(({ children, currentPage, setPage }) => {
   const containerRef = useRef(null);
@@ -78,6 +79,9 @@ export const Layout = React.memo(({ children, currentPage, setPage }) => {
 
       {/* Quick Exit - Always available */}
       <QuickExit />
+
+      {/* Floating language picker - visible on every page/module */}
+      <LanguagePicker />
 
       {/* First-visit welcome overlay */}
       <WelcomeOverlay />

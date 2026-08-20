@@ -17,8 +17,10 @@ import {
 } from 'lucide-react';
 import InfoDisclaimer from '../../components/InfoDisclaimer';
 import PageShell from '../../components/layout/PageShell';
+import { useLocale } from '../../i18n';
 
 const CrisisPage = () => {
+  const { t } = useLocale();
   const [copiedNumber, setCopiedNumber] = useState(null);
   const [expandedSection, setExpandedSection] = useState('south-africa');
 
@@ -56,12 +58,7 @@ const CrisisPage = () => {
     }
   };
 
-  const safetyTips = [
-    "You don't have to give your real name",
-    "You can hang up and call back anytime",
-    "All calls are confidential and judgment-free",
-    "If busy, try texting or web chat options"
-  ];
+  const safetyTips = t('crisis.tips');
 
   return (
     <PageShell maxWidth="max-w-4xl" tone="rose">
@@ -77,7 +74,7 @@ const CrisisPage = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-100 text-rose-700 font-bold text-xs uppercase tracking-wider mb-6"
           >
             <AlertTriangle size={14} className="animate-pulse" /> 
-            Immediate Help Available
+            {t('crisis.badge')}
           </motion.div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 tracking-tight">
@@ -85,8 +82,7 @@ const CrisisPage = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            If you're in crisis, please reach out. These resources are here for you—
-            judgment-free, confidential, and staffed by people who understand.
+            {t('crisis.subtitle')}
           </p>
         </motion.div>
 
@@ -110,7 +106,7 @@ const CrisisPage = () => {
                 <Phone size={32} />
               </div>
               <div className="flex-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-rose-600 mb-1 block">Emergency Line</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-600 mb-1 block">{t('crisis.emergencyLine')}</span>
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Triangle Project</h2>
                 <p className="text-slate-600 mb-4">LGBTQ+ specific crisis support. Trained counselors who understand.</p>
                 
@@ -132,7 +128,7 @@ const CrisisPage = () => {
                 
                 <div className="flex items-center gap-2 text-sm text-slate-500">
                   <Clock size={14} />
-                  <span>Available 24 hours, 7 days a week • Free call</span>
+                  <span>{t('crisis.availability')}</span>
                 </div>
               </div>
             </div>
@@ -143,10 +139,10 @@ const CrisisPage = () => {
                 className="p-4 rounded-2xl bg-white/60 border border-rose-100 text-rose-700 font-bold hover:bg-rose-50 transition-all flex items-center justify-center gap-2 group"
               >
                 <MessageCircle size={18} className="group-hover:scale-110 transition-transform" /> 
-                WhatsApp Chat
+                {t('crisis.whatsapp')}
               </a>
               <button className="p-4 rounded-2xl bg-white/60 border border-rose-100 text-rose-700 font-bold hover:bg-rose-50 transition-all flex items-center justify-center gap-2">
-                <Globe size={18} /> Web Chat (Coming Soon)
+                <Globe size={18} /> {t('crisis.webChat')}
               </button>
             </div>
           </div>
@@ -171,7 +167,7 @@ const CrisisPage = () => {
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
             <MapPin size={20} className="text-indigo-500" />
-            More Resources
+            {t('crisis.moreResources')}
           </h3>
 
           {Object.entries(resources).map(([key, region]) => (
@@ -203,7 +199,7 @@ const CrisisPage = () => {
                     <div className="p-6 pt-0 space-y-3">
                       {region.emergency && (
                         <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100 mb-4">
-                          <span className="text-xs font-bold text-rose-600 uppercase tracking-wider block mb-1">Primary Crisis Line</span>
+                          <span className="text-xs font-bold text-rose-600 uppercase tracking-wider block mb-1">{t('crisis.primaryLine')}</span>
                           <div className="flex items-center justify-between">
                             <div>
                               <span className="font-bold text-slate-900 block">{region.emergency.name}</span>
@@ -250,10 +246,9 @@ const CrisisPage = () => {
           className="mt-16 text-center p-8 rounded-[3rem] bg-gradient-to-r from-indigo-50 via-white to-purple-50 border border-indigo-100/50"
         >
           <Heart className="w-12 h-12 text-rose-400 fill-rose-200 mx-auto mb-4 animate-pulse" />
-          <h3 className="text-2xl font-bold text-slate-900 mb-3">This is a Safe Moment</h3>
+          <h3 className="text-2xl font-bold text-slate-900 mb-3">{t('crisis.safeMoment')}</h3>
           <p className="text-slate-600 max-w-lg mx-auto leading-relaxed">
-            Whatever you're feeling right now is valid. You don't have to go through it alone. 
-            Take a breath. Reach out when you're ready. We believe you, we see you, and we care.
+            {t('crisis.safeMomentBody')}
           </p>
         </motion.div>
     </PageShell>

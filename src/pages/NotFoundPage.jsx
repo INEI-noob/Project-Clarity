@@ -2,8 +2,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Wind, ArrowLeft } from 'lucide-react';
+import { useLocale } from '../i18n';
 
-const NotFoundPage = ({ setPage }) => (
+const NotFoundPage = ({ setPage }) => {
+  const { t } = useLocale();
+  return (
   <div className="min-h-screen flex items-center justify-center px-6 pt-32 pb-32">
     <div className="text-center max-w-md">
       <motion.div 
@@ -14,18 +17,19 @@ const NotFoundPage = ({ setPage }) => (
         <Wind size={40} className="text-indigo-400" />
       </motion.div>
       <h1 className="text-6xl font-bold text-slate-900 mb-4">404</h1>
-      <h2 className="text-2xl font-bold text-slate-700 mb-4">Lost in the Garden</h2>
+      <h2 className="text-2xl font-bold text-slate-700 mb-4">{t('notFound.title')}</h2>
       <p className="text-slate-500 mb-8 leading-relaxed">
-        This page seems to have wandered off. Let's get you back to sanctuary.
+        {t('notFound.body')}
       </p>
       <button 
         onClick={() => setPage('home')}
         className="btn-primary inline-flex items-center gap-2"
       >
-        <ArrowLeft size={18} /> Return Home
+        <ArrowLeft size={18} /> {t('notFound.home')}
       </button>
     </div>
   </div>
-);
+  );
+};
 
 export default NotFoundPage;
