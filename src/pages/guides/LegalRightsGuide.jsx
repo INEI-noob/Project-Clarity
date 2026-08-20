@@ -48,7 +48,7 @@ const QuoteBlock = ({ children, author }) => (
   </div>
 );
 
-const LegalRightsGuide = () => {
+const LegalRightsGuide = ({ setPage }) => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-gradient-to-b from-white to-slate-50/30">
       <div className="max-w-4xl mx-auto">
@@ -262,12 +262,12 @@ const LegalRightsGuide = () => {
                 If you're from a country that criminalizes LGBTQ+ existence (Zimbabwe, Nigeria, Uganda, etc.), you may qualify for asylum in South Africa. This is a long, bureaucratic process with many pitfalls—but it is possible.
               </p>
               <div className="flex flex-wrap gap-4">
-                <a href="#" className="px-6 py-3 bg-emerald-600 text-white rounded-2xl font-bold text-sm hover:bg-emerald-500 transition-colors">
+                <a href="https://www.passop.co.za" target="_blank" rel="noreferrer" className="px-6 py-3 bg-emerald-600 text-white rounded-2xl font-bold text-sm hover:bg-emerald-500 transition-colors">
                   Contact PASSOP
                 </a>
-                <a href="#" className="px-6 py-3 bg-white/10 border border-white/20 text-white rounded-2xl font-bold text-sm hover:bg-white/20 transition-colors">
+                <button onClick={() => setPage && setPage('resources')} className="px-6 py-3 bg-white/10 border border-white/20 text-white rounded-2xl font-bold text-sm hover:bg-white/20 transition-colors">
                   Legal Aid Resources
-                </a>
+                </button>
               </div>
               <p className="mt-6 text-sm text-slate-400">
                 Do not mention your asylum application on social media. Do not return to your home country while the process is ongoing. Get legal representation immediately—don't navigate Home Affairs alone.
@@ -284,7 +284,7 @@ const LegalRightsGuide = () => {
             <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
               <h4 className="font-black text-slate-900 mb-2">Legal Aid South Africa</h4>
               <p className="text-slate-600 text-sm mb-4">Free legal services if you earn under a certain threshold. Can represent you in civil and criminal matters.</p>
-              <a href="#" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+              <a href="https://www.legal-aid.co.za" target="_blank" rel="noreferrer" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
                 Find Local Office <ExternalLink size={14} />
               </a>
             </div>
@@ -300,7 +300,7 @@ const LegalRightsGuide = () => {
             <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
               <h4 className="font-black text-slate-900 mb-2">Gender DynamiX</h4>
               <p className="text-slate-600 text-sm mb-4">Legal support specifically for trans and gender diverse individuals navigating Home Affairs and healthcare discrimination.</p>
-              <a href="#" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+              <a href="https://www.genderdynamix.org.za" target="_blank" rel="noreferrer" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
                 Visit Website <ExternalLink size={14} />
               </a>
             </div>
@@ -308,7 +308,7 @@ const LegalRightsGuide = () => {
             <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
               <h4 className="font-black text-slate-900 mb-2">OUT LGBT Well-being</h4>
               <p className="text-slate-600 text-sm mb-4">Legal support, hate crime reporting assistance, and policy advocacy based in Pretoria but operating nationally.</p>
-              <a href="#" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+              <a href="https://www.out.org.za" target="_blank" rel="noreferrer" className="text-indigo-600 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
                 Get Support <ExternalLink size={14} />
               </a>
             </div>

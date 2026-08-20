@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Menu, X, Heart, PhoneCall } from 'lucide-react';
+import { Sparkles, Menu, X, Heart, PhoneCall, Globe, ChevronDown } from 'lucide-react';
+import { LOCALES, useLocale } from '../../i18n';
 
 /**
  * FIXED NAV - Resolved import error and fixed Cloudflare pathing.
  */
 
+const LABEL_KEY = {
+  home: 'nav.home',
+  guides: 'nav.guides',
+  forum: 'nav.pulse',
+  resources: 'nav.resources',
+  connect: 'nav.connect',
+  about: 'nav.about',
+};
+
 const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const { locale, setLocale, t } = useLocale();
+  const currentLocale = LOCALES.find((l) => l.code === locale) || LOCALES[0];
   
   /**
    * CLOUDFLARE PRODUCTION FIX:
@@ -94,7 +107,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
-                  <span className="relative z-10">{link.label}</span>
+                  <span className="relative z-10">{t(LABEL_KEY[link.path]) || link.label}</span>
                 </button>
               );
             })}
@@ -102,6 +115,49 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
 
           {/* RIGHT: Visual Balance */}
           <div className="flex items-center justify-end md:w-1/4 pr-1 gap-2">
+            {/* Language selector (desktop) */}
+            <div className="relative hidden md:block">
+              <button
+                onClick={() => setLangOpen((v) => !v)}
+                aria-label={t('nav.language')}
+                aria-haspopup="listbox"
+                aria-expanded={langOpen}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-slate-200 text-slate-600 text-xs font-bold hover:border-slate-300 transition-colors min-h-[36px]"
+              >
+                <Globe size={14} /> <span>{currentLocale.nativeName}</span> <ChevronDown size={12} />
+              </button>
+              <AnimatePresence>
+                {langOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      className="absolute right-0 top-full mt-2 w-52 max-h-80 overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50"
+                      role="listbox"
+                      aria-label={t('nav.language')}
+                    >
+                      {LOCALES.map((l) => (
+                        <button
+                          key={l.code}
+                          role="option"
+                          aria-selected={l.code === locale}
+                          onClick={() => {
+                            setLocale(l.code);
+                            setLangOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${l.code === locale ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50'}`}
+                        >
+                          {l.nativeName}
+                        </button>
+                      ))}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+
             <button
               onClick={() => setPage('crisis')}
               aria-label="Crisis support"
@@ -170,9 +226,27 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
                       currentPage === link.path ? 'bg-slate-50 text-indigo-600' : 'text-slate-500'
                     }`}
                   >
-                    {link.label}
+                    {t(LABEL_KEY[link.path]) || link.label}
                   </button>
                 ))}
+              </div>
+
+              <div className="mt-6">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">{t('nav.language')}</p>
+                <div className="flex flex-wrap gap-2">
+                  {LOCALES.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLocale(l.code);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${l.code === locale ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                    >
+                      {l.nativeName}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-auto">

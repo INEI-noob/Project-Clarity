@@ -35,14 +35,14 @@ const CrisisPage = () => {
       emergency: {
         name: "Triangle Project Crisis Line",
         number: "021 712 6699",
-        hours: "24/7",
+        hours: "1PM-9PM",
         type: "LGBTQ+ Specific"
       },
       services: [
-        { name: "Lifeline SA", number: "011 715 2000", type: "Suicide Prevention", hours: "24/7" },
-        { name: "LoveLife Call Centre", number: "0800 121 900", type: "Youth Support", hours: "Mon-Sat 9AM-6PM" },
-        { name: "SADAG Mental Health", number: "0800 567 567", type: "Counseling", hours: "8AM-8PM" },
-        { name: "Gender Dynamix", number: "021 447 4797", type: "Transgender Support", hours: "Office Hours" }
+        { name: "Lifeline SA", number: "0861 322 322", type: "Suicide Prevention", hours: "24/7" },
+        { name: "LoveLife Call Centre", number: "0800 121 900", type: "Youth Support", hours: "Mon-Fri 9AM-9PM, Sat/Sun 12PM-5PM" },
+        { name: "SADAG Mental Health", number: "0800 567 567", type: "Counseling", hours: "24/7" },
+        { name: "Gender DynamiX", number: "021 447 4797", type: "Transgender Support", hours: "Office Hours" }
       ]
     },
     'international': {
@@ -51,7 +51,7 @@ const CrisisPage = () => {
       services: [
         { name: "The Trevor Project (US)", number: "1-866-488-7386", type: "LGBTQ+ Youth", hours: "24/7" },
         { name: "Switchboard (UK)", number: "0800 0119 100", type: "LGBTQ+ Support", hours: "10AM-10PM" },
-        { name: "QLife (Australia)", number: "1800 184 527", type: "Counseling", hours: "3PM-Midnight" }
+        { name: "QLife (Australia)", number: "1800 184 527", type: "Counseling", hours: "3PM-9PM" }
       ]
     }
   };

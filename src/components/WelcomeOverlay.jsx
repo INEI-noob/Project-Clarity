@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EyeOff, LogOut, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { useLocale } from '../i18n';
 
 const KEY = 'clarity_welcomed';
 
 const WelcomeOverlay = () => {
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
+  const exitBody = t('welcome.exitBody').split('{esc}');
 
   useEffect(() => {
     let welcomed = false;
@@ -66,11 +69,10 @@ const WelcomeOverlay = () => {
                 <Sparkles size={26} />
               </div>
               <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">
-                Welcome to the Sanctuary
+                {t('welcome.title')}
               </h2>
               <p className="text-slate-600 leading-relaxed mb-8">
-                Before you explore — three things you should know. This space is built to keep
-                you safe and private.
+                {t('welcome.intro')}
               </p>
 
               <ul className="space-y-5 mb-8">
@@ -79,9 +81,9 @@ const WelcomeOverlay = () => {
                     <EyeOff size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">You're anonymous</p>
+                    <p className="font-bold text-slate-900 text-sm">{t('welcome.anonTitle')}</p>
                     <p className="text-sm text-slate-500 leading-relaxed">
-                      No accounts, no names, no sign-ups. Nothing you do here is tied to you.
+                      {t('welcome.anonBody')}
                     </p>
                   </div>
                 </li>
@@ -90,9 +92,9 @@ const WelcomeOverlay = () => {
                     <ShieldCheck size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">No tracking</p>
+                    <p className="font-bold text-slate-900 text-sm">{t('welcome.privacyTitle')}</p>
                     <p className="text-sm text-slate-500 leading-relaxed">
-                      We don't build profiles or follow you around. This site is private by design.
+                      {t('welcome.privacyBody')}
                     </p>
                   </div>
                 </li>
@@ -101,10 +103,11 @@ const WelcomeOverlay = () => {
                     <LogOut size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">Quick Exit, always on</p>
+                    <p className="font-bold text-slate-900 text-sm">{t('welcome.exitTitle')}</p>
                     <p className="text-sm text-slate-500 leading-relaxed">
-                      Press <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-xs">Esc</kbd>{' '}
-                      three times (or tap the Quick Exit button) to instantly leave for Google.
+                      {exitBody[0]}
+                      <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-xs">Esc</kbd>
+                      {exitBody[1]}
                     </p>
                   </div>
                 </li>
@@ -114,7 +117,7 @@ const WelcomeOverlay = () => {
                 onClick={dismiss}
                 className="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-700 transition-colors"
               >
-                Enter the Sanctuary
+                {t('welcome.enter')}
               </button>
             </div>
           </motion.div>

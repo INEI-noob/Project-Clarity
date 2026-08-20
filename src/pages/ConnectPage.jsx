@@ -13,6 +13,7 @@ import {
   Globe
 } from 'lucide-react';
 import InfoDisclaimer from '../components/InfoDisclaimer';
+import { useLocale } from '../i18n';
 import PageShell from '../components/layout/PageShell';
 
 const nationalGroups = {
@@ -500,6 +501,7 @@ const ProvinceModal = ({ province, onClose }) => {
 const ConnectPage = ({ setPage }) => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const { t } = useLocale();
 
   const allLocations = [nationalGroups, ...provinces];
 
@@ -517,7 +519,7 @@ const ConnectPage = ({ setPage }) => {
           className="text-center mb-12"
         >
           <span className="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 font-black text-[10px] uppercase tracking-widest mb-6 inline-block">
-            Find Your People
+            {t('connect.title')}
           </span>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 leading-[0.95] mb-6">
             Connect Locally.<br />

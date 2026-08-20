@@ -1,6 +1,6 @@
 // PROJECT Clarity - Resource Directory
-// NOTE: Contact details were gathered from existing site content and public knowledge.
-// Please verify every entry before launch — phone numbers and links change.
+// Crisis/support contact details were verified against official sources in August 2026.
+// Community entries (no phone/website) remain soft references — please confirm before relying on them.
 
 export const RESOURCE_CATEGORIES = {
   crisis: { label: 'Crisis & Safety', color: 'rose', icon: 'Phone' },
@@ -21,7 +21,8 @@ export const RESOURCES = [
     location: 'Cape Town',
     type: 'LGBTQ+ Crisis Line',
     phone: '021 712 6699',
-    hours: '24/7',
+    website: 'https://triangle.org.za',
+    hours: '1PM-9PM',
     description: 'LGBTQ+-specific crisis support. Trained counselors who understand what you are going through.',
   },
   {
@@ -30,7 +31,8 @@ export const RESOURCES = [
     location: 'National',
     type: 'Suicide Prevention',
     phone: '0800 567 567',
-    hours: '8AM-8PM',
+    website: 'https://www.sadag.org',
+    hours: '24/7',
     description: 'South African Depression and Anxiety Group. Counseling and referrals for mental health crises.',
   },
   {
@@ -39,6 +41,7 @@ export const RESOURCES = [
     location: 'National',
     type: 'Emergency Helpline',
     phone: '0800 12 13 14',
+    website: 'https://www.sadag.org',
     hours: '24/7',
     description: '24/7 crisis line for anyone in immediate distress. Free from any network.',
   },
@@ -47,7 +50,8 @@ export const RESOURCES = [
     category: 'crisis',
     location: 'National',
     type: 'Suicide Prevention',
-    phone: '011 715 2000',
+    phone: '0861 322 322',
+    website: 'https://www.lifelinesa.co.za',
     hours: '24/7',
     description: 'Crisis intervention and suicide prevention counseling nationwide.',
   },
@@ -83,7 +87,7 @@ export const RESOURCES = [
     location: 'International',
     type: 'Counseling',
     phone: '1800 184 527',
-    hours: '3PM-Midnight',
+    hours: '3PM-9PM',
     description: 'Australia-wide peer support for LGBTQ+ people.',
   },
 
@@ -94,6 +98,7 @@ export const RESOURCES = [
     location: 'Cape Town',
     type: 'Free Counseling',
     phone: '021 712 6699',
+    website: 'https://triangle.org.za',
     description: 'Free and low-cost counseling for LGBTQ+ people. Sliding scale for those who cannot afford private care.',
   },
   {
@@ -119,7 +124,7 @@ export const RESOURCES = [
     location: 'National',
     type: 'Youth Support',
     phone: '0800 121 900',
-    hours: 'Mon-Sat 9AM-6PM',
+    hours: 'Mon-Fri 9AM-9PM, Sat/Sun 12PM-5PM',
     description: 'Free, confidential support for young people, including mental health and identity questions.',
   },
 
@@ -129,6 +134,7 @@ export const RESOURCES = [
     category: 'healthcare',
     location: 'National',
     type: 'PrEP & Sexual Health',
+    phone: '+27 11 581 5000',
     website: 'https://www.anovahealth.co.za',
     description: 'HIV testing, PrEP and PEP access, and sexual health clinics. LGBTQ+-friendly services across SA.',
   },
@@ -148,7 +154,8 @@ export const RESOURCES = [
     category: 'housing',
     location: 'Cape Town',
     type: 'LGBTQ+ Shelter',
-    phone: '021 012 5014',
+    phone: '021 423 2871',
+    website: 'https://pridesheltertrust.org.za',
     description: "Africa's first formal LGBTQ+ shelter. Safe beds, meals, and holistic support. They understand family rejection.",
   },
   {
@@ -173,7 +180,9 @@ export const RESOURCES = [
     category: 'legal',
     location: 'National',
     type: 'Free Legal Aid',
-    website: 'https://www.legalaid.co.za',
+    phone: '0800 110 110',
+    website: 'https://www.legal-aid.co.za',
+    hours: 'Weekdays 7AM-7PM',
     description: 'Free legal services if you earn under a certain threshold. Can represent you in civil and criminal matters.',
   },
   {
@@ -181,6 +190,7 @@ export const RESOURCES = [
     category: 'legal',
     location: 'Cape Town',
     type: 'Refugee & Asylum',
+    phone: '021 418 2838',
     website: 'https://www.passop.co.za',
     description: 'Support for LGBTQ+ refugees and asylum seekers navigating the South African system.',
   },
@@ -190,6 +200,7 @@ export const RESOURCES = [
     location: 'Cape Town',
     type: 'LGBTQ+ Legal Support',
     phone: '021 712 6699',
+    website: 'https://triangle.org.za',
     description: 'Specialized LGBTQ+ legal advocacy, police accompaniment, and litigation support.',
   },
   {
@@ -197,6 +208,7 @@ export const RESOURCES = [
     category: 'legal',
     location: 'National',
     type: 'Privacy Rights',
+    phone: '0800 017 160',
     website: 'https://inforegulator.org.za/popia/',
     description: 'Report privacy and data protection violations under the Protection of Personal Information Act.',
   },
@@ -207,6 +219,7 @@ export const RESOURCES = [
     category: 'faith',
     location: 'National',
     type: 'Affirming Faith',
+    phone: '+27 21 975 8142',
     website: 'https://iam.org.za',
     description: 'Affirming churches across South Africa and theological resources for reconciling faith and queerness.',
   },
@@ -215,6 +228,7 @@ export const RESOURCES = [
     category: 'faith',
     location: 'Cape Town',
     type: 'Affirming Faith',
+    phone: '021 761 0037',
     website: 'https://www.theinnercircle.org.za',
     description: 'Support for LGBTQ+ Muslims in Cape Town and beyond.',
   },

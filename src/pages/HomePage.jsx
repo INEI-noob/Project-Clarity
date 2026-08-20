@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { Sparkles, Rainbow, BookOpen, Flame, ChevronRight, Heart, Shield, Users, MessageCircle, Phone, MapPin, Home } from 'lucide-react';
+import { Sparkles, Rainbow, BookOpen, Flame, ChevronRight, Heart, Shield, EyeOff, MessageCircle, Phone, MapPin, Home } from 'lucide-react';
+import { useLocale } from '../i18n';
 
 const IridescentCard = ({ children, className = "", delay = 0 }) => {
   const shouldReduceMotion = useReducedMotion();
@@ -23,6 +24,7 @@ const IridescentCard = ({ children, className = "", delay = 0 }) => {
 const HomePage = ({ setPage }) => {
   const containerRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useLocale();
 
   // Optimized Scroll Tracking
   // We track until the element is fully scrolled out (1.0)
@@ -102,7 +104,7 @@ const HomePage = ({ setPage }) => {
 
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 text-slate-500 text-sm font-medium"><Shield size={16}/> Moderated</div>
-              <div className="flex items-center gap-2 text-slate-500 text-sm font-medium"><Users size={16}/> 500+ Members</div>
+              <div className="flex items-center gap-2 text-slate-500 text-sm font-medium"><EyeOff size={16}/> Private by Design</div>
             </div>
           </div>
 
@@ -136,7 +138,7 @@ const HomePage = ({ setPage }) => {
               <Phone size={22} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-1">In crisis right now?</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-1">{t('home.crisisBanner')}</h3>
               <p className="text-slate-600 text-sm max-w-md leading-relaxed">
                 Free, confidential, LGBTQ+-aware support — judgment-free and staffed by people who understand.
               </p>

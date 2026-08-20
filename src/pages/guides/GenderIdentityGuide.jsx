@@ -57,7 +57,7 @@ const QuoteBlock = ({ children, author, context }) => (
   </div>
 );
 
-const GenderIdentityGuide = () => {
+const GenderIdentityGuide = ({ setPage }) => {
   return (
     <div className="min-h-screen pt-32 pb-32 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
@@ -325,12 +325,12 @@ const GenderIdentityGuide = () => {
               >
                Gender DynamiX <span className="text-lg">↗</span>  {/* Use text arrow instead */}
             </a>
-            <a 
-              href="#" 
+            <button 
+              onClick={() => setPage && setPage('resources')} 
               className="px-6 py-4 bg-white border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:border-slate-400 transition-all flex items-center gap-2"
             >
               Find Trans-friendly Doctors
-            </a>
+            </button>
           </div>
         </Section>
 

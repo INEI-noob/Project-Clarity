@@ -31,11 +31,11 @@ const COMMENT_REACTIONS = [
 // Edit window duration (15 minutes)
 const EDIT_WINDOW_MS = 15 * 60 * 1000;
 
-const PulsePage = () => {
+const PulsePage = ({ setPage }) => {
   const { addToast } = useToast();
   const [posts, setPosts] = useState([]);
   const [myPosts, setMyPosts] = useState(() => {
-    const saved = localStorage.getItem('sapphire_my_posts');
+    const saved = localStorage.getItem('clarity_my_posts');
     return saved ? JSON.parse(saved) : [];
   });
   const [comments, setComments] = useState({});
@@ -105,8 +105,7 @@ const PulsePage = () => {
       const { data: pulses, error: pulsesError } = await supabase
         .from('pulses')
         .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
+        .order('created_at', { ascending: false });
       
       if (pulsesError) throw pulsesError;
       
@@ -163,7 +162,7 @@ const PulsePage = () => {
         parent_id: parentId,
         content: content.trim(),
         is_anonymous: isAnonymous,
-        user_name: isAnonymous ? null : (userName.trim() || "Sapphire Soul"),
+        user_name: isAnonymous ? null : (userName.trim() || "Clarity Soul"),
         reactions: { heart: 0, agree: 0 }
       };
 
@@ -201,7 +200,8 @@ const PulsePage = () => {
       });
 
       const { data } = await supabase.from('comments').select('reactions').eq('id', commentId).single();
-      const newReactions = { ...data.reactions, [reactionType]: (data.reactions?.[reactionType] || 0) + 1 };
+      const current = data?.reactions || {};
+      const newReactions = { ...current, [reactionType]: (current[reactionType] || 0) + 1 };
       
       await supabase.from('comments').update({ reactions: newReactions }).eq('id', commentId);
     } catch {
@@ -238,7 +238,7 @@ const PulsePage = () => {
         content: content.trim(),
         mood,
         is_anonymous: anonymous,
-        user_name: anonymous ? null : (name.trim() || "Sapphire Soul"),
+        user_name: anonymous ? null : (name.trim() || "Clarity Soul"),
         reactions: { hug: 0, same: 0, love: 0, here: 0 },
         reply_count: 0,
         delete_token: deleteToken,
@@ -258,7 +258,7 @@ const PulsePage = () => {
       
       const updatedMyPosts = [myPostRecord, ...myPosts];
       setMyPosts(updatedMyPosts);
-      localStorage.setItem('sapphire_my_posts', JSON.stringify(updatedMyPosts));
+      localStorage.setItem('clarity_my_posts', JSON.stringify(updatedMyPosts));
       
       setInput("");
       setUserName("");
@@ -297,7 +297,7 @@ const PulsePage = () => {
       
       const updated = myPosts.filter(p => p.id !== post.id);
       setMyPosts(updated);
-      localStorage.setItem('sapphire_my_posts', JSON.stringify(updated));
+      localStorage.setItem('clarity_my_posts', JSON.stringify(updated));
       
       addToast('Post deleted', 'info');
     } catch {
@@ -361,7 +361,7 @@ const PulsePage = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `sapphire-my-posts-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `clarity-my-posts-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -388,7 +388,7 @@ const PulsePage = () => {
         
         const merged = [...newPosts, ...myPosts];
         setMyPosts(merged);
-        localStorage.setItem('sapphire_my_posts', JSON.stringify(merged));
+        localStorage.setItem('clarity_my_posts', JSON.stringify(merged));
         
         addToast(`Restored ${newPosts.length} posts`, 'success');
       } catch {
@@ -410,13 +410,14 @@ const PulsePage = () => {
     try {
       setPosts(posts.map(post => {
         if (post.id === postId) {
-          return { ...post, reactions: { ...post.reactions, [reactionType]: (post.reactions[reactionType] || 0) + 1 }};
+          return { ...post, reactions: { ...(post.reactions || {}), [reactionType]: ((post.reactions?.[reactionType]) || 0) + 1 }};
         }
         return post;
       }));
 
       const post = posts.find(p => p.id === postId);
-      const newReactions = { ...post.reactions, [reactionType]: (post.reactions[reactionType] || 0) + 1 };
+      const current = post.reactions || {};
+      const newReactions = { ...current, [reactionType]: (current[reactionType] || 0) + 1 };
       
       await supabase.from('pulses').update({ reactions: newReactions }).eq('id', postId);
       
@@ -653,6 +654,7 @@ const PulsePage = () => {
                 <h3 className="text-2xl font-bold text-slate-900 mb-3">We noticed this is heavy</h3>
                 <p className="text-slate-600 mb-6 leading-relaxed">Your post suggests you might be going through a difficult time. Would you like to see crisis resources first?</p>
                 <div className="space-y-3">
+                  <button onClick={() => setPage && setPage('crisis')} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-bold hover:bg-rose-500 transition-colors">See Crisis Resources</button>
                   <button onClick={handleConfirmPost} className="w-full py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">Post Anyway</button>
                   <button onClick={() => setShowSafetyModal(false)} className="w-full py-3 text-slate-500 text-sm font-medium hover:text-slate-700 transition-colors">Go Back to Editing</button>
                 </div>

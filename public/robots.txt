@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourdomain.com/sitemap.xml
+# TODO (launch): replace with the real production domain.
+Sitemap: https://projectclarity.site/sitemap.xml

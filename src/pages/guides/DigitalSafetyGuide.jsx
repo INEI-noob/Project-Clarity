@@ -335,7 +335,7 @@ const DigitalSafetyGuide = () => {
             <div>
               <h5 className="font-bold text-rose-900 mb-1">If you're being digitally stalked or harassed</h5>
               <p className="text-sm text-rose-800/80">
-                This is a violation of the <strong>Protection of Personal Information Act (PoPIA)</strong> and potentially the <strong>Protection from Harassment Act</strong>. Save screenshots (email them to yourself), note times/dates, and contact the <a href="#" className="underline font-bold">Triangle Project</a> or <a href="#" className="underline font-bold">OUT Well-being</a> for legal support.
+                This is a violation of the <strong>Protection of Personal Information Act (PoPIA)</strong> and potentially the <strong>Protection from Harassment Act</strong>. Save screenshots (email them to yourself), note times/dates, and contact the <a href="https://triangle.org.za" target="_blank" rel="noreferrer" className="underline font-bold">Triangle Project</a> or <a href="https://www.out.org.za" target="_blank" rel="noreferrer" className="underline font-bold">OUT Well-being</a> for legal support.
               </p>
             </div>
           </div>

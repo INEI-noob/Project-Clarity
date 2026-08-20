@@ -19,6 +19,7 @@ import {
   Plus
 } from 'lucide-react';
 import PageShell from '../components/layout/PageShell';
+import { useLocale } from '../i18n';
 
 const INITIAL_GUIDES = [
   { id: 'guide-coming-out', title: 'Coming Out', subtitle: 'On your own terms', description: 'Navigate the when, who, and how of sharing your identity safely in the South African context.', icon: Compass, color: 'indigo', readTime: '12 min', difficulty: 'Gentle', featured: true },
@@ -91,6 +92,7 @@ const GuideCard = ({ guide, index, onClick }) => {
 
 const GuidesPage = ({ setPage }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { t } = useLocale();
 
   const filteredGuides = INITIAL_GUIDES.filter(g => 
     g.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -119,8 +121,8 @@ const GuidesPage = ({ setPage }) => {
               transition={{ delay: 0.1 }}
               className="text-xl text-slate-600 font-medium leading-relaxed"
             >
-              Curated wisdom for your journey in South Africa. <br className="hidden md:block" />
-              No judgment, no pressure—just survival and thriving.
+              {t('guides.subtitle')} <br className="hidden md:block" />
+              <span className="text-sm text-slate-400 italic">{t('guides.languageNote')}</span>
             </motion.p>
           </div>
           

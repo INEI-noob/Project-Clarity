@@ -32,4 +32,12 @@ describe('ResourcesPage', () => {
     expect(screen.getByText(/Anova Health Institute/i)).toBeInTheDocument();
     expect(screen.queryByText(/Pride Shelter Trust/i)).not.toBeInTheDocument();
   });
+
+  it('filters by region', async () => {
+    const user = userEvent.setup();
+    render(<ResourcesPage />);
+    await user.click(screen.getByRole('button', { name: 'Gauteng' }));
+    expect(screen.getByText(/OUT LGBT Well-being/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Triangle Project Crisis Line/i)).not.toBeInTheDocument();
+  });
 });

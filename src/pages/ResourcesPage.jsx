@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { RESOURCES, RESOURCE_CATEGORIES } from '../content/resources';
 import InfoDisclaimer from '../components/InfoDisclaimer';
+import { useLocale } from '../i18n';
 
 const ICON_MAP = {
   Phone, HeartPulse, Activity, Home, Gavel, HandHeart, Users, Heart,
@@ -46,6 +47,7 @@ const ResourcesPage = ({ setPage }) => {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeLocation, setActiveLocation] = useState('all');
+  const { t } = useLocale();
 
   const fuse = useMemo(
     () => new Fuse(RESOURCES, {
@@ -99,8 +101,7 @@ const ResourcesPage = ({ setPage }) => {
             Find Your <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-600">Support</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-xl mx-auto leading-relaxed">
-            Every kind of help, in one place. Crisis lines, affirming therapists,
-            shelters, legal aid, and community — searchable and judgment-free.
+            {t('resources.subtitle')}
           </p>
         </motion.div>
 
@@ -137,7 +138,7 @@ const ResourcesPage = ({ setPage }) => {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search resources, organizations, keywords..."
+              placeholder={t('resources.searchPlaceholder')}
               className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-50 transition-all text-slate-700 placeholder:text-slate-500"
               aria-label="Search resources"
             />

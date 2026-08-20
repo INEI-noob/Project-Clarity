@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NewsletterForm from '../NewsletterForm';
+import { LOCALES, useLocale } from '../../i18n';
 import { 
   Sparkles, 
   Github, 
@@ -12,7 +13,8 @@ import {
   Wind,
   AlertCircle,
   Compass,
-  PhoneCall
+  PhoneCall,
+  Globe
 } from 'lucide-react';
 
 /**
@@ -23,9 +25,21 @@ import {
  * Switching to a root-relative path for broad compatibility.
  */
 
+const FOOTER_LABEL_KEY = {
+  home: 'nav.home',
+  guides: 'nav.guides',
+  forum: 'nav.pulse',
+  resources: 'resources.title',
+  connect: 'connect.title',
+  safety: 'footer.safety',
+  privacy: 'footer.privacy',
+  guidelines: 'footer.guidelines',
+};
+
 const Footer = ({ setPage }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const { locale, setLocale, t } = useLocale();
   const currentYear = new Date().getFullYear();
 
   // Root-relative path is safer for production deployments
@@ -62,6 +76,7 @@ const Footer = ({ setPage }) => {
       { label: 'Community Guidelines', path: 'guidelines' },
     ],
     connect: [
+      // TODO (launch): replace '#' with the real social profile URLs.
       { label: 'Instagram', icon: Instagram, href: '#', color: 'hover:text-pink-500' },
       { label: 'Twitter', icon: Twitter, href: '#', color: 'hover:text-sky-500' },
       { label: 'GitHub', icon: Github, href: '#', color: 'hover:text-slate-900' },
@@ -125,8 +140,7 @@ const Footer = ({ setPage }) => {
 
                 <div className="space-y-4 text-center sm:text-left">
                   <p className="text-slate-500 leading-relaxed max-w-sm text-sm italic">
-                    "A radical digital sanctuary built for discovery, safety, and queer joy. 
-                    Designed with care for those finding their way home to themselves."
+                    {t('footer.tagline')}
                   </p>
 
                   <div className="flex flex-wrap justify-center sm:justify-start gap-8">
@@ -136,11 +150,11 @@ const Footer = ({ setPage }) => {
                     </div>
                     <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                       <Heart size={12} />
-                      Safe Space
+                      {t('footer.safeSpace')}
                     </div>
                     <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                       <Wind size={12} />
-                      Private
+                      {t('footer.private')}
                     </div>
                   </div>
                 </div>
@@ -150,7 +164,7 @@ const Footer = ({ setPage }) => {
               <div className="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
                   <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6 text-center sm:text-left">
-                    Navigate
+                    {t('footer.explore')}
                   </h4>
                   <ul className="space-y-3 text-center sm:text-left">
                     {footerLinks.explore.map((link) => (
@@ -159,7 +173,7 @@ const Footer = ({ setPage }) => {
                           onClick={() => handleNav(link.path)}
                           className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors focus:outline-none"
                         >
-                          {link.label}
+                          {t(FOOTER_LABEL_KEY[link.path]) || link.label}
                         </button>
                       </li>
                     ))}
@@ -168,7 +182,7 @@ const Footer = ({ setPage }) => {
 
                 <div>
                   <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6 text-center sm:text-left">
-                    Resources
+                    {t('footer.support')}
                   </h4>
                   <ul className="space-y-3 text-center sm:text-left">
                     {footerLinks.support.map((link) => (
@@ -179,7 +193,7 @@ const Footer = ({ setPage }) => {
                             link.urgent ? 'text-rose-600 hover:text-rose-700 font-bold' : 'text-slate-600 hover:text-indigo-600'
                           }`}
                         >
-                          {link.label}
+                          {t(FOOTER_LABEL_KEY[link.path]) || link.label}
                           {link.badge && (
                             <span className="ml-2 text-[8px] bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full uppercase tracking-tighter">
                               {link.badge}
@@ -193,7 +207,7 @@ const Footer = ({ setPage }) => {
 
                 <div className="col-span-2 md:col-span-1 text-center sm:text-left">
                   <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6">
-                    Connect
+                    {t('footer.connect')}
                   </h4>
                   <div className="flex justify-center sm:justify-start gap-5 mb-8">
                     {footerLinks.connect.map((link) => (
@@ -211,7 +225,7 @@ const Footer = ({ setPage }) => {
                   </div>
                   
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Crisis Hotline</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400">{t('footer.crisisLine')}</p>
                     <a
                       href="tel:0800567567"
                       className="inline-flex items-center gap-2 text-lg font-bold text-slate-900 hover:text-rose-600 transition-colors"
@@ -227,11 +241,10 @@ const Footer = ({ setPage }) => {
             <div className="mb-16 rounded-[2.5rem] glass-sanctuary p-8 md:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div className="max-w-md">
                 <h3 className="font-black text-slate-900 text-xl mb-2">
-                  Letters from the Sanctuary
+                  {t('footer.newsletter')}
                 </h3>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  Occasional updates, new guides, and community events. No spam, no
-                  rainbow-washing — just the good stuff. Unsubscribe anytime.
+                  {t('footer.newsletterSub')}
                 </p>
               </div>
               <div className="w-full lg:w-auto lg:min-w-[380px]">
@@ -243,14 +256,28 @@ const Footer = ({ setPage }) => {
               <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium text-center md:text-left">
                 <span>© {currentYear} Project Clarity</span>
                 <span className="hidden md:inline w-1 h-1 rounded-full bg-slate-200" />
-                <span>By the community, for the community</span>
+                <span>{t('footer.madeWith')}</span>
               </div>
 
               <div className="flex items-center gap-6">
+                <label className="flex items-center gap-2">
+                  <Globe size={14} className="text-slate-400" />
+                  <span className="sr-only">{t('nav.language')}</span>
+                  <select
+                    value={locale}
+                    onChange={(e) => setLocale(e.target.value)}
+                    className="text-[11px] font-bold text-slate-500 bg-transparent border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-300"
+                  >
+                    {LOCALES.map((l) => (
+                      <option key={l.code} value={l.code}>{l.nativeName}</option>
+                    ))}
+                  </select>
+                </label>
+
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                    System Active
+                    {t('footer.systemActive')}
                   </span>
                 </div>
                 
@@ -258,7 +285,7 @@ const Footer = ({ setPage }) => {
                   onClick={scrollToTop}
                   className="text-[10px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 transition-colors focus:outline-none"
                 >
-                  Back to Top
+                  {t('footer.backToTop')}
                 </button>
               </div>
             </div>

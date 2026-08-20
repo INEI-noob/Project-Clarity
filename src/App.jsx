@@ -13,6 +13,7 @@ const isMobile = () => {
 const HomePage = lazy(() => import('./pages/HomePage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
 const PulseComingSoon = lazy(() => import('./pages/PulseComingSoon'));
+const PulsePage = lazy(() => import('./pages/PulsePage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const ResourcesPage = lazy(() => import('./pages/ResourcesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -36,6 +37,10 @@ const GuidelinesPage = lazy(() => import('./pages/footer/GuidelinesPage'));
 const PrivacyPage = lazy(() => import('./pages/footer/PrivacyPage'));
 const SafetyPage = lazy(() => import('./pages/footer/SafetyPage'));
 const CrisisPage = lazy(() => import('./pages/footer/CrisisPage'));
+
+const supabaseConfigured = Boolean(
+  import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+);
 
 function App() {
   // Initialize page from URL hash (e.g., #/guide-gender-identity)
@@ -87,7 +92,7 @@ function App() {
       case 'home': return <HomePage {...props} />;
       case 'guides': return <GuidesPage {...props} />;
       case 'forum':
-      case 'pulse': return <PulseComingSoon {...props} />;
+      case 'pulse': return supabaseConfigured ? <PulsePage {...props} /> : <PulseComingSoon {...props} />;
       case 'connect': return <ConnectPage {...props} />;
       case 'resources': return <ResourcesPage {...props} />;
       case 'crisis': return <CrisisPage {...props} />;
