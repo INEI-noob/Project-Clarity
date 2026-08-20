@@ -130,7 +130,7 @@ const PulsePage = () => {
         time: getTimeAgo(new Date(post.created_at).getTime())
       })));
       setComments(groupedComments);
-    } catch (error) {
+    } catch {
       addToast('Failed to load pulses', 'error');
     } finally {
       setLoading(false);
@@ -174,7 +174,7 @@ const PulsePage = () => {
       setCommentInputs(current => ({ ...current, [pulseId]: '' }));
       setReplyingTo(null);
       addToast('Reply shared', 'success');
-    } catch (error) {
+    } catch {
       addToast('Failed to post reply', 'error');
     }
   };
@@ -204,7 +204,7 @@ const PulsePage = () => {
       const newReactions = { ...data.reactions, [reactionType]: (data.reactions?.[reactionType] || 0) + 1 };
       
       await supabase.from('comments').update({ reactions: newReactions }).eq('id', commentId);
-    } catch (error) {
+    } catch {
       addToast('Failed to react', 'error');
     }
   };
@@ -300,7 +300,7 @@ const PulsePage = () => {
       localStorage.setItem('sapphire_my_posts', JSON.stringify(updated));
       
       addToast('Post deleted', 'info');
-    } catch (error) {
+    } catch {
       addToast('Could not delete post', 'error');
     }
   };
@@ -340,7 +340,7 @@ const PulsePage = () => {
       setEditingPost(null);
       setEditContent("");
       addToast('Post updated', 'success');
-    } catch (error) {
+    } catch {
       addToast('Failed to update', 'error');
     }
   };
@@ -391,7 +391,7 @@ const PulsePage = () => {
         localStorage.setItem('sapphire_my_posts', JSON.stringify(merged));
         
         addToast(`Restored ${newPosts.length} posts`, 'success');
-      } catch (err) {
+      } catch {
         addToast('Invalid backup file', 'error');
       }
     };
@@ -422,12 +422,12 @@ const PulsePage = () => {
       
       const reaction = PULSE_REACTIONS.find(r => r.type === reactionType);
       addToast(`Sent ${reaction.label.toLowerCase()}`, 'info', 2000);
-    } catch (error) {
+    } catch {
       addToast('Failed to react', 'error');
     }
   };
 
-  const handleReport = (postId) => {
+  const handleReport = () => {
     addToast('Report received. Thank you.', 'info');
   };
 

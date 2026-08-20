@@ -11,7 +11,7 @@ const isMobile = () => {
 // Lazy load all pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
-const PulsePage = lazy(() => import('./pages/PulsePage'));
+const PulseComingSoon = lazy(() => import('./pages/PulseComingSoon'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -83,7 +83,7 @@ function App() {
       case 'home': return <HomePage {...props} />;
       case 'guides': return <GuidesPage {...props} />;
       case 'forum':
-      case 'pulse': return <PulsePage {...props} />;
+      case 'pulse': return <PulseComingSoon {...props} />;
       case 'connect': return <ConnectPage {...props} />;
       case 'crisis': return <CrisisPage {...props} />;
       case 'about': return <AboutPage {...props} />;

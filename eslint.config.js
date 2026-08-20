@@ -24,6 +24,11 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'react/react-in-jsx-scope': 'off',
@@ -34,6 +39,8 @@ export default defineConfig([
       'react/jsx-key': ['error', { checkFragmentShorthand: true }],
       'react/no-array-index-key': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+      // Content-heavy pages contain apostrophes/quotes in JSX text; this rule is a poor fit
+      'react/no-unescaped-entities': 'off',
       // Code quality
       'react/display-name': 'off', // Allow anonymous components
       'react-refresh/only-export-components': 'warn',

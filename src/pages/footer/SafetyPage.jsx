@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, 
@@ -16,11 +16,6 @@ import {
 
 const SafetyPage = () => {
   const [activeTab, setActiveTab] = useState('digital');
-
-  // Quick Exit functionality (redirects to Google immediately)
-  const quickExit = () => {
-    window.location.href = 'https://www.google.com';
-  };
 
   const digitalTips = [
     {

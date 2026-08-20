@@ -34,7 +34,7 @@ const Card = ({
       {children}
     </div>
   );
-});
+};
 
 // --- [ CARD SUB-COMPONENTS ] ---
 
@@ -84,7 +84,7 @@ export const LibraryCard = ({ title, tag, description, colorClass }) => (
   </Card>
 );
 
-export const PulseCard = ({ user, content, stats, type = "rant" }) => (
+export const PulseCard = ({ user, content, stats }) => (
   <Card variant="default" className="border-l-8 border-l-rose-400">
     <div className="flex justify-between items-center mb-6">
       <div className="flex items-center gap-3">

@@ -1,6 +1,5 @@
 // src/components/PageTransition.jsx
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 export const PageTransition = ({ children, pageKey }) => {
   return (
