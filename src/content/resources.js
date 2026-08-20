@@ -1,0 +1,282 @@
+// PROJECT Clarity - Resource Directory
+// NOTE: Contact details were gathered from existing site content and public knowledge.
+// Please verify every entry before launch — phone numbers and links change.
+
+export const RESOURCE_CATEGORIES = {
+  crisis: { label: 'Crisis & Safety', color: 'rose', icon: 'Phone' },
+  therapy: { label: 'Therapy & Counseling', color: 'indigo', icon: 'HeartPulse' },
+  healthcare: { label: 'Sexual Health & Care', color: 'emerald', icon: 'Activity' },
+  housing: { label: 'Housing & Shelters', color: 'amber', icon: 'Home' },
+  legal: { label: 'Legal Aid & Rights', color: 'violet', icon: 'Gavel' },
+  faith: { label: 'Faith & Spirituality', color: 'sky', icon: 'HandHeart' },
+  community: { label: 'Community & Support', color: 'teal', icon: 'Users' },
+  allies: { label: 'For Allies & Family', color: 'fuchsia', icon: 'Heart' },
+};
+
+export const RESOURCES = [
+  // ---- Crisis & Safety ----
+  {
+    name: 'Triangle Project Crisis Line',
+    category: 'crisis',
+    location: 'Cape Town',
+    type: 'LGBTQ+ Crisis Line',
+    phone: '021 712 6699',
+    hours: '24/7',
+    description: 'LGBTQ+-specific crisis support. Trained counselors who understand what you are going through.',
+  },
+  {
+    name: 'SADAG Suicide Crisis Line',
+    category: 'crisis',
+    location: 'National',
+    type: 'Suicide Prevention',
+    phone: '0800 567 567',
+    hours: '8AM-8PM',
+    description: 'South African Depression and Anxiety Group. Counseling and referrals for mental health crises.',
+  },
+  {
+    name: 'SADAG 24/7 Helpline',
+    category: 'crisis',
+    location: 'National',
+    type: 'Emergency Helpline',
+    phone: '0800 12 13 14',
+    hours: '24/7',
+    description: '24/7 crisis line for anyone in immediate distress. Free from any network.',
+  },
+  {
+    name: 'Lifeline SA',
+    category: 'crisis',
+    location: 'National',
+    type: 'Suicide Prevention',
+    phone: '011 715 2000',
+    hours: '24/7',
+    description: 'Crisis intervention and suicide prevention counseling nationwide.',
+  },
+  {
+    name: 'OUT LGBT Well-being',
+    category: 'crisis',
+    location: 'Pretoria (Gauteng)',
+    type: 'Crisis Intervention',
+    phone: '012 430 3272',
+    description: 'Crisis intervention, legal protection from domestic violence, and referrals to safe housing networks.',
+  },
+  {
+    name: 'The Trevor Project',
+    category: 'crisis',
+    location: 'International',
+    type: 'LGBTQ+ Youth Crisis',
+    phone: '1-866-488-7386',
+    hours: '24/7',
+    description: 'US-based crisis and suicide prevention service for LGBTQ+ young people. Text and chat available.',
+  },
+  {
+    name: 'Switchboard (UK)',
+    category: 'crisis',
+    location: 'International',
+    type: 'LGBTQ+ Support',
+    phone: '0800 0119 100',
+    hours: '10AM-10PM',
+    description: 'UK LGBTQ+ listening service and signposting hub.',
+  },
+  {
+    name: 'QLife (Australia)',
+    category: 'crisis',
+    location: 'International',
+    type: 'Counseling',
+    phone: '1800 184 527',
+    hours: '3PM-Midnight',
+    description: 'Australia-wide peer support for LGBTQ+ people.',
+  },
+
+  // ---- Therapy & Counseling ----
+  {
+    name: 'Triangle Project Free Counseling',
+    category: 'therapy',
+    location: 'Cape Town',
+    type: 'Free Counseling',
+    phone: '021 712 6699',
+    description: 'Free and low-cost counseling for LGBTQ+ people. Sliding scale for those who cannot afford private care.',
+  },
+  {
+    name: 'Gender DynamiX',
+    category: 'therapy',
+    location: 'Cape Town',
+    type: 'Trans Support',
+    phone: '021 447 4797',
+    website: 'https://www.genderdynamix.org.za',
+    description: 'Transgender and gender-diverse support, referrals to affirming therapists, and advocacy.',
+  },
+  {
+    name: 'Psychology Today Directory',
+    category: 'therapy',
+    location: 'National',
+    type: 'Therapist Directory',
+    website: 'https://www.psychologytoday.com',
+    description: 'Search for therapists in South Africa and filter for "LGBTQ+" affirming providers.',
+  },
+  {
+    name: 'LoveLife Call Centre',
+    category: 'therapy',
+    location: 'National',
+    type: 'Youth Support',
+    phone: '0800 121 900',
+    hours: 'Mon-Sat 9AM-6PM',
+    description: 'Free, confidential support for young people, including mental health and identity questions.',
+  },
+
+  // ---- Sexual Health & Care ----
+  {
+    name: 'Anova Health Institute',
+    category: 'healthcare',
+    location: 'National',
+    type: 'PrEP & Sexual Health',
+    website: 'https://www.anovahealth.co.za',
+    description: 'HIV testing, PrEP and PEP access, and sexual health clinics. LGBTQ+-friendly services across SA.',
+  },
+  {
+    name: 'OUT Health Clinics',
+    category: 'healthcare',
+    location: 'Gauteng',
+    type: 'LGBTQ+ Health Clinics',
+    phone: '012 430 3272',
+    website: 'https://www.out.org.za',
+    description: 'Health clinics providing HIV/STI testing, PrEP, and affirming care for LGBTQ+ people.',
+  },
+
+  // ---- Housing & Shelters ----
+  {
+    name: 'Pride Shelter Trust',
+    category: 'housing',
+    location: 'Cape Town',
+    type: 'LGBTQ+ Shelter',
+    phone: '021 012 5014',
+    description: "Africa's first formal LGBTQ+ shelter. Safe beds, meals, and holistic support. They understand family rejection.",
+  },
+  {
+    name: 'OUT Safe Housing Network',
+    category: 'housing',
+    location: 'Gauteng',
+    type: 'Safe Housing',
+    phone: '012 430 3272',
+    description: 'Referrals to safe housing networks in Gauteng for LGBTQ+ people facing homelessness.',
+  },
+  {
+    name: 'Friends of the Family',
+    category: 'housing',
+    location: 'Johannesburg',
+    type: 'Youth Homelessness',
+    description: 'Support for LGBTQIA+ youth experiencing homelessness, including family mediation when safe.',
+  },
+
+  // ---- Legal Aid & Rights ----
+  {
+    name: 'Legal Aid South Africa',
+    category: 'legal',
+    location: 'National',
+    type: 'Free Legal Aid',
+    website: 'https://www.legalaid.co.za',
+    description: 'Free legal services if you earn under a certain threshold. Can represent you in civil and criminal matters.',
+  },
+  {
+    name: 'PASSOP',
+    category: 'legal',
+    location: 'Cape Town',
+    type: 'Refugee & Asylum',
+    website: 'https://www.passop.co.za',
+    description: 'Support for LGBTQ+ refugees and asylum seekers navigating the South African system.',
+  },
+  {
+    name: 'Triangle Project Legal Advocacy',
+    category: 'legal',
+    location: 'Cape Town',
+    type: 'LGBTQ+ Legal Support',
+    phone: '021 712 6699',
+    description: 'Specialized LGBTQ+ legal advocacy, police accompaniment, and litigation support.',
+  },
+  {
+    name: 'Information Regulator (PoPIA)',
+    category: 'legal',
+    location: 'National',
+    type: 'Privacy Rights',
+    website: 'https://inforegulator.org.za/popia/',
+    description: 'Report privacy and data protection violations under the Protection of Personal Information Act.',
+  },
+
+  // ---- Faith & Spirituality ----
+  {
+    name: 'IAM Christian Fellowship',
+    category: 'faith',
+    location: 'National',
+    type: 'Affirming Faith',
+    website: 'https://iam.org.za',
+    description: 'Affirming churches across South Africa and theological resources for reconciling faith and queerness.',
+  },
+  {
+    name: 'The Inner Circle',
+    category: 'faith',
+    location: 'Cape Town',
+    type: 'Affirming Faith',
+    website: 'https://www.theinnercircle.org.za',
+    description: 'Support for LGBTQ+ Muslims in Cape Town and beyond.',
+  },
+  {
+    name: 'Queer Theology',
+    category: 'faith',
+    location: 'International',
+    type: 'Online Resources',
+    website: 'https://www.queertheology.com',
+    description: 'Accessible resources for reconciling faith and queerness, including podcasts and community.',
+  },
+
+  // ---- Community & Support ----
+  {
+    name: 'TransSA Support Network',
+    category: 'community',
+    location: 'National',
+    type: 'Trans Support',
+    description: 'Nationwide support for trans folks — resources, advice, and community connection.',
+  },
+  {
+    name: 'Sisters of the Womb',
+    category: 'community',
+    location: 'Gauteng',
+    type: 'Trans Feminine Support',
+    description: 'Support and sisterhood for trans feminine folks in Gauteng.',
+  },
+  {
+    name: 'Eastern Cape Trans Support',
+    category: 'community',
+    location: 'Eastern Cape',
+    type: 'Trans Masculine Support',
+    description: 'Support for trans men and transmasculine people in the Eastern Cape.',
+  },
+  {
+    name: 'Sanctuary Connect Map',
+    category: 'community',
+    location: 'National',
+    type: 'Community Map',
+    description: 'Find LGBTQ+ friendly spaces, orgs, and community hubs across South Africa on the Connect page.',
+  },
+
+  // ---- For Allies & Family ----
+  {
+    name: 'Coming Out Support for Families',
+    category: 'allies',
+    location: 'National',
+    type: 'Family Resources',
+    description: 'Guides to help family and friends understand, accept, and support their LGBTQ+ loved ones.',
+  },
+  {
+    name: 'PFLAG-Style Support Networks',
+    category: 'allies',
+    location: 'National',
+    type: 'Parent Support',
+    description: 'Peer networks where parents and caregivers of LGBTQ+ people can ask questions and find support.',
+  },
+  {
+    name: 'Being an Active Ally',
+    category: 'allies',
+    location: 'National',
+    type: 'Education',
+    description: 'Learn how to use your privilege: speak up in family spaces, intervene safely, and advocate at work and school.',
+  },
+];

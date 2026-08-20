@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import NewsletterForm from '../NewsletterForm';
 import { 
   Sparkles, 
   Github, 
@@ -9,7 +10,8 @@ import {
   Heart,
   Shield,
   Wind,
-  AlertCircle
+  AlertCircle,
+  Compass
 } from 'lucide-react';
 
 /**
@@ -43,7 +45,8 @@ const Footer = ({ setPage }) => {
       { label: 'Sanctuary Home', path: 'home', icon: Sparkles },
       { label: 'The Library', path: 'guides', icon: Heart },
       { label: 'The Pulse', path: 'forum', icon: Wind },
-      { label: 'Community Map', path: 'community', icon: Shield },
+      { label: 'Resource Hub', path: 'resources', icon: Compass },
+      { label: 'Community Map', path: 'connect', icon: Shield },
     ],
     support: [
       { 
@@ -83,6 +86,7 @@ const Footer = ({ setPage }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
+            aria-label="Back to top"
             className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-slate-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-indigo-600 transition-all hover:scale-110 group"
           >
             <ArrowUp size={20} className="group-hover:-translate-y-1 transition-transform" />
@@ -207,9 +211,25 @@ const Footer = ({ setPage }) => {
                   
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Crisis Hotline</p>
-                    <p className="text-lg font-bold text-slate-900">0800 123 456</p>
+                    <p className="text-lg font-bold text-slate-900">0800 567 567</p>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            <div className="mb-16 rounded-[2.5rem] glass-sanctuary p-8 md:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+              <div className="max-w-md">
+                <h3 className="font-black text-slate-900 text-xl mb-2">
+                  Letters from the Sanctuary
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  Occasional updates, new guides, and community events. No spam, no
+                  rainbow-washing — just the good stuff. Unsubscribe anytime.
+                </p>
+              </div>
+              <div className="w-full lg:w-auto lg:min-w-[380px]">
+                <NewsletterForm />
               </div>
             </div>
 

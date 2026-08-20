@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   User, 
   Sparkles, 
@@ -359,6 +360,8 @@ const GenderIdentityGuide = () => {
             It's okay to just be.
           </p>
         </div>
+
+        <GuideFeedback guideId="gender-identity" guideTitle="Gender Identity" />
       </div>
     </div>
   );

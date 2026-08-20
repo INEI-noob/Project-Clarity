@@ -13,6 +13,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
 const PulseComingSoon = lazy(() => import('./pages/PulseComingSoon'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
+const ResourcesPage = lazy(() => import('./pages/ResourcesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -85,6 +86,7 @@ function App() {
       case 'forum':
       case 'pulse': return <PulseComingSoon {...props} />;
       case 'connect': return <ConnectPage {...props} />;
+      case 'resources': return <ResourcesPage {...props} />;
       case 'crisis': return <CrisisPage {...props} />;
       case 'about': return <AboutPage {...props} />;
       

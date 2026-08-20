@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   ShieldCheck, 
   Heart, 
@@ -353,6 +354,8 @@ const ComingOutGuide = () => {
             It is a living document—just like your identity.
           </p>
         </motion.div>
+
+        <GuideFeedback guideId="coming-out" guideTitle="Coming Out" />
       </div>
     </div>
   );

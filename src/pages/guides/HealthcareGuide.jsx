@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   Stethoscope, 
   ShieldAlert, 
@@ -389,6 +390,8 @@ const HealthcareGuide = () => {
             Even when the system makes you feel like a burden, even when doctors are ignorant, even when the wait is long—you deserve to be healthy. You deserve to be here. Keep searching for the providers who see your humanity. We're fighting to make this better.
           </p>
         </div>
+
+        <GuideFeedback guideId="healthcare" guideTitle="LGBTQ+ Healthcare" />
       </div>
     </div>
   );

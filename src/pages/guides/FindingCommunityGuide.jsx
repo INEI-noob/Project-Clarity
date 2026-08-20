@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   Users, 
   MapPin, 
@@ -286,6 +287,8 @@ const FindingCommunityGuide = () => {
              Open Pulse <MessageSquare size={18} />
            </button>
         </div>
+
+        <GuideFeedback guideId="finding-community" guideTitle="Finding Community" />
       </div>
     </div>
   );

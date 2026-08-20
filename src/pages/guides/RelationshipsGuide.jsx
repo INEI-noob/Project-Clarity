@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   Heart, 
   ShieldCheck, 
@@ -345,6 +346,8 @@ const RelationshipsGuide = () => {
           "The right person won't ask you to choose between your safety and your authenticity. They'll hold your hand in the dark until you're both ready for the light."
         </div>
       </div>
+
+        <GuideFeedback guideId="relationships" guideTitle="LGBTQ+ Relationships" />
     </div>
   );
 };

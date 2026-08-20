@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   Scale, 
   ShieldCheck, 
@@ -322,6 +323,8 @@ const LegalRightsGuide = () => {
             The system is exhausting by design—it hopes you'll give up. Rest when you need to. Choose your battles. But know that every time you demand your rights, you make it easier for the next person. The law is a tool, and you are allowed to use it.
           </p>
         </div>
+
+        <GuideFeedback guideId="legal-rights" guideTitle="Legal Rights & Safety" />
       </div>
     </div>
   );

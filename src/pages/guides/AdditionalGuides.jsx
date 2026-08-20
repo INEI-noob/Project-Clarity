@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   ArrowLeft, Wallet, ShieldCheck, Briefcase, DoorOpen, 
   MapPin, Home, Phone, HeartHandshake, AlertCircle,
@@ -403,7 +404,7 @@ export const ExitStrategyGuide = ({ onBack }) => (
               Africa's first formal LGBTQ+ shelter. Safe beds, meals, and holistic support services. They understand family rejection.
             </p>
           </div>
-          <a href="tel:0210125014" className="flex-shrink-0 px-6 py-3 rounded-full bg-orange-500 text-white font-bold text-xs uppercase tracking-wider hover:bg-orange-600 transition-colors flex items-center gap-2">
+          <a href="tel:072 473 0764" className="flex-shrink-0 px-6 py-3 rounded-full bg-orange-500 text-white font-bold text-xs uppercase tracking-wider hover:bg-orange-600 transition-colors flex items-center gap-2">
             <Phone size={14} /> Call Now
           </a>
         </div>
@@ -543,6 +544,8 @@ export default function AdditionalGuides() {
                 "Survival is a skill, but thriving is your birthright. These tools are temporary bridges to get you to safety."
               </p>
             </div>
+
+            <GuideFeedback guideId="real-world" guideTitle="Living in the Real World" />
           </div>
         </div>
       );

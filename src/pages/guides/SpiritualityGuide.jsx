@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   Sun, 
   Moon, 
@@ -368,6 +369,8 @@ const SpiritualityGuide = () => {
             However you pray, or don't—may you find peace.
           </p>
         </div>
+
+        <GuideFeedback guideId="spirituality" guideTitle="Queer Faith & Spirituality" />
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
   const links = navLinks.length > 0 ? navLinks : [
     { label: 'Library', path: 'guides', color: 'indigo' },
     { label: 'Pulse', path: 'forum', color: 'rose' },
+    { label: 'Resources', path: 'resources', color: 'teal' },
     { label: 'Connect', path: 'connect', color: 'amber' },
     { label: 'About', path: 'about', color: 'slate' }
   ];
@@ -31,6 +32,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
       indigo: isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600',
       rose: isActive ? 'text-rose-600' : 'text-slate-500 hover:text-rose-600',
       amber: isActive ? 'text-amber-600' : 'text-slate-500 hover:text-amber-600',
+      teal: isActive ? 'text-teal-600' : 'text-slate-500 hover:text-teal-600',
       slate: isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900',
     };
     return colors[color] || colors.indigo;
@@ -45,6 +47,7 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
           <div className="flex items-center gap-3 md:w-1/4">
             <button 
               onClick={() => setPage('home')} 
+              aria-label="Go to Sanctuary home"
               className="flex items-center group ml-1"
             >
               <div className="relative w-16 h-16 flex items-center justify-center transition-transform hover:scale-105 active:scale-95">

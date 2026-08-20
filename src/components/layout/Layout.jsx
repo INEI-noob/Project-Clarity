@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
 import Footer from '../layout/Footer';  // Updated path to ensure resolution
+import QuickExit from '../QuickExit';
 
 export const Layout = React.memo(({ children, currentPage, setPage }) => {
   const containerRef = useRef(null);
@@ -55,16 +56,27 @@ export const Layout = React.memo(({ children, currentPage, setPage }) => {
       <div className="fixed inset-0 texture-noise pointer-events-none opacity-20" />
       <div className="fixed inset-0 spotlight pointer-events-none" />
 
+      {/* Skip to content link for keyboard/screen-reader users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[300] focus:px-5 focus:py-3 focus:rounded-full focus:bg-slate-900 focus:text-white focus:font-bold focus:text-sm"
+      >
+        Skip to content
+      </a>
+
       {/* Navbar - Pass necessary props */}
       <Navbar currentPage={currentPage} setPage={setPage} />
 
       {/* Main Content - Flex-grow ensures footer is pushed down on short pages */}
-      <main className="relative z-10 flex-grow pt-24 md:pt-28">
+      <main id="main-content" className="relative z-10 flex-grow pt-24 md:pt-28">
         {children}
       </main>
 
       {/* Footer - Stays at the bottom */}
       <Footer setPage={setPage} />
+
+      {/* Quick Exit - Always available */}
+      <QuickExit />
     </div>
   );
 });

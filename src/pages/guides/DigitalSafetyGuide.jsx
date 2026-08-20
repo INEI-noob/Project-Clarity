@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import GuideFeedback from '../../components/GuideFeedback';
 import { 
   ShieldAlert, 
   Lock, 
@@ -353,6 +354,8 @@ const DigitalSafetyGuide = () => {
             If you have to check over your shoulder before opening an app, if your heart races when someone picks up your phone, if you feel like you're living a double life online—<strong>that's not drama, that's survival stress.</strong> These tools help, but remember: the ultimate goal is a life where you don't need to hide. Until then, protect your peace fiercely.
           </p>
         </motion.div>
+
+        <GuideFeedback guideId="digital-safety" guideTitle="Digital Safety" />
       </div>
     </div>
   );
