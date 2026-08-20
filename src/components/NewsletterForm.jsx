@@ -58,7 +58,7 @@ const NewsletterForm = () => {
     <form onSubmit={handleSubmit} noValidate className="flex flex-col sm:flex-row gap-3">
       <label className="sr-only" htmlFor="newsletter-email">Email address</label>
       <div className="relative flex-1">
-        <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+        <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
         <input
           id="newsletter-email"
           type="email"

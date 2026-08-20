@@ -349,7 +349,7 @@ const ComingOutGuide = () => {
           viewport={{ once: true }}
           className="mt-24 text-center"
         >
-          <p className="text-slate-400 font-medium italic">
+          <p className="text-slate-500 font-medium italic">
             This guide was written with love by and for the queer community of South Africa. 
             It is a living document—just like your identity.
           </p>

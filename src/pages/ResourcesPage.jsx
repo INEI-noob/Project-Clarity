@@ -6,9 +6,29 @@ import {
   Activity, Gavel, HandHeart, Heart, HeartPulse, Home, Users
 } from 'lucide-react';
 import { RESOURCES, RESOURCE_CATEGORIES } from '../content/resources';
+import InfoDisclaimer from '../components/InfoDisclaimer';
 
 const ICON_MAP = {
   Phone, HeartPulse, Activity, Home, Gavel, HandHeart, Users, Heart,
+};
+
+const LOCATION_BUCKETS = [
+  { key: 'all', label: 'All regions' },
+  { key: 'National', label: 'National' },
+  { key: 'International', label: 'International' },
+  { key: 'Western Cape', label: 'Western Cape' },
+  { key: 'Gauteng', label: 'Gauteng' },
+  { key: 'Eastern Cape', label: 'Eastern Cape' },
+];
+
+const regionOf = (location) => {
+  if (!location) return 'Other';
+  if (location === 'National') return 'National';
+  if (location === 'International') return 'International';
+  if (location.includes('Cape Town')) return 'Western Cape';
+  if (location.includes('Gauteng') || location.includes('Pretoria') || location.includes('Johannesburg')) return 'Gauteng';
+  if (location.includes('Eastern Cape')) return 'Eastern Cape';
+  return 'Other';
 };
 
 const CATEGORY_STYLES = {
@@ -22,9 +42,10 @@ const CATEGORY_STYLES = {
   fuchsia: 'bg-fuchsia-50 text-fuchsia-600 border-fuchsia-100',
 };
 
-const ResourcesPage = () => {
+const ResourcesPage = ({ setPage }) => {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeLocation, setActiveLocation] = useState('all');
 
   const fuse = useMemo(
     () => new Fuse(RESOURCES, {
@@ -39,10 +60,14 @@ const ResourcesPage = () => {
       ? fuse.search(query).map((r) => r.item)
       : RESOURCES;
 
-    return activeCategory === 'all'
+    const byCategory = activeCategory === 'all'
       ? results
       : results.filter((r) => r.category === activeCategory);
-  }, [fuse, query, activeCategory]);
+
+    return activeLocation === 'all'
+      ? byCategory
+      : byCategory.filter((r) => regionOf(r.location) === activeLocation);
+  }, [fuse, query, activeCategory, activeLocation]);
 
   return (
     <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 overflow-hidden">
@@ -79,6 +104,26 @@ const ResourcesPage = () => {
           </p>
         </motion.div>
 
+        {/* Disclaimer + Cross-link */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="max-w-3xl mx-auto mb-8 space-y-4"
+        >
+          <InfoDisclaimer />
+          {setPage && (
+            <div className="flex justify-center">
+              <button
+                onClick={() => setPage('connect')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-indigo-100 text-indigo-600 text-sm font-bold hover:border-indigo-300 hover:bg-indigo-50 transition-all"
+              >
+                <Users size={16} /> Looking for people, not services? Browse the Community Map
+              </button>
+            </div>
+          )}
+        </motion.div>
+
         {/* Search + Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,13 +132,13 @@ const ResourcesPage = () => {
           className="glass-sanctuary rounded-[2.5rem] p-6 md:p-8 mb-12"
         >
           <div className="relative mb-6">
-            <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search resources, organizations, keywords..."
-              className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-50 transition-all text-slate-700 placeholder:text-slate-400"
+              className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-50 transition-all text-slate-700 placeholder:text-slate-500"
               aria-label="Search resources"
             />
           </div>
@@ -128,18 +173,37 @@ const ResourcesPage = () => {
               );
             })}
           </div>
+
+          <div className="flex flex-wrap items-center gap-2 mt-5 pt-5 border-t border-slate-100">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mr-1">
+              Region
+            </span>
+            {LOCATION_BUCKETS.map((loc) => (
+              <button
+                key={loc.key}
+                onClick={() => setActiveLocation(loc.key)}
+                className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all ${
+                  activeLocation === loc.key
+                    ? 'bg-teal-600 text-white border-teal-600'
+                    : 'bg-white border-slate-200 text-slate-600 hover:border-teal-300'
+                }`}
+              >
+                {loc.label}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Results */}
         <div className="space-y-4">
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+          <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
             {filtered.length} resource{filtered.length !== 1 ? 's' : ''} found
           </p>
 
           {filtered.length === 0 && (
             <div className="glass-sanctuary rounded-[2.5rem] p-12 text-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search size={24} className="text-slate-400" />
+                <Search size={24} className="text-slate-500" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">No matches found</h3>
               <p className="text-slate-500 text-sm">
@@ -170,7 +234,7 @@ const ResourcesPage = () => {
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${CATEGORY_STYLES[cat.color]}`}>
                           {cat.label}
                         </span>
-                        <span className="text-xs font-medium text-slate-400 flex items-center gap-1">
+                        <span className="text-xs font-medium text-slate-500 flex items-center gap-1">
                           <MapPin size={12} /> {resource.location}
                         </span>
                         {resource.type && (
@@ -193,7 +257,7 @@ const ResourcesPage = () => {
                     </a>
                   )}
                   {resource.hours && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
                       <Clock size={13} /> {resource.hours}
                     </span>
                   )}

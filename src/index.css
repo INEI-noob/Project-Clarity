@@ -54,6 +54,11 @@
   ::selection {
     @apply bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 text-indigo-900;
   }
+
+  /* Visible keyboard focus for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-indigo-500;
+  }
 }
 
 @layer components {

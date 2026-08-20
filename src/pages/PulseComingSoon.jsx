@@ -98,7 +98,7 @@ const PulseComingSoon = ({ setPage }) => {
 
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-slate-500">
             <span className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-50 border border-slate-100">
-              <Ghost size={14} className="text-slate-400" /> Anonymous by default
+              <Ghost size={14} className="text-slate-500" /> Anonymous by default
             </span>
             <span className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-50 border border-slate-100">
               <Shield size={14} className="text-emerald-500" /> Community moderated
@@ -117,7 +117,7 @@ const PulseComingSoon = ({ setPage }) => {
           className="mb-12"
         >
           <div className="text-center mb-8">
-            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
+            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
               Coming to the Pulse
             </h2>
             <div className="h-1 w-12 bg-gradient-to-r from-rose-400 to-indigo-500 mx-auto rounded-full" />
@@ -149,7 +149,7 @@ const PulseComingSoon = ({ setPage }) => {
           transition={{ delay: 0.4 }}
           className="text-center"
         >
-          <p className="text-slate-400 text-sm mb-8 max-w-md mx-auto leading-relaxed">
+          <p className="text-slate-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
             While the Pulse settles in, the rest of Sanctuary is ready for you.
             Explore the Library, Connect with others, or find crisis support anytime.
           </p>

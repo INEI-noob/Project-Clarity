@@ -57,7 +57,7 @@ const QuickExit = () => {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.8 }}
-      className="fixed bottom-8 left-8 z-[70]"
+      className="fixed bottom-8 left-8 z-[160]"
     >
       <AnimatePresence mode="wait">
         <motion.button

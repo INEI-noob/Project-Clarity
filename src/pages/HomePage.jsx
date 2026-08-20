@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { Sparkles, Rainbow, BookOpen, Flame, ChevronRight, Heart, Shield, Users, MessageCircle } from 'lucide-react';
+import { Sparkles, Rainbow, BookOpen, Flame, ChevronRight, Heart, Shield, Users, MessageCircle, Phone, MapPin, Home } from 'lucide-react';
 
 const IridescentCard = ({ children, className = "", delay = 0 }) => {
   const shouldReduceMotion = useReducedMotion();
@@ -122,6 +122,43 @@ const HomePage = ({ setPage }) => {
         </div>
       </motion.section>
 
+      {/* Crisis Banner */}
+      <section className="px-6 pb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto glass-sanctuary rounded-[2.5rem] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-rose-100"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-rose-100">
+              <Phone size={22} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-900 mb-1">In crisis right now?</h3>
+              <p className="text-slate-600 text-sm max-w-md leading-relaxed">
+                Free, confidential, LGBTQ+-aware support — judgment-free and staffed by people who understand.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            <a
+              href="tel:0800567567"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-rose-600 text-white text-sm font-bold hover:bg-rose-700 transition-colors"
+            >
+              <Phone size={15} /> Call 0800 567 567
+            </a>
+            <button
+              onClick={() => setPage('crisis')}
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-rose-200 text-rose-600 text-sm font-bold hover:bg-rose-50 transition-colors"
+            >
+              All crisis lines
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Bento Grid */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
         <div className="mb-16">
@@ -164,6 +201,42 @@ const HomePage = ({ setPage }) => {
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="md:col-span-5 h-[350px]">
+            <IridescentCard>
+              <div className="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center text-white mb-6">
+                <Home size={24} />
+              </div>
+              <h3 className="text-3xl font-bold mb-4">Resource Hub</h3>
+              <p className="text-slate-600 text-lg mb-8">
+                Crisis lines, affirming therapists, shelters, and legal aid — searchable in one place.
+              </p>
+              <button
+                onClick={() => setPage('resources')}
+                className="mt-auto flex items-center gap-2 text-teal-600 font-bold hover:underline"
+              >
+                Find Support <ChevronRight size={18} />
+              </button>
+            </IridescentCard>
+          </div>
+
+          <div className="md:col-span-7 h-[350px]">
+            <IridescentCard>
+              <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center text-white mb-6">
+                <MapPin size={24} />
+              </div>
+              <h3 className="text-3xl font-bold mb-4">Connect Locally</h3>
+              <p className="text-slate-600 text-lg mb-8 max-w-lg">
+                Vetted community spaces across every province — find your people near you.
+              </p>
+              <button
+                onClick={() => setPage('connect')}
+                className="mt-auto flex items-center gap-2 text-amber-600 font-bold hover:underline"
+              >
+                Explore the Map <ChevronRight size={18} />
+              </button>
+            </IridescentCard>
           </div>
         </div>
       </section>

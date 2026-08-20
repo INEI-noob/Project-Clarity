@@ -121,7 +121,7 @@ const PrivacyPage = () => {
         </div>
 
         {/* Legal Footer Mini */}
-        <div className="mt-20 text-center text-slate-400 text-sm">
+        <div className="mt-20 text-center text-slate-500 text-sm">
           <p>© 2024 Your Sanctuary Project • Last updated June 2024</p>
           <div className="flex justify-center gap-6 mt-4 font-medium underline underline-offset-4 decoration-slate-200">
             <a href="#" className="hover:text-slate-600">Full Legal Terms</a>

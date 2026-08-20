@@ -102,7 +102,7 @@ const GenderIdentityGuide = () => {
           <div className="space-y-8">
             <div className="flex flex-col md:flex-row gap-6 md:items-center">
               <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
-                <User className="text-slate-400" size={28} />
+                <User className="text-slate-500" size={28} />
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 mb-2">Sex is not Gender</h4>
@@ -204,7 +204,7 @@ const GenderIdentityGuide = () => {
               <p className="text-slate-600 text-sm font-medium leading-relaxed mb-3">
                 Order coffee using a different name. Create a gaming account with different pronouns. See how it feels in your body when the barista calls out "Michael" or "Zoe" or "Alex."
               </p>
-              <p className="text-xs text-slate-400 italic">
+              <p className="text-xs text-slate-500 italic">
                 Pro tip: Online spaces like Reddit or Discord are great for this—low stakes, immediate feedback.
               </p>
             </div>
@@ -217,7 +217,7 @@ const GenderIdentityGuide = () => {
               <p className="text-slate-600 text-sm font-medium leading-relaxed mb-3">
                 In the safety of your room, try different clothing. Tuck or bind (safely). Style your hair differently. Take photos just for you—no posting required. Notice what makes you smile.
               </p>
-              <p className="text-xs text-slate-400 italic">
+              <p className="text-xs text-slate-500 italic">
                 This is private. This belongs only to you until you decide otherwise.
               </p>
             </div>
@@ -230,7 +230,7 @@ const GenderIdentityGuide = () => {
               <p className="text-slate-600 text-sm font-medium leading-relaxed mb-3">
                 Ask one safe person—a friend online, a cousin, a counselor—to use different pronouns for a day or a week. See if it fits like an old sweater or an itchy tag.
               </p>
-              <p className="text-xs text-slate-400 italic">
+              <p className="text-xs text-slate-500 italic">
                 It's okay if it feels weird at first. New shoes take time to break in.
               </p>
             </div>
@@ -355,7 +355,7 @@ const GenderIdentityGuide = () => {
 
         {/* Footer */}
         <div className="mt-16 text-center">
-          <p className="text-slate-400 font-medium italic text-sm">
+          <p className="text-slate-500 font-medium italic text-sm">
             Gender is a journey, not a destination. It's okay to take your time. It's okay to change your mind. 
             It's okay to just be.
           </p>

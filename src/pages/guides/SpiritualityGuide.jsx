@@ -26,7 +26,7 @@ const TabButton = ({ active, onClick, label, icon: Icon }) => (
     className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
       active 
         ? 'bg-slate-900 text-white shadow-xl scale-105' 
-        : 'bg-slate-50 text-slate-400 hover:bg-slate-100'
+        : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
     }`}
   >
     <Icon size={16} />

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import Navbar from '../layout/Navbar';  // Updated path to ensure resolution
 import Footer from '../layout/Footer';  // Updated path to ensure resolution
 import QuickExit from '../QuickExit';
+import WelcomeOverlay from '../WelcomeOverlay';
 
 export const Layout = React.memo(({ children, currentPage, setPage }) => {
   const containerRef = useRef(null);
@@ -77,6 +78,9 @@ export const Layout = React.memo(({ children, currentPage, setPage }) => {
 
       {/* Quick Exit - Always available */}
       <QuickExit />
+
+      {/* First-visit welcome overlay */}
+      <WelcomeOverlay />
     </div>
   );
 });

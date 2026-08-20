@@ -142,7 +142,7 @@ const DigitalSafetyGuide = () => {
                 </p>
                 <div className="flex gap-4 mb-6">
                   <div className="flex-1 p-4 bg-slate-50 rounded-2xl text-center border border-slate-100">
-                    <p className="text-[10px] font-black uppercase text-slate-400 mb-2">Public Browser</p>
+                    <p className="text-[10px] font-black uppercase text-slate-500 mb-2">Public Browser</p>
                     <p className="font-bold text-slate-900 text-sm">Chrome / Safari</p>
                     <p className="text-xs text-slate-500 mt-1">Default on your phone</p>
                   </div>

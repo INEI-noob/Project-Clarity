@@ -32,7 +32,7 @@ const CommunityTier = ({ title, subtitle, items, icon: Icon, colorClass, descrip
       </div>
       <div className="flex-1">
         <h4 className="text-2xl font-black mb-1 text-slate-900">{title}</h4>
-        <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mb-4">{subtitle}</p>
+        <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mb-4">{subtitle}</p>
         <p className="text-slate-600 font-medium mb-6 leading-relaxed text-sm">
           {description}
         </p>
@@ -114,7 +114,7 @@ const FindingCommunityGuide = () => {
 
         {/* Levels of Connection */}
         <section className="mb-24">
-          <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-12 text-center">Three Doorways In</h3>
+          <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-12 text-center">Three Doorways In</h3>
           
           <CommunityTier 
             title="Start Where You Are"

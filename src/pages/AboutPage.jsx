@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Shield, Users, Sparkles, Globe, Mail } from 'lucide-react';
+import PageShell from '../components/layout/PageShell';
 
 const AboutPage = () => {
   const values = [
@@ -37,12 +38,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pt-32 pb-32 px-4 md:px-6 bg-white overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-indigo-50/50 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-rose-50/40 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2" />
-
-      <div className="max-w-4xl mx-auto">
+    <PageShell maxWidth="max-w-4xl" tone="rose">
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -75,7 +71,7 @@ const AboutPage = () => {
           className="relative bg-white/60 backdrop-blur-xl border border-slate-100 rounded-[3rem] p-10 md:p-16 mb-24 text-center shadow-sm"
         >
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-rose-400 rounded-t-full" />
-          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8">The Mission</h2>
+          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-8">The Mission</h2>
           <p className="text-2xl md:text-3xl text-slate-800 leading-snug max-w-2xl mx-auto font-serif italic">
             "To create digital and physical sanctuaries where queer individuals can explore identity, 
             find community, and access life-saving resources."
@@ -124,7 +120,7 @@ const AboutPage = () => {
                 </div>
                 <h3 className="font-bold text-slate-900 text-xl mb-1">{member.name}</h3>
                 <p className="text-indigo-600 font-bold text-sm mb-2 tracking-wide uppercase">{member.role}</p>
-                <p className="text-slate-400 text-xs font-black uppercase tracking-widest">{member.pronouns}</p>
+                <p className="text-slate-500 text-xs font-black uppercase tracking-widest">{member.pronouns}</p>
               </motion.div>
             ))}
           </div>
@@ -150,8 +146,7 @@ const AboutPage = () => {
             </button>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

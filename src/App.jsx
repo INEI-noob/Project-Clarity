@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
+import PageSkeleton from './components/PageSkeleton';
 
 // Detect if we're on mobile for conditional loading
 const isMobile = () => {
@@ -151,11 +152,7 @@ function App() {
     <ToastProvider>
       <Layout currentPage={currentPage} setPage={handlePageChange}>
         <div>
-          <Suspense fallback={
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
-            </div>
-          }>
+          <Suspense fallback={<PageSkeleton />}>
             {renderPage()}
           </Suspense>
         </div>

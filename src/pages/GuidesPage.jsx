@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   ArrowRight, 
   Clock, 
   ChevronLeft, 
@@ -18,6 +18,7 @@ import {
   MessageCircle,
   Plus
 } from 'lucide-react';
+import PageShell from '../components/layout/PageShell';
 
 const INITIAL_GUIDES = [
   { id: 'guide-coming-out', title: 'Coming Out', subtitle: 'On your own terms', description: 'Navigate the when, who, and how of sharing your identity safely in the South African context.', icon: Compass, color: 'indigo', readTime: '12 min', difficulty: 'Gentle', featured: true },
@@ -76,7 +77,7 @@ const GuideCard = ({ guide, index, onClick }) => {
           <p className="text-slate-600 leading-relaxed text-sm mb-6 line-clamp-3">{guide.description}</p>
         </div>
         <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
             <Clock size={14} /> {guide.readTime}
           </div>
           <div className="text-sm font-bold text-indigo-600 flex items-center gap-2 group-hover:gap-3 transition-all">
@@ -101,9 +102,8 @@ const GuidesPage = ({ setPage }) => {
   const otherGuides = filteredGuides.filter(g => !g.featured);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <PageShell maxWidth="max-w-7xl" tone="indigo">
+      {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="max-w-2xl">
             <motion.h1 
@@ -132,7 +132,7 @@ const GuidesPage = ({ setPage }) => {
             className="relative w-full md:w-96"
           >
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="text-slate-400" size={20} />
+              <Search className="text-slate-500" size={20} />
             </div>
             <input
               type="text"
@@ -147,7 +147,7 @@ const GuidesPage = ({ setPage }) => {
         {/* Featured Guides */}
         {featuredGuides.length > 0 && (
           <div className="mb-16">
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+            <h2 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <Sparkles size={14} /> Start Here
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -160,7 +160,7 @@ const GuidesPage = ({ setPage }) => {
 
         {/* All Guides */}
         <div>
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">
+          <h2 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-6">
             {searchQuery ? 'Search Results' : 'All Guides'}
           </h2>
           {filteredGuides.length > 0 ? (
@@ -200,8 +200,7 @@ const GuidesPage = ({ setPage }) => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

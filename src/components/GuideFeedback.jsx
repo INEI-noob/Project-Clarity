@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bookmark, BookmarkCheck, Send, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { ArrowRight, Bookmark, BookmarkCheck, Send, Share2, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { sendEmail, isEmailConfigured } from '../lib/email';
 import { useToast } from '../context/ToastContext';
+import InfoDisclaimer from './InfoDisclaimer';
+import GuideProgress from './GuideProgress';
 
 const BOOKMARK_KEY = 'clarity_saved_guides';
+
+const GUIDE_ORDER = [
+  { id: 'coming-out', route: 'guide-coming-out', title: 'Coming Out' },
+  { id: 'gender-identity', route: 'guide-gender-identity', title: 'Gender Identity' },
+  { id: 'finding-community', route: 'guide-finding-community', title: 'Finding Community' },
+  { id: 'digital-safety', route: 'guide-digital-safety', title: 'Digital Safety' },
+  { id: 'healthcare', route: 'guide-healthcare', title: 'Healthcare' },
+  { id: 'legal-rights', route: 'guide-legal-rights', title: 'Legal Rights' },
+  { id: 'relationships', route: 'guide-relationships', title: 'Relationships' },
+  { id: 'spirituality', route: 'guide-spirituality', title: 'Spirituality & Faith' },
+];
 
 const GuideFeedback = ({ guideId, guideTitle }) => {
   const { addToast } = useToast();
@@ -14,6 +27,39 @@ const GuideFeedback = ({ guideId, guideTitle }) => {
   const [saved, setSaved] = useState(() =>
     (JSON.parse(window.localStorage.getItem(BOOKMARK_KEY) || '[]')).includes(guideId)
   );
+
+  const shareGuide = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `Sanctuary Guide: ${guideTitle}`, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      addToast('Link copied to your clipboard.', 'success');
+    } catch {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        addToast('Link copied to your clipboard.', 'success');
+      } catch {
+        addToast('Could not copy the link.', 'error');
+      }
+    }
+  };
+
+  const currentIndex = GUIDE_ORDER.findIndex((g) => g.id === guideId);
+  const nextGuide = currentIndex >= 0 ? GUIDE_ORDER[(currentIndex + 1) % GUIDE_ORDER.length] : null;
+
+  const goToNextGuide = () => {
+    window.location.hash = `/${nextGuide.route}`;
+  };
 
   const toggleSave = () => {
     const current = JSON.parse(window.localStorage.getItem(BOOKMARK_KEY) || '[]');
@@ -48,12 +94,18 @@ const GuideFeedback = ({ guideId, guideTitle }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="mt-24 p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm"
-    >
+    <>
+      <GuideProgress />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-24 p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm"
+      >
+      <div className="mb-8">
+        <InfoDisclaimer compact />
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
         <div>
           <h3 className="font-black text-slate-900 text-lg mb-1">Was this guide helpful?</h3>
@@ -121,7 +173,25 @@ const GuideFeedback = ({ guideId, guideTitle }) => {
           </div>
         </form>
       )}
+
+      <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <button
+          onClick={shareGuide}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-200 text-slate-500 text-xs font-bold hover:border-indigo-300 hover:text-indigo-600 transition-colors"
+        >
+          <Share2 size={14} /> Share this guide
+        </button>
+        {nextGuide && (
+          <button
+            onClick={goToNextGuide}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold hover:bg-indigo-100 transition-colors"
+          >
+            Next guide: {nextGuide.title} <ArrowRight size={14} />
+          </button>
+        )}
+      </div>
     </motion.div>
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ import {
   ChevronUp,
   MapPin
 } from 'lucide-react';
+import InfoDisclaimer from '../../components/InfoDisclaimer';
 
 const CrisisPage = () => {
   const [copiedNumber, setCopiedNumber] = useState(null);
@@ -102,6 +103,11 @@ const CrisisPage = () => {
             judgment-free, confidential, and staffed by people who understand.
           </p>
         </motion.div>
+
+        {/* Temporary accuracy disclaimer */}
+        <div className="max-w-3xl mx-auto mb-8">
+          <InfoDisclaimer />
+        </div>
 
         {/* Primary Crisis Card */}
         <motion.div 
@@ -197,7 +203,7 @@ const CrisisPage = () => {
                   <span className="text-2xl">{region.flag}</span>
                   <span className="font-bold text-slate-900">{region.name}</span>
                 </div>
-                {expandedSection === key ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
+                {expandedSection === key ? <ChevronUp size={20} className="text-slate-500" /> : <ChevronDown size={20} className="text-slate-500" />}
               </button>
 
               <AnimatePresence>

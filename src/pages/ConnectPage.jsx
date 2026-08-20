@@ -12,6 +12,8 @@ import {
   MessageCircle,
   Globe
 } from 'lucide-react';
+import InfoDisclaimer from '../components/InfoDisclaimer';
+import PageShell from '../components/layout/PageShell';
 
 const nationalGroups = {
   id: 'national',
@@ -336,7 +338,7 @@ const ProvinceCard = ({ province, onClick, isNational = false }) => {
           <div className={`w-14 h-14 rounded-2xl bg-${province.color}-100 text-${province.color}-600 flex items-center justify-center`}>
             {isNational ? <Globe size={28} /> : <MapPin size={28} />}
           </div>
-          <div className="flex items-center gap-1 text-slate-400 text-sm font-medium">
+          <div className="flex items-center gap-1 text-slate-500 text-sm font-medium">
             <Users size={16} />
             {province.memberCount}
           </div>
@@ -348,7 +350,7 @@ const ProvinceCard = ({ province, onClick, isNational = false }) => {
         </p>
 
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
             {province.groupCount} group{province.groupCount !== 1 ? 's' : ''}
           </span>
           <div className={`w-10 h-10 rounded-full bg-${province.color}-50 text-${province.color}-600 flex items-center justify-center group-hover:bg-${province.color}-600 group-hover:text-white transition-all`}>
@@ -429,7 +431,7 @@ const ProvinceModal = ({ province, onClose }) => {
         {/* Search in Modal */}
         <div className="p-6 border-b border-slate-100">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
             <input
               type="text"
               placeholder={`Search groups in ${province.name}...`}
@@ -452,7 +454,7 @@ const ProvinceModal = ({ province, onClose }) => {
               >
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="font-bold text-lg text-slate-900">{group.name}</h3>
-                  <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                  <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
                     <Heart size={12} className="fill-current" /> {group.members}
                   </span>
                 </div>
@@ -507,9 +509,7 @@ const ConnectPage = ({ setPage }) => {
   );
 
   return (
-    <div className="min-h-screen pt-24 pb-32 px-6 bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-6xl mx-auto">
-        
+    <PageShell maxWidth="max-w-6xl" tone="amber">
         {/* Header */}
         <motion.header 
           initial={{ opacity: 0, y: 20 }}
@@ -530,6 +530,26 @@ const ConnectPage = ({ setPage }) => {
             or browse national groups for SA-wide community.
           </p>
         </motion.header>
+
+        {/* Disclaimer + Cross-link */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+          className="max-w-3xl mx-auto mb-6 space-y-4"
+        >
+          <InfoDisclaimer />
+          {setPage && (
+            <div className="flex justify-center">
+              <button
+                onClick={() => setPage('resources')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-teal-100 text-teal-600 text-sm font-bold hover:border-teal-300 hover:bg-teal-50 transition-all"
+              >
+                <Heart size={16} /> Need services, not socials? Browse the Resource Hub
+              </button>
+            </div>
+          )}
+        </motion.div>
 
         {/* Safety Notice */}
         <motion.div 
@@ -557,7 +577,7 @@ const ConnectPage = ({ setPage }) => {
           transition={{ delay: 0.2 }}
           className="relative mb-12 max-w-md mx-auto"
         >
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
           <input
             type="text"
             placeholder="Find your province or browse national..."
@@ -592,7 +612,7 @@ const ConnectPage = ({ setPage }) => {
             className="text-center py-20"
           >
             <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
-              <Search className="text-slate-400" size={32} />
+              <Search className="text-slate-500" size={32} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">No locations found</h3>
             <p className="text-slate-500">Try adjusting your search</p>
@@ -619,8 +639,6 @@ const ConnectPage = ({ setPage }) => {
           </button>
         </motion.div>
 
-      </div>
-
       {/* Modal */}
       <AnimatePresence>
         {selectedProvince && (
@@ -630,7 +648,7 @@ const ConnectPage = ({ setPage }) => {
           />
         )}
       </AnimatePresence>
-    </div>
+    </PageShell>
   );
 };
 

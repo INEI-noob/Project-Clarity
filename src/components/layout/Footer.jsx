@@ -11,7 +11,8 @@ import {
   Shield,
   Wind,
   AlertCircle,
-  Compass
+  Compass,
+  PhoneCall
 } from 'lucide-react';
 
 /**
@@ -129,15 +130,15 @@ const Footer = ({ setPage }) => {
                   </p>
 
                   <div className="flex flex-wrap justify-center sm:justify-start gap-8">
-                    <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                       <Shield size={12} />
                       Secure
                     </div>
-                    <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                       <Heart size={12} />
                       Safe Space
                     </div>
-                    <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                       <Wind size={12} />
                       Private
                     </div>
@@ -148,7 +149,7 @@ const Footer = ({ setPage }) => {
               {/* Right Section: Navigation Links */}
               <div className="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
-                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6 text-center sm:text-left">
+                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6 text-center sm:text-left">
                     Navigate
                   </h4>
                   <ul className="space-y-3 text-center sm:text-left">
@@ -166,7 +167,7 @@ const Footer = ({ setPage }) => {
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6 text-center sm:text-left">
+                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6 text-center sm:text-left">
                     Resources
                   </h4>
                   <ul className="space-y-3 text-center sm:text-left">
@@ -191,7 +192,7 @@ const Footer = ({ setPage }) => {
                 </div>
 
                 <div className="col-span-2 md:col-span-1 text-center sm:text-left">
-                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6">
+                  <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-6">
                     Connect
                   </h4>
                   <div className="flex justify-center sm:justify-start gap-5 mb-8">
@@ -201,7 +202,7 @@ const Footer = ({ setPage }) => {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`text-slate-400 transition-all ${link.color} hover:scale-110`}
+                        className={`p-2 text-slate-500 transition-all ${link.color} hover:scale-110`}
                         aria-label={link.label}
                       >
                         <link.icon size={20} />
@@ -211,7 +212,12 @@ const Footer = ({ setPage }) => {
                   
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Crisis Hotline</p>
-                    <p className="text-lg font-bold text-slate-900">0800 567 567</p>
+                    <a
+                      href="tel:0800567567"
+                      className="inline-flex items-center gap-2 text-lg font-bold text-slate-900 hover:text-rose-600 transition-colors"
+                    >
+                      <PhoneCall size={16} className="text-rose-500" /> 0800 567 567
+                    </a>
                   </div>
                 </div>
               </div>
@@ -234,7 +240,7 @@ const Footer = ({ setPage }) => {
             </div>
 
             <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium text-center md:text-left">
+              <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium text-center md:text-left">
                 <span>© {currentYear} Project Clarity</span>
                 <span className="hidden md:inline w-1 h-1 rounded-full bg-slate-200" />
                 <span>By the community, for the community</span>
@@ -243,14 +249,14 @@ const Footer = ({ setPage }) => {
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                     System Active
                   </span>
                 </div>
                 
                 <button 
                   onClick={scrollToTop}
-                  className="text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-indigo-600 transition-colors focus:outline-none"
+                  className="text-[10px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 transition-colors focus:outline-none"
                 >
                   Back to Top
                 </button>
