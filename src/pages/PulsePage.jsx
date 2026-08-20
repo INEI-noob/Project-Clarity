@@ -4,7 +4,7 @@ import {
   Flame, Heart, MessageSquare, Send, 
   Ghost, User, EyeOff, Eye, Sparkles, Wind, Shield, 
   Flag, HandHeart, RefreshCw, X, HelpCircle, Loader2,
-  ChevronDown, ChevronUp, Trash2, Edit2, Download
+  ChevronDown, ChevronUp, Trash2, Edit2, Download, Phone
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useToast } from '../context/ToastContext';
@@ -227,6 +227,8 @@ const PulsePage = ({ setPage }) => {
     const indicators = ['suicide', 'kill myself', 'end it', 'want to die', 'hurt myself'];
     return indicators.some(i => text.toLowerCase().includes(i));
   };
+
+  const isHeavyPost = (post) => !post.is_deleted && checkHeavyContent(post.content);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -748,6 +750,30 @@ const PulsePage = ({ setPage }) => {
               return (
                 <motion.article key={post.id} layout initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4, delay: index * 0.05 }} className="group">
                   <div className={`glass-sanctuary p-6 md:p-8 rounded-[2.5rem] transition-all duration-500 border-l-[6px] ${post.is_deleted ? 'opacity-60' : 'hover:shadow-2xl'}`} style={{ borderLeftColor: post.is_deleted ? '#cbd5e1' : `var(--${moodConfig.color}-400)` }}>
+                    
+                    {/* Crisis Support Banner */}
+                    {isHeavyPost(post) && (
+                      <div className="mb-6 p-5 rounded-2xl bg-rose-50 border border-rose-200 flex items-start gap-4">
+                        <Heart size={20} className="text-rose-500 shrink-0 mt-0.5 fill-rose-200" />
+                        <div className="flex-1">
+                          <p className="font-bold text-rose-900 text-sm mb-1">{t('pulse.crisisBannerTitle')}</p>
+                          <p className="text-sm text-rose-800/90 leading-relaxed mb-3">{t('pulse.crisisBannerBody')}</p>
+                          <div className="flex flex-wrap gap-2">
+                            <a href="tel:0217126699" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-rose-600 text-white text-xs font-bold hover:bg-rose-500 transition-colors">
+                              <Phone size={13} /> {t('common.call')} · Triangle Project 021 712 6699
+                            </a>
+                            <a href="tel:0861322322" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold hover:bg-rose-100 transition-colors">
+                              <Phone size={13} /> {t('common.call')} · Lifeline SA 0861 322 322
+                            </a>
+                            {setPage && (
+                              <button onClick={() => setPage('crisis')} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold hover:bg-rose-100 transition-colors">
+                                {t('pulse.seeCrisis')}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     
                     {/* Post Header */}
                     <div className="flex justify-between items-start mb-6">
