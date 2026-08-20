@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Heart, Shield, Users, Sparkles, Globe, Mail } from 'lucide-react';
 import PageShell from '../components/layout/PageShell';
 
-const AboutPage = () => {
+const AboutPage = ({ setPage }) => {
   const values = [
     {
       icon: Shield,
@@ -141,7 +141,7 @@ const AboutPage = () => {
             <p className="text-slate-300 mb-10 text-lg max-w-lg mx-auto">
               We're always looking for volunteers, moderators, and supporters to help grow the sanctuary.
             </p>
-            <button className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold text-lg hover:bg-indigo-50 transition-all flex items-center gap-2 mx-auto active:scale-95 shadow-lg">
+            <button onClick={() => setPage && setPage('contact')} className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold text-lg hover:bg-indigo-50 transition-all flex items-center gap-2 mx-auto active:scale-95 shadow-lg">
               Get Involved <Mail size={20} />
             </button>
           </div>

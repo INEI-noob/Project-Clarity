@@ -176,7 +176,13 @@ const Navbar = ({ currentPage, setPage, navLinks = [] }) => {
               </div>
 
               <div className="mt-auto">
-                <button className="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold flex items-center justify-center gap-2">
+                <button
+                  onClick={() => {
+                    setPage('contact');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold flex items-center justify-center gap-2"
+                >
                   <Heart size={16} /> Support Sanctuary
                 </button>
               </div>

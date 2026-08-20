@@ -16,6 +16,8 @@ const PulseComingSoon = lazy(() => import('./pages/PulseComingSoon'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const ResourcesPage = lazy(() => import('./pages/ResourcesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const SavedGuidesPage = lazy(() => import('./pages/SavedGuidesPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Lazy load guide pages
@@ -90,6 +92,8 @@ function App() {
       case 'resources': return <ResourcesPage {...props} />;
       case 'crisis': return <CrisisPage {...props} />;
       case 'about': return <AboutPage {...props} />;
+      case 'contact': return <ContactPage {...props} />;
+      case 'saved': return <SavedGuidesPage {...props} />;
       
       // Individual Guide Pages
       case 'guide-coming-out': return <ComingOutGuide {...props} />;

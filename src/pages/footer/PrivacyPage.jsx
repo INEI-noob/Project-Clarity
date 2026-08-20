@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import PageShell from '../../components/layout/PageShell';
 
-const PrivacyPage = () => {
+const PrivacyPage = ({ setPage }) => {
   const promises = [
     {
       icon: <Ghost className="text-purple-500" />,
@@ -114,7 +114,7 @@ const PrivacyPage = () => {
             <p className="text-emerald-50 max-w-xl mx-auto leading-relaxed mb-8">
               We measure our success by how many people we help find peace, not by how many data points we can collect. If you ever have questions about your data, our team is here to talk.
             </p>
-            <button className="px-8 py-4 bg-white text-emerald-700 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg shadow-emerald-900/20">
+            <button onClick={() => setPage && setPage('contact')} className="px-8 py-4 bg-white text-emerald-700 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg shadow-emerald-900/20">
               Contact Privacy Team
             </button>
           </motion.div>

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import PageShell from '../../components/layout/PageShell';
 
-const GuidelinesPage = () => {
+const GuidelinesPage = ({ setPage }) => {
   const pillars = [
     {
       icon: <Heart className="text-pink-500" />,
@@ -118,7 +118,10 @@ const GuidelinesPage = () => {
               Our moderation team is here to keep you safe. If you feel uncomfortable or see a violation, report it immediately. Reports are anonymous.
             </p>
           </div>
-          <button className="whitespace-nowrap px-8 py-4 bg-white text-indigo-900 rounded-full font-bold hover:bg-indigo-50 transition-all shadow-lg">
+          <button
+            onClick={() => setPage && setPage('contact')}
+            className="whitespace-nowrap px-8 py-4 bg-white text-indigo-900 rounded-full font-bold hover:bg-indigo-50 transition-all shadow-lg"
+          >
             Submit a Report
           </button>
         </motion.div>

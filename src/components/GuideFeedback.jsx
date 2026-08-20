@@ -5,19 +5,9 @@ import { sendEmail, isEmailConfigured } from '../lib/email';
 import { useToast } from '../context/ToastContext';
 import InfoDisclaimer from './InfoDisclaimer';
 import GuideProgress from './GuideProgress';
+import { GUIDE_ORDER } from '../content/guides';
 
 const BOOKMARK_KEY = 'clarity_saved_guides';
-
-const GUIDE_ORDER = [
-  { id: 'coming-out', route: 'guide-coming-out', title: 'Coming Out' },
-  { id: 'gender-identity', route: 'guide-gender-identity', title: 'Gender Identity' },
-  { id: 'finding-community', route: 'guide-finding-community', title: 'Finding Community' },
-  { id: 'digital-safety', route: 'guide-digital-safety', title: 'Digital Safety' },
-  { id: 'healthcare', route: 'guide-healthcare', title: 'Healthcare' },
-  { id: 'legal-rights', route: 'guide-legal-rights', title: 'Legal Rights' },
-  { id: 'relationships', route: 'guide-relationships', title: 'Relationships' },
-  { id: 'spirituality', route: 'guide-spirituality', title: 'Spirituality & Faith' },
-];
 
 const GuideFeedback = ({ guideId, guideTitle }) => {
   const { addToast } = useToast();
@@ -113,17 +103,27 @@ const GuideFeedback = ({ guideId, guideTitle }) => {
             One tap is enough. Your voice keeps the library growing in the right direction.
           </p>
         </div>
-        <button
-          onClick={toggleSave}
-          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all ${
-            saved
-              ? 'bg-indigo-50 border-indigo-200 text-indigo-600'
-              : 'border-slate-200 text-slate-500 hover:border-indigo-300 hover:text-indigo-600'
-          }`}
-        >
-          {saved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
-          {saved ? 'Saved to your guides' : 'Save this guide'}
-        </button>
+        <div className="flex flex-col sm:flex-row md:items-center gap-2">
+          <button
+            onClick={toggleSave}
+            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all ${
+              saved
+                ? 'bg-indigo-50 border-indigo-200 text-indigo-600'
+                : 'border-slate-200 text-slate-500 hover:border-indigo-300 hover:text-indigo-600'
+            }`}
+          >
+            {saved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
+            {saved ? 'Saved to your guides' : 'Save this guide'}
+          </button>
+          {saved && (
+            <button
+              onClick={() => { window.location.hash = '/saved'; }}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-600 text-xs font-bold hover:bg-indigo-100 transition-colors"
+            >
+              View saved <ArrowRight size={14} />
+            </button>
+          )}
+        </div>
       </div>
 
       {rating === null ? (

@@ -191,10 +191,16 @@ const GuidesPage = ({ setPage }) => {
               Our guides are living documents. If you need specific help with something not covered here, reach out to Triangle Project or check The Pulse for community wisdom.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
-              <button className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors">
+              <button
+                onClick={() => setPage('forum')}
+                className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors"
+              >
                 Visit The Pulse
               </button>
-              <button className="px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold text-sm hover:border-indigo-300 transition-colors">
+              <button
+                onClick={() => setPage('contact')}
+                className="px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold text-sm hover:border-indigo-300 transition-colors"
+              >
                 Contact Support
               </button>
             </div>
